@@ -8,5 +8,17 @@
 </ion-header>
 
 <ion-content padding>
-  Fotos
+  <ion-grid>
+    <ion-row>
+      <ion-col col-6 col-md4 col-xl-3 *ngFor="let image of [1,2,3]">
+        <div class="image-container" [style.background-image]="'url(/assets/img2/' + image +'.jpg)'">
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-fab  vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button on-click="takePicture()">
+      <ion-icon name="md-camera"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>
