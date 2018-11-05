@@ -36,7 +36,6 @@ export class PhotosPage implements OnInit {
   }
   
   async doInfinite(infiniteScroll) {
-    console.log("pasa por aqui: "+infiniteScroll);
     await this.list();
     infiniteScroll.target.complete();
     if (this.nextPageToken === null) {
