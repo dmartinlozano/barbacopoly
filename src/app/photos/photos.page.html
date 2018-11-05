@@ -14,20 +14,21 @@
 </ion-header>
 
 <ion-content padding>
-   <!----<ion-infinite-scroll>
-        <ion-infinite-scroll-content
-          loadingSpinner="bubbles"
-          loadingText="Loading more data...">
-        </ion-infinite-scroll-content>
-      </ion-infinite-scroll>-->
-  <div class="images">
-      <div class="one-image" *ngFor="let image of images">
+    <div class="images">
+        <div class="one-image" *ngFor="let image of images">
           <ion-img [src]="image.thumbnailLink"></ion-img>
+        </div>
       </div>
-    </div>
-  <ion-fab  vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button on-click="takePicture()">
-      <ion-icon name="md-camera"></ion-icon>
-    </ion-fab-button>
-  </ion-fab>
+  
+      <ion-fab  vertical="bottom" horizontal="end" slot="fixed">
+          <ion-fab-button on-click="takePicture()">
+            <ion-icon name="md-camera"></ion-icon>
+          </ion-fab-button>
+        </ion-fab>
+
+  <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="nextPageToken !== null">
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Inventando fotos...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+  
 </ion-content>

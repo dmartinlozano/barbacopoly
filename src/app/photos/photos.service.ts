@@ -20,7 +20,7 @@ export class PhotosService {
       url +="&orderBy=modifiedDate desc"
     }
     if (nextPageToken != null){
-      url +="&nextPageToken="+nextPageToken;
+      url +="&pageToken="+nextPageToken;
     }
     const result = await this.http.get(url).toPromise();
     return {"nextPageToken":result["nextPageToken"],"items":result["items"]}

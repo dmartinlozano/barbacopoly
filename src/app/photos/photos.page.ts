@@ -24,7 +24,7 @@ export class PhotosPage implements OnInit {
 
   async list(){
     const items = await this.photosService.list(this.isAsc, this.nextPageToken);
-    this.images = items.items;
+    this.images = this.images.concat(items.items);    
     this.nextPageToken = items.nextPageToken;
   }
 
@@ -33,6 +33,15 @@ export class PhotosPage implements OnInit {
     this.nextPageToken = null;
     this.images=[];
     this.list();
+  }
+  
+  async doInfinite(infiniteScroll) {
+    console.log("pasa por aqui: "+infiniteScroll);
+    await this.list();
+    infiniteScroll.target.complete();
+    if (this.nextPageToken === null) {
+      infiniteScroll.target.disabled = true;
+    }
   }
 
   takePicture() {
