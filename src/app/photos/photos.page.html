@@ -3,19 +3,28 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
+    <ion-buttons size="big" slot="end">
+      <ion-button  color="primary">
+        <ion-icon name="arrow-dropdown-circle" [hidden]="isAsc" on-click="changeOrder()"></ion-icon>
+        <ion-icon name="arrow-dropup-circle" [hidden]="!isAsc" on-click="changeOrder()"></ion-icon>
+      </ion-button>
+    </ion-buttons>
     <ion-title>Fotos</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content padding>
-  <ion-grid>
-    <ion-row>
-      <ion-col col-6 col-md4 col-xl-3 *ngFor="let image of [1,2,3]">
-        <div class="image-container" [style.background-image]="'url(/assets/img2/' + image +'.jpg)'">
-        </div>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+   <!----<ion-infinite-scroll>
+        <ion-infinite-scroll-content
+          loadingSpinner="bubbles"
+          loadingText="Loading more data...">
+        </ion-infinite-scroll-content>
+      </ion-infinite-scroll>-->
+  <div class="images">
+      <div class="one-image" *ngFor="let image of images">
+          <ion-img [src]="image.thumbnailLink"></ion-img>
+      </div>
+    </div>
   <ion-fab  vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button on-click="takePicture()">
       <ion-icon name="md-camera"></ion-icon>

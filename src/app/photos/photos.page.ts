@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {Camera, CameraOptions} from '@ionic-native/camera/ngx';
+import {PhotosService} from './photos.service'
 import {Transfer, FileUploadOptions, TransferObject} from '@ionic-native/transfer';
 import {ToastController, LoadingController} from '@ionic/angular';
 
@@ -10,10 +11,30 @@ import {ToastController, LoadingController} from '@ionic/angular';
 })
 export class PhotosPage implements OnInit {
 
-  constructor(private camera: Camera) { }
+  images=[];
+  nextPageToken=null;
+  isAsc=false;
 
-  ngOnInit() {
+  constructor(private photosService: PhotosService,
+              private camera: Camera) { }
+
+  async ngOnInit() {
+    this.list();
   }
+
+  async list(){
+    const items = await this.photosService.list(this.isAsc, this.nextPageToken);
+    this.images = items.items;
+    this.nextPageToken = items.nextPageToken;
+  }
+
+  async changeOrder(){
+    this.isAsc = !this.isAsc;
+    this.nextPageToken = null;
+    this.images=[];
+    this.list();
+  }
+
   takePicture() {
     const options: CameraOptions = {
       quality: 100,
