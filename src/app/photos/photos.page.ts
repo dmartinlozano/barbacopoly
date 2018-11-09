@@ -14,6 +14,7 @@ export class PhotosPage implements OnInit {
   images=[];
   nextPageToken=null;
   isAsc=false;
+  slice: number=30;
 
   constructor(private photosService: PhotosService,
               private camera: Camera) { }
@@ -24,7 +25,7 @@ export class PhotosPage implements OnInit {
 
   async list(){
     const items = await this.photosService.list(this.isAsc, this.nextPageToken);
-    this.images = this.images.concat(items.items);    
+    this.images = this.images.concat(items.items);
     this.nextPageToken = items.nextPageToken;
   }
 
@@ -55,10 +56,10 @@ export class PhotosPage implements OnInit {
       saveToPhotoAlbum: true,
       correctOrientation: true
     };
-    this.camera.getPicture(options).then((imageData) => {
-      // imageData is either a base64 encoded string or a file URI
-      // If it's base64 (DATA_URL):
-      let base64Image = 'data:image/jpeg;base64,' + imageData;
+    this.camera.getPicture(options).then(async(imageData) => {
+      const result = await this.photosService.post(imageData);
+      console.log(result);
+      
      }, (err) => {
       // Handle error
      });

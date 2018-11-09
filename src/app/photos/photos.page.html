@@ -18,7 +18,6 @@
           <ion-row>
             <ion-col col-6 col-md-4 col-xl-3 *ngFor="let image of images">
                 <ion-img class="image-container" [src]="image.thumbnailLink"></ion-img>
-              <div class="image-container" [style.background-image]="'url(assets/img/' + image + '.jpg)'"></div>
             </ion-col>
           </ion-row>
         </ion-grid>

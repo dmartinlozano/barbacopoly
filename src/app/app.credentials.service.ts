@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import * as credentials from './credentials.json';
+var credentials = require("./credentials.json");
 
 @Injectable()
 export class CredentialsService {
     
-    credentials;
+    credentials
     constructor(private http:HttpClient) {}
 
     load(){
