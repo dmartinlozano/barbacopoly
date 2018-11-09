@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+var activitiesJson = require("../activities.json");
 
 @Component({
   selector: 'app-activities',
@@ -7,7 +8,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ActivitiesPage implements OnInit {
 
-  constructor() { }
+  activities;
+  constructor() {
+    this.activities=activitiesJson;
+  }
 
   ngOnInit() {
   }

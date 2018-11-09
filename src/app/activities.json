@@ -1,0 +1,72 @@
+[
+ {
+   "name":"Llegada",
+   "time":"14:00",
+   "icon":"assets/img/88Uay9uDToCssQ5WcJxV_home-3.svg"
+ },
+ {
+   "name":"Barbacoa",
+   "time":"14:30",
+   "icon":"assets/img/89KCvepTiicsyO9eUfwQ_2000px-Maki-bbq-11.svg.png"
+ },
+ {
+   "name":"Tarta",
+   "time":"16:00",
+   "icon":"assets/img/ywF6XvLsTO6FBepXc4Ld_img_574174.png"
+ },
+ {
+   "name":"",
+   "time":"16:30",
+   "icon":"assets/img/mDG816FRS4Ci0kH59TPR_33736.png"
+ },
+ {
+   "name":"",
+   "time":"17:00",
+   "icon":"assets/img/qHhH0LrGR9CChQY9UpGw_219710-200.png"
+ },
+ {
+    "name":"",
+    "time":"19:00",
+    "icon":"assets/img/YS8amBVBRpejKBqao8mC_img_496903.png"
+  },
+  {
+    "name":"",
+    "time":"19:30",
+    "icon":"assets/img/OQVEptVyT727wC13Ulxv_bocadillo.svg"
+  },
+  {
+    "name":"",
+    "time":"20:00",
+    "icon":"assets/img/koklHgacQqS6lte5L8dl_56317.png"
+  },
+  {
+    "name":"",
+    "time":"20:00",
+    "icon":"assets/img/bXoCKo7T5CLUuSmrH1CS_11139.png"
+  },
+  {
+    "name":"",
+    "time":"21:30",
+    "icon":"assets/img/cRsxMSITbyRzMMiUAXsA_42175.svg"
+  },
+  {
+    "name":"Bus de las 11",
+    "time":"23:00",
+    "icon":"assets/img/xuvMtHHFTFWVAFXH5sqa_Bus_aus_Zusatzzeichen_1024-14.svg"
+  },
+  {
+    "name":"Bus de las 3",
+    "time":"03:00",
+    "icon":"assets/img/xuvMtHHFTFWVAFXH5sqa_Bus_aus_Zusatzzeichen_1024-14.svg"
+  },
+  {
+    "name":"Chocolate & Churros",
+    "time":"05:30",
+    "icon":"assets/img/9BJtJIrSre8odCr8LJmA_descarga.png"
+  },
+  {
+    "name":"Último Bus",
+    "time":"06:00",
+    "icon":"assets/img/xuvMtHHFTFWVAFXH5sqa_Bus_aus_Zusatzzeichen_1024-14.svg"
+  }
+]

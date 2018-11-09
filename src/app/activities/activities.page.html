@@ -9,117 +9,15 @@
 
 <ion-content padding>
   <ion-list id="actividades-list5">
-    <ion-item color="none" id="actividades-list-item11">
+    <ion-item *ngFor="let activity of activities" color="none">
+
       <ion-avatar item-left>
-        <img src="assets/img/88Uay9uDToCssQ5WcJxV_home-3.svg" />
+        <img [src]="activity.icon" />
       </ion-avatar>&nbsp;&nbsp;
       <h2>
-        14:00
+        {{activity.time}}
       </h2>
     </ion-item>
-    <ion-item color="none" id="actividades-list-item12">
-      <ion-avatar item-left>
-        <img src="assets/img/89KCvepTiicsyO9eUfwQ_2000px-Maki-bbq-11.svg.png" />
-      </ion-avatar>&nbsp;&nbsp;
-      <h2>
-        14:30
-      </h2>
-    </ion-item>
-    <ion-item color="none" id="actividades-list-item13">
-      <ion-avatar item-left>
-        <img src="assets/img/ywF6XvLsTO6FBepXc4Ld_img_574174.png" />
-      </ion-avatar>&nbsp;&nbsp;
-      <h2>
-        16:00
-      </h2>
-    </ion-item>
-    <ion-item color="none" id="actividades-list-item14">
-      <ion-avatar item-left>
-        <img src="assets/img/mDG816FRS4Ci0kH59TPR_33736.png" />
-      </ion-avatar>&nbsp;&nbsp;
-      <h2>
-        16:30
-      </h2>
-    </ion-item>
-    <ion-item color="none" id="actividades-list-item15">
-      <ion-avatar item-left>
-        <img src="assets/img/qHhH0LrGR9CChQY9UpGw_219710-200.png" />
-      </ion-avatar>&nbsp;&nbsp;
-      <h2>
-        17:00
-      </h2>
-    </ion-item>
-    <ion-item color="none" id="actividades-list-item16">
-      <ion-avatar item-left>
-        <img src="assets/img/YS8amBVBRpejKBqao8mC_img_496903.png" />
-      </ion-avatar>&nbsp;&nbsp;
-      <h2>
-        19:00
-      </h2>
-    </ion-item>
-    <ion-item color="none" id="actividades-list-item17">
-      <ion-avatar item-left>
-        <img src="assets/img/OQVEptVyT727wC13Ulxv_bocadillo.svg" />
-      </ion-avatar>&nbsp;&nbsp;
-      <h2>
-        19:30
-      </h2>
-    </ion-item>
-    <ion-item color="none" id="actividades-list-item18">
-      <ion-avatar item-left>
-        <img src="assets/img/koklHgacQqS6lte5L8dl_56317.png" />
-      </ion-avatar>&nbsp;&nbsp;
-      <h2>
-        20:00
-      </h2>
-    </ion-item>
-    <ion-item color="none" id="actividades-list-item19">
-      <ion-avatar item-left>
-        <img src="assets/img/bXoCKo7T5CLUuSmrH1CS_11139.png" />
-      </ion-avatar>&nbsp;&nbsp;
-      <h2>
-        20:00
-      </h2>
-    </ion-item>
-    <ion-item color="none" id="actividades-list-item20">
-      <ion-avatar item-left>
-        <img src="assets/img/cRsxMSITbyRzMMiUAXsA_42175.svg" />
-      </ion-avatar>&nbsp;&nbsp;
-      <h2>
-        21:30
-      </h2>
-    </ion-item>
-    <ion-item color="none" id="actividades-list-item21">
-      <ion-avatar item-left>
-        <img src="assets/img/xuvMtHHFTFWVAFXH5sqa_Bus_aus_Zusatzzeichen_1024-14.svg" />
-      </ion-avatar>&nbsp;&nbsp;
-      <h2>
-        23:00
-      </h2>
-    </ion-item>
-    <ion-item color="none" id="actividades-list-item23">
-      <ion-avatar item-left>
-        <img src="assets/img/xuvMtHHFTFWVAFXH5sqa_Bus_aus_Zusatzzeichen_1024-14.svg" />
-      </ion-avatar>&nbsp;&nbsp;
-      <h2>
-        3:00
-      </h2>
-    </ion-item>
-    <ion-item color="none" id="actividades-list-item24">
-      <ion-avatar item-left>
-        <img src="assets/img/9BJtJIrSre8odCr8LJmA_descarga.png" />
-      </ion-avatar>&nbsp;&nbsp;
-      <h2>
-        05:30
-      </h2>
-    </ion-item>
-    <ion-item color="none" id="actividades-list-item22">
-      <ion-avatar item-left>
-        <img src="assets/img/xuvMtHHFTFWVAFXH5sqa_Bus_aus_Zusatzzeichen_1024-14.svg" />
-      </ion-avatar>&nbsp;&nbsp;
-      <h2>
-        06:00
-      </h2>
-    </ion-item>
+
   </ion-list>
 </ion-content>
