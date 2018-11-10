@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {Camera, CameraOptions} from '@ionic-native/camera/ngx';
 import {PhotosService} from './photos.service'
 import { Router } from '@angular/router';
-import {ToastController, LoadingController} from '@ionic/angular';
+import {ToastController, NavController, NavParams} from '@ionic/angular';
 
 @Component({
   selector: 'app-photos',
@@ -19,7 +19,8 @@ export class PhotosPage implements OnInit {
   constructor(private photosService: PhotosService,
               private camera: Camera,
               private toastController: ToastController,
-              private router: Router) { }
+              private router: Router,
+              public navController: NavController) { }
 
   async ngOnInit() {
     this.list();
@@ -45,6 +46,10 @@ export class PhotosPage implements OnInit {
     if (this.nextPageToken === null) {
       infiniteScroll.target.disabled = true;
     }
+  }
+
+  selectImage(id){
+    this.navController.navigateForward("/photo/"+id)
   }
 
   takePicture() {

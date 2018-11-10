@@ -47,8 +47,7 @@ export class PhotosService {
     formData.append('filename', uuid());
     
     try{
-      //const result = await this.http.post("http://barbacopoly-361818836.eu-west-1.elb.amazonaws.com:8080/upload-photo", formData, { params, headers}).toPromise();
-      const result = await this.http.post("http://52.210.245.254:8080/upload-photo", formData, { params, headers}).toPromise();
+      const result = await this.http.post("http://barbacopoly-361818836.eu-west-1.elb.amazonaws.com:8080/upload-photo", formData, { params, headers}).toPromise();
     }catch(e) {
       throw e;
     }
