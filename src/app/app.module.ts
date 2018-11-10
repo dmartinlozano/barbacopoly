@@ -6,10 +6,11 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-import {  } from '@angular/common/http';
+import { CallNumber } from '@ionic-native/call-number/ngx';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { CredentialsService} from './app.credentials.service';
+
 
 export function getCredentials(credentials: CredentialsService) {
   return () => credentials.load();
@@ -28,6 +29,7 @@ export function getCredentials(credentials: CredentialsService) {
     StatusBar,
     SplashScreen,
     Camera,
+    CallNumber,
     HttpClient,
     CredentialsService,
     { provide: APP_INITIALIZER, useFactory: getCredentials, deps: [CredentialsService], multi: true },
