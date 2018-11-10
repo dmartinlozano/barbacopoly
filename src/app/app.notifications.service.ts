@@ -9,10 +9,11 @@ export class NotificationsService {
     load(){
       // Schedule delayed notification
       this.localNotifications.schedule({
-       text: 'Delayed ILocalNotification',
+       text: 'Mimi Time!',
        trigger: {at: new Date(new Date().getTime() + 10)},
        led: 'FF0000',
-       sound: null
+       vibrate: true,
+       sound: isAndroid ? 'file://sound.mp3': 'file://beep.caf'
       });
     }
 }
