@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams, HttpResponse} from '@angular/common/http';
 import {ToastController} from '@ionic/angular';
 import { CredentialsService} from '../app.credentials.service';
 import uuid  from 'uuid/v1';
@@ -38,18 +38,20 @@ export class PhotosService {
 
   async post(imageData){ 
     let headers = new HttpHeaders();
-    //this is the important step. You need to set content type as null
     headers.set('Content-Type', null);
+    headers.set('origin',window.location.origin);
     headers.set('Accept', "multipart/form-data");
     let params = new HttpParams();
     const formData: FormData = new FormData();
     formData.append('image', 'data:image/jpg;base64,'+imageData);
     formData.append('filename', uuid());
-      
-    this.http.post("http://barbacopoly-361818836.eu-west-1.elb.amazonaws.com:8080/upload-hoto", formData, { params, headers})
-      .subscribe(data => {
-        console.log( data);
-      });
+    
+    try{
+      const result = await this.http.post("http://barbacopoly-361818836.eu-west-1.elb.amazonaws.com:8080/upload-photo", formData, { params, headers}).toPromise();
+    }catch(e) {
+      throw e;
+    }
+
   }
 
 }
