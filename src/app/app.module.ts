@@ -7,13 +7,20 @@ import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { CallNumber } from '@ionic-native/call-number/ngx';
+import { LocalNotifications } from '@ionic-native/local-notifications/ngx'
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { CredentialsService} from './app.credentials.service';
+import { NotificationsService} from './app.notifications.service';
 
 
-export function getCredentials(credentials: CredentialsService) {
-  return () => credentials.load();
+//export function getCredentials(credentials: CredentialsService) {
+  //return () => credentials.load();
+//}
+
+export function initializerApp(credentials: CredentialsService, notifications: NotificationsService) {
+  credentials.load();
+  return () => notifications.load();
 }
 
 @NgModule({
@@ -29,10 +36,12 @@ export function getCredentials(credentials: CredentialsService) {
     StatusBar,
     SplashScreen,
     Camera,
+    LocalNotifications,
     CallNumber,
     HttpClient,
     CredentialsService,
-    { provide: APP_INITIALIZER, useFactory: getCredentials, deps: [CredentialsService], multi: true },
+    NotificationsService,
+    { provide: APP_INITIALIZER, useFactory: initializerApp, deps: [CredentialsService, NotificationsService], multi: true },
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]
