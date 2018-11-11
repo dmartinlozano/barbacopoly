@@ -12,7 +12,7 @@ import {ToastController, NavController, NavParams} from '@ionic/angular';
 export class PhotosPage implements OnInit {
 
   images=[];
-  nextPageToken=null;
+  nextContinuationToken=null;
   isAsc=false;
   slice: number=30;
 
@@ -28,27 +28,33 @@ export class PhotosPage implements OnInit {
 
   async list(){
     try{
-      const data = await this.photosService.list(this.isAsc, this.nextPageToken);
+      const data = await this.photosService.list(this.isAsc, this.nextContinuationToken);
+      if( data.IsTruncated ) { 
+        this.nextContinuationToken = data.NextContinuationToken;
+      }
       this.images=[];
       data.Contents.forEach(image => {
         this.images.push({key:image.Key, src:"http://barbacopolyresized.s3-website.eu-west-1.amazonaws.com/"+image.Key})
       });
     }catch(e){
-      console.error(e);
+      let toast = await this.toastController.create({
+        message: "Foto subida a Internet",
+        duration: 2000
+      });
+      toast.present();
     }
   }
 
   async changeOrder(){
     this.isAsc = !this.isAsc;
-    this.nextPageToken = null;
-    this.images=[];
+    this.nextContinuationToken = null;
     this.list();
   }
   
   async doInfinite(infiniteScroll) {
     await this.list();
     infiniteScroll.target.complete();
-    if (this.nextPageToken === null) {
+    if (this.nextContinuationToken === null) {
       infiniteScroll.target.disabled = true;
     }
   }
@@ -64,14 +70,12 @@ export class PhotosPage implements OnInit {
       sourceType: this.camera.PictureSourceType.CAMERA,
       encodingType: this.camera.EncodingType.JPEG,
       mediaType: this.camera.MediaType.PICTURE,
-      targetWidth: 1000,
-      targetHeight: 1000,
       saveToPhotoAlbum: true,
       correctOrientation: true
     };
     this.camera.getPicture(options).then(async(imageData) => {
       try{
-        await this.photosService.post(imageData);
+        await this.photosService.postImage(imageData);
         let toast = await this.toastController.create({
           message: "Foto subida a Internet",
           duration: 2000
@@ -84,7 +88,8 @@ export class PhotosPage implements OnInit {
         });
         toast.present();
       }finally{
-        this.router.navigateByUrl('/photos');
+        this.isAsc = !this.isAsc;
+        this.changeOrder();
       }
     });
   }
