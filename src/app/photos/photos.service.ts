@@ -24,12 +24,14 @@ export class PhotosService {
     });
   }
 
-  async list(isAsc: boolean, continuationToken: string){
+  async list(isAsc: boolean, nextContinuationToken: string){
     const params={
       Bucket: "barbacopolyresized",
-      MaxKeys: this.maxResults,
-      ContinuationToken: continuationToken
+      MaxKeys: this.maxResults
     };
+    if (nextContinuationToken){
+      params["NextContinuationToken"] = nextContinuationToken;
+    }
     return await this.bucket.listObjectsV2(params).promise();
   }
 
@@ -38,7 +40,6 @@ export class PhotosService {
       Body: Buffer.from(imageData, 'base64'),
       Bucket: "barbacopoly",
       Key: uuidv1()+".jpg",
-      //ContentEncoding: 'base64',
       ContentType: 'image/jpeg'
     };
     return await this.bucket.putObject(params).promise();
