@@ -27,10 +27,15 @@ export class PhotosPage implements OnInit {
   }
 
   async list(){
-    const items = await this.photosService.list(this.isAsc, this.nextPageToken);
-    this.images = items.items;
-    //this.images = this.images.concat(items.items);
-    this.nextPageToken = items.nextPageToken;
+    try{
+      const data = await this.photosService.list(this.isAsc, this.nextPageToken);
+      this.images=[];
+      data.Contents.forEach(image => {
+        this.images.push({key:image.Key, src:"http://barbacopolyresized.s3-website.eu-west-1.amazonaws.com/"+image.Key})
+      });
+    }catch(e){
+      console.error(e);
+    }
   }
 
   async changeOrder(){

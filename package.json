@@ -42,7 +42,8 @@
     "core-js": "^2.5.3",
     "rxjs": "6.2.2",
     "uuid": "3.3.2",
-    "zone.js": "^0.8.26"
+    "zone.js": "^0.8.26",
+    "aws-sdk": "2.350.0"
   },
   "devDependencies": {
     "@angular-devkit/architect": "~0.8.5",
