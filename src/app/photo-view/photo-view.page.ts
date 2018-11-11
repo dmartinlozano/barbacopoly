@@ -1,25 +1,28 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import {PhotoViewService} from './photo-view.service';
+import { ActivatedRoute } from '@angular/router';
+declare var cordova: any;
 
 @Component({
   selector: 'app-photo-view',
   templateUrl: './photo-view.page.html',
   styleUrls: ['./photo-view.page.scss'],
 })
-export class PhotoViewPage implements OnInit {
+export class PhotoViewPage{
 
+  href;
   id;
-  url;
+  storageDirectory: string = '';
 
-  constructor(private router: Router, private activatedRoute: ActivatedRoute, private photoViewService:PhotoViewService) { 
+  constructor(private activatedRoute: ActivatedRoute) { 
     this.activatedRoute.paramMap.subscribe(params => {
-      this.id = params.get("id");
-  });
+      this.id = params.get("id")
+      this.href = "http://barbacopoly.s3-website.eu-west-1.amazonaws.com/" + this.id;
+    });
+  }
+  async downloadPhoto(){
   }
 
   async ngOnInit() {
-    this.url = await this.photoViewService.get(this.id);
   }
 
 }

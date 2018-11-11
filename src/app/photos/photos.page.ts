@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {Camera, CameraOptions} from '@ionic-native/camera/ngx';
 import {PhotosService} from './photos.service'
 import { Router } from '@angular/router';
-import {ToastController, NavController, NavParams} from '@ionic/angular';
+import {ToastController, NavController} from '@ionic/angular';
 
 @Component({
   selector: 'app-photos',
@@ -44,12 +44,6 @@ export class PhotosPage implements OnInit {
       toast.present();
     }
   }
-
-  async changeOrder(){
-    this.isAsc = !this.isAsc;
-    this.nextContinuationToken = null;
-    this.list();
-  }
   
   async doInfinite(infiniteScroll) {
     await this.list();
@@ -60,6 +54,8 @@ export class PhotosPage implements OnInit {
   }
 
   selectImage(id){
+    let re = /resized\-/gi;
+    id = id.replace(re, "");
     this.navController.navigateForward("/photo/"+id)
   }
 
@@ -82,14 +78,14 @@ export class PhotosPage implements OnInit {
         });
         toast.present();
       }catch(e){
+        console.error(e);
         let toast = await this.toastController.create({
           message: "La foto no se ha podido subir a Internet",
           duration: 2000
         });
         toast.present();
       }finally{
-        this.isAsc = !this.isAsc;
-        this.changeOrder();
+        this.list();
       }
     });
   }

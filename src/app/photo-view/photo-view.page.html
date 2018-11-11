@@ -5,5 +5,10 @@
 </ion-header>
 
 <ion-content padding>
-    <ion-img [src]="url"></ion-img>
+    <ion-img [src]="href"></ion-img>
+    <ion-fab  vertical="bottom" horizontal="end" slot="fixed">
+      <ion-fab-button on-click="downloadPhoto()">
+        <ion-icon name="download"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
 </ion-content>

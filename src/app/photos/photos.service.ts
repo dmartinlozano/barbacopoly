@@ -3,7 +3,6 @@ import { HttpClient, HttpHeaders, HttpParams, HttpResponse} from '@angular/commo
 import {ToastController} from '@ionic/angular';
 import { CredentialsService} from '../app.credentials.service';
 import * as S3 from 'aws-sdk/clients/s3';
-import uuidv1 from 'uuid/v1';
 import {Buffer} from 'buffer';
 
 @Injectable({
@@ -39,7 +38,7 @@ export class PhotosService {
     const params={
       Body: Buffer.from(imageData, 'base64'),
       Bucket: "barbacopoly",
-      Key: uuidv1()+".jpg",
+      Key: new Date().getTime()+".jpg",
       ContentType: 'image/jpeg'
     };
     return await this.bucket.putObject(params).promise();
