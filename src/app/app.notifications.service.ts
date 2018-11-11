@@ -12,8 +12,7 @@ export class NotificationsService {
        text: 'Mimi Time!',
        trigger: {at: new Date(new Date().getTime() + 10)},
        led: 'FF0000',
-       vibrate: true,
-       sound: isAndroid ? 'file://sound.mp3': 'file://beep.caf'
+       vibrate: true
       });
     }
 }

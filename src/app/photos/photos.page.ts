@@ -34,7 +34,11 @@ export class PhotosPage implements OnInit {
         this.images.push({key:image.Key, src:"http://barbacopolyresized.s3-website.eu-west-1.amazonaws.com/"+image.Key})
       });
     }catch(e){
-      console.error(e);
+      let toast = await this.toastController.create({
+        message: "Foto subida a Internet",
+        duration: 2000
+      });
+      toast.present();
     }
   }
 
@@ -71,7 +75,7 @@ export class PhotosPage implements OnInit {
     };
     this.camera.getPicture(options).then(async(imageData) => {
       try{
-        await this.photosService.post(imageData);
+        await this.photosService.postImage(imageData);
         let toast = await this.toastController.create({
           message: "Foto subida a Internet",
           duration: 2000
