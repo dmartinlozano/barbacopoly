@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {Camera, CameraOptions} from '@ionic-native/camera/ngx';
 import {PhotosService} from './photos.service'
-import { Router } from '@angular/router';
 import {ToastController, NavController} from '@ionic/angular';
 
 @Component({
@@ -19,7 +18,6 @@ export class PhotosPage implements OnInit {
   constructor(private photosService: PhotosService,
               private camera: Camera,
               private toastController: ToastController,
-              private router: Router,
               public navController: NavController) { }
 
   async ngOnInit() {

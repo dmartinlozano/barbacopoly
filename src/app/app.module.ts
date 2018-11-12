@@ -12,7 +12,7 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { CredentialsService} from './app.credentials.service';
 import { NotificationsService} from './app.notifications.service';
-
+import { PhotoLibrary } from '@ionic-native/photo-library/ngx';
 
 //export function getCredentials(credentials: CredentialsService) {
   //return () => credentials.load();
@@ -39,6 +39,7 @@ export function initializerApp(credentials: CredentialsService, notifications: N
     LocalNotifications,
     CallNumber,
     HttpClient,
+    PhotoLibrary,
     CredentialsService,
     NotificationsService,
     { provide: APP_INITIALIZER, useFactory: initializerApp, deps: [CredentialsService, NotificationsService], multi: true },
