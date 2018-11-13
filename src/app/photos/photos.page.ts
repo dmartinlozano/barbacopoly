@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {Camera, CameraOptions} from '@ionic-native/camera/ngx';
 import {PhotosService} from './photos.service'
 import {ToastController, NavController} from '@ionic/angular';
+import { PhotoLibrary } from '@ionic-native/photo-library/ngx';
+import { PhotoViewer } from '@ionic-native/photo-viewer/ngx';
 
 @Component({
   selector: 'app-photos',
@@ -17,8 +19,9 @@ export class PhotosPage implements OnInit {
 
   constructor(private photosService: PhotosService,
               private camera: Camera,
+              private photoLibrary: PhotoLibrary,
               private toastController: ToastController,
-              public navController: NavController) { }
+              private photoViewer: PhotoViewer) { }
 
   async ngOnInit() {
     this.list();
@@ -51,10 +54,23 @@ export class PhotosPage implements OnInit {
     }
   }
 
-  selectImage(id){
+  async selectImage(id){
     let re = /resized\-/gi;
     id = id.replace(re, "");
-    this.navController.navigateForward("/photo/"+id)
+    this.photoViewer.show("http://barbacopoly.s3-website.eu-west-1.amazonaws.com/" +id, 'Barbacopoly', {share: true});
+    try{
+      await this.photoLibrary.saveImage("http://barbacopoly.s3-website.eu-west-1.amazonaws.com/" +id, "Barbacopoly");
+      let toast = await this.toastController.create({
+        message: "Foto descargada",
+        duration: 2000
+      });
+      toast.present();
+    }catch(e){
+      let toast = await this.toastController.create({
+        message: "Error descagando imagen: "+e.message,
+        duration: 2000
+      });
+    }
   }
 
   takePicture() {

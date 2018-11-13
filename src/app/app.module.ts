@@ -13,6 +13,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { CredentialsService} from './app.credentials.service';
 import { NotificationsService} from './app.notifications.service';
 import { PhotoLibrary } from '@ionic-native/photo-library/ngx';
+import { PhotoViewer } from '@ionic-native/photo-viewer/ngx';
 
 //export function getCredentials(credentials: CredentialsService) {
   //return () => credentials.load();
@@ -40,6 +41,7 @@ export function initializerApp(credentials: CredentialsService, notifications: N
     CallNumber,
     HttpClient,
     PhotoLibrary,
+    PhotoViewer,
     CredentialsService,
     NotificationsService,
     { provide: APP_INITIALIZER, useFactory: initializerApp, deps: [CredentialsService, NotificationsService], multi: true },
