@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Camera, CameraOptions} from '@ionic-native/camera/ngx';
 import {PhotosService} from './photos.service'
-import {ToastController, NavController} from '@ionic/angular';
+import {ToastController} from '@ionic/angular';
 import { PhotoLibrary } from '@ionic-native/photo-library/ngx';
 import { PhotoViewer } from '@ionic-native/photo-viewer/ngx';
 

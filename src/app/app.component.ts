@@ -14,22 +14,27 @@ export class AppComponent {
     {
       title: 'Fotos',
       url: '/photos',
-      icon: 'photos'
+      icon: 'md-images'
+    },
+    {
+      title: 'Videos',
+      url: '/videos',
+      icon: 'md-videocam'
     },
     {
       title: 'Actividades',
       url: '/activities',
-      icon: 'american-football'
+      icon: 'md-american-football'
     },
     {
       title: 'Punto de encuentro',
       url: '/meeting-point',
-      icon: 'home'
+      icon: 'ios-home'
     },
     {
       title: 'Contacto',
       url: '/contact',
-      icon: 'contacts'
+      icon: 'md-contacts'
     }
   ];
 
