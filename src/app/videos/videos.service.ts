@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams, HttpResponse} from '@angular/common/http';
 import {ToastController} from '@ionic/angular';
-import { CredentialsService} from '../app.credentials.service';
-import * as S3 from 'aws-sdk/clients/s3';
+import { CredentialsService} from '../app.credentials.service';;
 import {Buffer} from 'buffer';
+import { File } from '@ionic-native/file/ngx';
+import * as S3 from 'aws-sdk/clients/s3';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,8 @@ export class VideosService {
   
   constructor(private http:HttpClient, 
               private credentialsService:CredentialsService,
-              private toastController: ToastController) {
+              private toastController: ToastController,
+              private file: File) {
     this.bucket = new S3({
       accessKeyId: this.credentialsService.credentials["aws_access_key_id"],
       secretAccessKey: this.credentialsService.credentials["aws_secret_access_key"],
@@ -34,14 +36,18 @@ export class VideosService {
     return await this.bucket.listObjectsV2(params).promise();
   }
 
-  async postVideo(file){
+  async postVideo(fileStruct){
+
+    let folder = fileStruct.fullPath.substring(0,fileStruct.fullPath.lastIndexOf("/")+1);
+    let bytes = await this.file.readAsArrayBuffer(folder, fileStruct.name)
+
     const params={
-      Body: file,
+      Body:  bytes,
       Bucket: "barbacopolyvideos-source-fswkbjnf34ur",
-      Key: new Date().getTime()+".mp4",
-      ContentType: 'video/mp4'
+      Key: fileStruct.name,
+      ContentType: fileStruct.type
     };
-    return await this.bucket.putObject(params).promise();
+    return await this.bucket.upload(params).promise();
   }
 
 }

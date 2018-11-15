@@ -20,6 +20,8 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import {UniqueDeviceID} from '@ionic-native/unique-device-id/ngx';
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
 import { NativeStorageService} from './app.native.storage.service';
+import { MediaCapture } from '@ionic-native/media-capture/ngx';
+import { File } from '@ionic-native/file/ngx';
 
 //export function getCredentials(credentials: CredentialsService) {
   //return () => credentials.load();
@@ -46,9 +48,11 @@ export function initializeFirebase(){
     AngularFireModule.initializeApp(initializeFirebase())
   ],
   providers: [
+    File,
     StatusBar,
     SplashScreen,
     Camera,
+    MediaCapture,
     LocalNotifications,
     CallNumber,
     HttpClient,
