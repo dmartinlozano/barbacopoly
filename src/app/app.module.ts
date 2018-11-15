@@ -14,6 +14,12 @@ import { CredentialsService} from './app.credentials.service';
 import { NotificationsService} from './app.notifications.service';
 import { PhotoLibrary } from '@ionic-native/photo-library/ngx';
 import { PhotoViewer } from '@ionic-native/photo-viewer/ngx';
+import { AngularFireModule } from '@angular/fire';
+import { Firebase } from '@ionic-native/firebase/ngx';
+import { AngularFirestore } from '@angular/fire/firestore';
+import {UniqueDeviceID} from '@ionic-native/unique-device-id/ngx';
+import { NativeStorage } from '@ionic-native/native-storage/ngx';
+import { NativeStorageService} from './app.native.storage.service';
 
 //export function getCredentials(credentials: CredentialsService) {
   //return () => credentials.load();
@@ -23,6 +29,11 @@ export function initializerApp(credentials: CredentialsService, notifications: N
   credentials.load();
   return () => notifications.load();
 }
+export function initializeFirebase(){
+  let credentialsService:CredentialsService = new CredentialsService();
+  credentialsService.load();
+  return credentialsService.credentials["firebase"];
+}
 
 @NgModule({
   declarations: [AppComponent],
@@ -31,7 +42,8 @@ export function initializerApp(credentials: CredentialsService, notifications: N
     BrowserModule,
     IonicModule.forRoot(),
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    AngularFireModule.initializeApp(initializeFirebase())
   ],
   providers: [
     StatusBar,
@@ -42,8 +54,13 @@ export function initializerApp(credentials: CredentialsService, notifications: N
     HttpClient,
     PhotoLibrary,
     PhotoViewer,
+    Firebase,
+    AngularFirestore,
+    NativeStorage,
+    NativeStorageService,
     CredentialsService,
     NotificationsService,
+    UniqueDeviceID,
     { provide: APP_INITIALIZER, useFactory: initializerApp, deps: [CredentialsService, NotificationsService], multi: true },
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
