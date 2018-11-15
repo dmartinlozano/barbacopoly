@@ -47,7 +47,7 @@ export class VideosService {
       Key: fileStruct.name,
       ContentType: fileStruct.type
     };
-    return await this.bucket.upload(params).promise();
+    return await this.bucket.putObject(params).promise();
   }
 
 }
