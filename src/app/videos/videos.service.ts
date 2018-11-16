@@ -25,15 +25,27 @@ export class VideosService {
     });
   }
 
-  async list(isAsc: boolean, nextContinuationToken: string){
-    const params={
-      Bucket: "barbacopolyresized",
-      MaxKeys: this.maxResults
+  async list(isAsc: boolean){
+    var _self = this;
+    let result = [];
+    //get folders of s3 bucket
+    const params1={
+      Bucket: "barbacopolyvideos-abrdestination-1dlpjl7qmpw1a",
+      Delimiter: "/"
     };
-    if (nextContinuationToken){
-      params["NextContinuationToken"] = nextContinuationToken;
-    }
-    return await this.bucket.listObjectsV2(params).promise();
+    let folders = await _self.bucket.listObjectsV2(params1).promise();
+    folders = folders.CommonPrefixes.map(item=>{return item.Prefix});
+    folders.forEach(async function(folder){
+        const params2={
+          Bucket: "barbacopolyvideos-abrdestination-1dlpjl7qmpw1a",
+          Prefix: folder 
+        };
+        let files = await _self.bucket.listObjectsV2(params2).promise();
+        let tumb = files.Contents.filter(item=>item.Key.indexOf(".jpg") !== -1).map(item=>"http://d2e0o392dsqvqs.cloudfront.net/"+item.Key)[0];
+        let formats = files.Contents.filter(item=>item.Key.indexOf(".m3u8") !== -1).map(item=>"http://d2e0o392dsqvqs.cloudfront.net/"+item.Key);
+        result.push({"tumb":tumb, "formats": formats});
+    });
+    return result;    
   }
 
   async postVideo(fileStruct){
@@ -43,7 +55,7 @@ export class VideosService {
 
     const params={
       Body:  bytes,
-      Bucket: "barbacopolyvideos-source-fswkbjnf34ur",
+      Bucket: "barbacopolyvideos-source-x9o9zwmvf1e5",
       Key: fileStruct.name,
       ContentType: fileStruct.type
     };

@@ -11,7 +11,7 @@
   <ion-grid>
     <ion-row>
       <ion-col col-6 col-md-4 col-xl-3 *ngFor="let video of videos">
-        <ion-img class="video-container" [src]="video.src" on-click="selectVideo(video.key)"></ion-img>
+        <ion-img class="video-container" [src]="video.tumb" on-click="selectVideo(video.formats)"></ion-img>
       </ion-col>
     </ion-row>
   </ion-grid>

@@ -39,7 +39,7 @@ export class PhotosPage implements OnInit {
       });
     }catch(e){
       let toast = await this.toastController.create({
-        message: "Foto subida a Internet",
+        message: "Error: "+e.message,
         duration: 2000
       });
       toast.present();
