@@ -21,6 +21,8 @@ import {UniqueDeviceID} from '@ionic-native/unique-device-id/ngx';
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
 import { NativeStorageService} from './app.native.storage.service';
 import { MediaCapture } from '@ionic-native/media-capture/ngx';
+import { VideoPlayer } from '@ionic-native/video-player/ngx';
+import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
 import { File } from '@ionic-native/file/ngx';
 
 //export function getCredentials(credentials: CredentialsService) {
@@ -65,6 +67,8 @@ export function initializeFirebase(){
     CredentialsService,
     NotificationsService,
     UniqueDeviceID,
+    VideoPlayer,
+    ScreenOrientation,
     { provide: APP_INITIALIZER, useFactory: initializerApp, deps: [CredentialsService, NotificationsService], multi: true },
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],

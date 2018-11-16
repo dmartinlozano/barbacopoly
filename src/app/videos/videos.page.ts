@@ -4,6 +4,8 @@ import { MediaCapture, MediaFile, CaptureError, CaptureVideoOptions } from '@ion
 import { VideosService } from './videos.service';
 import { PhotoLibrary } from '@ionic-native/photo-library/ngx';
 import { ActionSheetController } from '@ionic/angular';
+import { VideoPlayer } from '@ionic-native/video-player/ngx';
+import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
 
 @Component({
   selector: 'app-videos',
@@ -18,7 +20,9 @@ export class VideosPage implements OnInit {
               private videosService: VideosService,
               private mediaCapture: MediaCapture,
               private photoLibrary: PhotoLibrary,
-              public actionSheetController: ActionSheetController) { }
+              private videoPlayer: VideoPlayer,
+              public actionSheetController: ActionSheetController,
+              public screenOrientation: ScreenOrientation) { }
 
   async ngOnInit() {
     let toast = await this.toastController.create({
@@ -79,22 +83,22 @@ export class VideosPage implements OnInit {
     let buttons=[];
     formats.forEach(format => {
       if (format.indexOf("_270p") != -1){
-        buttons.push({text: "270p", icon:"videocam", handler:()=>{this.videoPlayer.play(format)}});
+        buttons.push({text: "270p", icon:"videocam", handler:()=>{this.play(format)}});
       }
       if (format.indexOf("_360p") != -1){
-        buttons.push({text: "360p", icon:"videocam", handler:()=>{this.videoPlayer.play(format)}});
+        buttons.push({text: "360p", icon:"videocam", handler:()=>{this.play(format)}});
       }
       if (format.indexOf("_540p") != -1){
-        buttons.push({text: "540p", icon:"videocam", handler:()=>{this.videoPlayer.play(format)}});
+        buttons.push({text: "540p", icon:"videocam", handler:()=>{this.play(format)}});
       }
       if (format.indexOf("_720p") != -1){
-        buttons.push({text: "720p", icon:"videocam", handler:()=>{this.videoPlayer.play(format)}});
+        buttons.push({text: "720p", icon:"videocam", handler:()=>{this.play(format)}});
       }
       if (format.indexOf("_1080p") != -1){
-        buttons.push({text: "1080p", icon:"videocam", handler:()=>{this.videoPlayer.play(format)}});
+        buttons.push({text: "1080p", icon:"videocam", handler:()=>{this.play(format)}});
       }
       if (format.indexOf("_1080p") == -1 && format.indexOf("_270p") == -1 && format.indexOf("_360p") == -1 && format.indexOf("_540p") == -1 && format.indexOf("_720p") == -1){
-        buttons.push({text: "Original", icon:"videocam", handler:()=>{this.videoPlayer.play(format)}});
+        buttons.push({text: "Original", icon:"videocam", handler:()=>{this.play(format)}});
       }
     });
     buttons.push({text: "Cancelar", icon: "close", role: "cancel"});
@@ -104,6 +108,24 @@ export class VideosPage implements OnInit {
       buttons: buttons
     });
     await actionSheet.present();
+  }
+
+  async play(url){
+    try{
+      this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.LANDSCAPE);
+      await this.videoPlayer.play(url); 
+    }catch(e){
+        if (e !== "OK"){
+        console.error(e);
+        let toast = await this.toastController.create({
+          message: "error: "+e.message,
+          duration: 5000
+        });
+        toast.present();
+      }
+    }finally{
+      this.screenOrientation.unlock();
+    }
   }
 
 }
