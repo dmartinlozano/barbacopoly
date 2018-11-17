@@ -15,10 +15,22 @@
       </ion-col>
     </ion-row>
   </ion-grid>
-  
+
   <ion-fab  vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button on-click="showArert()">
-      <ion-icon name="md-videocam"></ion-icon>
-    </ion-fab-button>
-  </ion-fab>
+      <ion-fab-button>
+          <ion-icon name="md-arrow-dropup"></ion-icon>
+      </ion-fab-button>
+      <ion-fab-list side="top">
+        <ion-fab-button color="primary" on-click="refresh()">
+            <ion-icon name="refresh"></ion-icon>
+        </ion-fab-button>
+        <ion-fab-button color="primary" on-click="changeAscDesc()">
+            <ion-icon name="trending-down" *ngIf="!isAsc"></ion-icon>
+            <ion-icon name="trending-up" *ngIf="isAsc"></ion-icon>
+          </ion-fab-button>
+        <ion-fab-button color="primary" on-click="showAlert()">
+          <ion-icon name="md-videocam"></ion-icon>
+        </ion-fab-button>
+      </ion-fab-list>
+    </ion-fab>
 </ion-content>

@@ -10,7 +10,6 @@ import {Buffer} from 'buffer';
 })
 export class PhotosService {
 
-  maxResults :number= 30;
   bucket;
   
   constructor(private http:HttpClient, 
@@ -23,14 +22,10 @@ export class PhotosService {
     });
   }
 
-  async list(isAsc: boolean, nextContinuationToken: string){
+  async list(isAsc: boolean){
     const params={
-      Bucket: "barbacopolyresized",
-      MaxKeys: this.maxResults
+      Bucket: "barbacopolyresized"
     };
-    if (nextContinuationToken){
-      params["NextContinuationToken"] = nextContinuationToken;
-    }
     return await this.bucket.listObjectsV2(params).promise();
   }
 

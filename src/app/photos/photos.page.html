@@ -16,15 +16,23 @@
     </ion-row>
   </ion-grid>
   
-  <ion-fab  vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button on-click="takePicture()">
-      <ion-icon name="md-camera"></ion-icon>
-    </ion-fab-button>
-  </ion-fab>
 
-  <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="nextPageToken !== null">
-    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Inventando fotos...">
-    </ion-infinite-scroll-content>
-  </ion-infinite-scroll>
+  <ion-fab  vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button>
+        <ion-icon name="md-arrow-dropup"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-list side="top">
+      <ion-fab-button color="primary" on-click="refresh()">
+          <ion-icon name="refresh" ></ion-icon>
+      </ion-fab-button>
+      <ion-fab-button color="primary" on-click="changeAscDesc()">
+          <ion-icon name="trending-down" *ngIf="!isAsc"></ion-icon>
+          <ion-icon name="trending-up" *ngIf="isAsc"></ion-icon>
+        </ion-fab-button>
+      <ion-fab-button color="primary" on-click="takePicture()">
+        <ion-icon name="md-camera"></ion-icon>
+      </ion-fab-button>
+    </ion-fab-list>
+  </ion-fab>
   
 </ion-content>

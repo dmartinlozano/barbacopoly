@@ -14,7 +14,7 @@ import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
 })
 export class VideosPage implements OnInit {
 
-  isAsc=false;
+  isAsc=true;
   videos=[];
   subscritionVideoUploaded: any;
 
@@ -50,7 +50,7 @@ export class VideosPage implements OnInit {
   async list(){
     try{
       const items = await this.videosService.list(this.isAsc);
-      this.videos = items;
+      this.videos = items.reverse();
     }catch(e){
       console.error(e);
       let toast = await this.toastController.create({
@@ -61,7 +61,17 @@ export class VideosPage implements OnInit {
     }
   }
 
-  async showArert(){
+  async changeAscDesc(){
+    this.isAsc = !this.isAsc;
+    this.videos.reverse();
+  }
+
+  async refresh(){
+    this.list();
+    this.isAsc=true;
+  }
+
+  async showAlert(){
     var _self = this;
     const alert = await this.alertController.create({
       header: 'Oye!',

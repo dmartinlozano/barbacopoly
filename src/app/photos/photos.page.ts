@@ -13,9 +13,7 @@ import { PhotoViewer } from '@ionic-native/photo-viewer/ngx';
 export class PhotosPage implements OnInit {
 
   images=[];
-  nextContinuationToken=null;
-  isAsc=false;
-  slice: number=30;
+  isAsc=true;
 
   constructor(private photosService: PhotosService,
               private camera: Camera,
@@ -29,12 +27,9 @@ export class PhotosPage implements OnInit {
 
   async list(){
     try{
-      const data = await this.photosService.list(this.isAsc, this.nextContinuationToken);
-      if( data.IsTruncated ) { 
-        this.nextContinuationToken = data.NextContinuationToken;
-      }
+      const data = await this.photosService.list(this.isAsc);
       this.images=[];
-      data.Contents.forEach(image => {
+      data.Contents.reverse().forEach(image => {
         this.images.push({key:image.Key, src:"http://barbacopolyresized.s3-website.eu-west-1.amazonaws.com/"+image.Key})
       });
     }catch(e){
@@ -45,13 +40,15 @@ export class PhotosPage implements OnInit {
       toast.present();
     }
   }
-  
-  async doInfinite(infiniteScroll) {
-    await this.list();
-    infiniteScroll.target.complete();
-    if (this.nextContinuationToken === null) {
-      infiniteScroll.target.disabled = true;
-    }
+
+  async changeAscDesc(){
+    this.isAsc = !this.isAsc;
+    this.images.reverse();
+  }
+
+  async refresh(){
+    this.list();
+    this.isAsc=true;
   }
 
   async selectImage(id){
