@@ -8,16 +8,18 @@
 </ion-header>
 
 <ion-content padding>
-  <ion-list id="actividades-list5">
+  <ion-list>
     <ion-item *ngFor="let activity of activities" color="none">
 
       <ion-avatar item-left>
         <img [src]="activity.icon" />
-      </ion-avatar>&nbsp;&nbsp;
+      </ion-avatar>
+      &nbsp;&nbsp;
+      <ion-badge color="success">{{activity.time}}</ion-badge>
+      &nbsp;&nbsp;
       <h2>
-        {{activity.time}}
+        {{activity.name}}
       </h2>
     </ion-item>
-
   </ion-list>
 </ion-content>

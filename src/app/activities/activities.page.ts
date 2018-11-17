@@ -6,14 +6,11 @@ var activitiesJson = require("../activities.json");
   templateUrl: './activities.page.html',
   styleUrls: ['./activities.page.scss'],
 })
-export class ActivitiesPage implements OnInit {
+export class ActivitiesPage{
 
   activities;
   constructor() {
     this.activities=activitiesJson;
-  }
-
-  ngOnInit() {
   }
 
 }
