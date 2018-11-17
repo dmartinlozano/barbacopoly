@@ -18,19 +18,30 @@
 
   <ion-fab  vertical="bottom" horizontal="end" slot="fixed">
       <ion-fab-button>
-          <ion-icon name="md-arrow-dropup"></ion-icon>
+          <ion-icon name="add"></ion-icon>
       </ion-fab-button>
       <ion-fab-list side="top">
         <ion-fab-button color="primary" on-click="refresh()">
             <ion-icon name="refresh"></ion-icon>
         </ion-fab-button>
+        <ion-label class="four">Actualizar</ion-label>
+
         <ion-fab-button color="primary" on-click="changeAscDesc()">
-            <ion-icon name="trending-down" *ngIf="!isAsc"></ion-icon>
-            <ion-icon name="trending-up" *ngIf="isAsc"></ion-icon>
-          </ion-fab-button>
+            <ion-icon name="md-arrow-round-down" *ngIf="!isAsc"></ion-icon>
+            <ion-icon name="md-arrow-round-up" *ngIf="isAsc"></ion-icon>
+        </ion-fab-button>
+        <ion-label class="third">Ordenar</ion-label>
+
+        <ion-fab-button color="primary" on-click="upload()">
+            <ion-icon name="md-cloud-upload"></ion-icon>
+        </ion-fab-button>
+        <ion-label class="second">Subir</ion-label>
+
         <ion-fab-button color="primary" on-click="showAlert()">
           <ion-icon name="md-videocam"></ion-icon>
         </ion-fab-button>
+        <ion-label class="first">Grabar</ion-label>
+
       </ion-fab-list>
     </ion-fab>
 </ion-content>
