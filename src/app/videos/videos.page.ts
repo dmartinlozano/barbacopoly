@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {ToastController} from '@ionic/angular';
+import {ToastController, AlertController} from '@ionic/angular';
 import { MediaCapture, MediaFile, CaptureError, CaptureVideoOptions } from '@ionic-native/media-capture/ngx';
 import { VideosService } from './videos.service';
 import { PhotoLibrary } from '@ionic-native/photo-library/ngx';
@@ -16,21 +16,35 @@ export class VideosPage implements OnInit {
 
   isAsc=false;
   videos=[];
+  subscritionVideoUploaded: any;
+
   constructor(private toastController: ToastController,
               private videosService: VideosService,
               private mediaCapture: MediaCapture,
               private photoLibrary: PhotoLibrary,
               private videoPlayer: VideoPlayer,
-              public actionSheetController: ActionSheetController,
-              public screenOrientation: ScreenOrientation) { }
+              private actionSheetController: ActionSheetController,
+              private screenOrientation: ScreenOrientation,
+              private alertController: AlertController) { }
 
   async ngOnInit() {
-    let toast = await this.toastController.create({
-      message: "Recuerda grabar siempre en horizontal!",
-      duration: 5000
-    });
-    toast.present();
     this.list();
+    var _self = this;
+    this.subscritionVideoUploaded = this.videosService.getResultProcessingVideo().subscribe( async function(e){
+      if (e === null){
+        let toast = await _self.toastController.create({
+          message: "Video subido a Internet. En breve te notificaremos de que está disponible para verlo otros invitados.",
+          duration: 5000
+        });
+        toast.present();
+      }else{
+        let toast = await _self.toastController.create({
+          message: "El video no se ha podido subir a Internet: "+e.message,
+          duration: 2000
+        });
+        toast.present();
+      }
+    });
   }
 
   async list(){
@@ -47,39 +61,39 @@ export class VideosPage implements OnInit {
     }
   }
 
+  async showArert(){
+    var _self = this;
+    const alert = await this.alertController.create({
+      header: 'Oye!',
+      message: '¿Me aseguras que vas a grabar el video en horizontal?',
+      buttons: [{
+          text: 'No me apetece',
+          role: 'cancel',
+          cssClass: 'secondary'
+        }, {
+          text: 'Todo sea por los novios',
+          handler: () => {
+            _self.takeVideo();
+          }
+        }
+      ]
+    });
+    await alert.present();
+  }
+
   async takeVideo(){
     let options: CaptureVideoOptions = { limit: 1, quality:100, };
-    try{
-      let result = await this.mediaCapture.captureVideo(options);
-      let toast = await this.toastController.create({
-        message: "Procesando video.",
-        duration: 5000
-      });
-      toast.present();
-      await this.photoLibrary.saveVideo(result[0].fullPath, "Barbacopoly");
-      await this.videosService.postVideo(result[0]);
-      
-      //TODO delete video from original path ?
-      toast = await this.toastController.create({
-        message: "Video subido a Internet. En breve te notificaremos de que está disponible para verlo otros invitados.",
-        duration: 5000
-      });
-      toast.present();
-    }catch(e){
-      console.error(e);
-        let toast = await this.toastController.create({
-          message: "El video no se ha podido subir a Internet: "+e.message,
-          duration: 2000
-        });
-        toast.present();
-    }
+    let result = await this.mediaCapture.captureVideo(options);
+    let toast = await this.toastController.create({
+      message: "Procesando video.",
+      duration: 5000
+    });
+    toast.present();
+    await this.photoLibrary.saveVideo(result[0].fullPath, "Barbacopoly");
+    this.videosService.postVideo(result[0]);
   }
 
   async selectVideo(formats){
-    console.log(formats);
-
-    /*(6) ["http://d2e0o392dsqvqs.cloudfront.net/5f17e7f5-e22a…67-b892-bf661c86bffa/hls/VID_20181116_111617.m3u8", "http://d2e0o392dsqvqs.cloudfront.net/5f17e7f5-e22a…2-bf661c86bffa/hls/VID_20181116_111617_1080p.m3u8", "http://d2e0o392dsqvqs.cloudfront.net/5f17e7f5-e22a…92-bf661c86bffa/hls/VID_20181116_111617_270p.m3u8", "http://d2e0o392dsqvqs.cloudfront.net/5f17e7f5-e22a…92-bf661c86bffa/hls/VID_20181116_111617_360p.m3u8", "http://d2e0o392dsqvqs.cloudfront.net/5f17e7f5-e22a…92-bf661c86bffa/hls/VID_20181116_111617_540p.m3u8", "http://d2e0o392dsqvqs.cloudfront.net/5f17e7f5-e22a…92-bf661c86bffa/hls/VID_20181116_111617_720p.m3u8"*/
-
     let buttons=[];
     formats.forEach(format => {
       if (format.indexOf("_270p") != -1){
@@ -104,7 +118,7 @@ export class VideosPage implements OnInit {
     buttons.push({text: "Cancelar", icon: "close", role: "cancel"});
     
     const actionSheet = await this.actionSheetController.create({
-      header: 'Selecciona una opción:',
+      header: 'Selecciona una resolución:',
       buttons: buttons
     });
     await actionSheet.present();
@@ -115,7 +129,7 @@ export class VideosPage implements OnInit {
       this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.LANDSCAPE);
       await this.videoPlayer.play(url); 
     }catch(e){
-        if (e !== "OK"){
+      if (e !== "OK"){
         console.error(e);
         let toast = await this.toastController.create({
           message: "error: "+e.message,

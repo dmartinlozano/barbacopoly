@@ -1,8 +1,5 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams, HttpResponse} from '@angular/common/http';
-import {ToastController} from '@ionic/angular';
-import { CredentialsService} from '../app.credentials.service';;
-import {Buffer} from 'buffer';
+import { Injectable, EventEmitter } from '@angular/core';
+import { CredentialsService} from '../app.credentials.service';
 import { File } from '@ionic-native/file/ngx';
 import * as S3 from 'aws-sdk/clients/s3';
 
@@ -13,10 +10,9 @@ export class VideosService {
 
   maxResults :number= 30;
   bucket;
+  fileUploaded: EventEmitter<Error> = new EventEmitter();
   
-  constructor(private http:HttpClient, 
-              private credentialsService:CredentialsService,
-              private toastController: ToastController,
+  constructor(private credentialsService:CredentialsService,
               private file: File) {
     this.bucket = new S3({
       accessKeyId: this.credentialsService.credentials["aws_access_key_id"],
@@ -48,18 +44,32 @@ export class VideosService {
     return result;    
   }
 
-  async postVideo(fileStruct){
-
+  postVideo(fileStruct){
+    var _self = this;
     let folder = fileStruct.fullPath.substring(0,fileStruct.fullPath.lastIndexOf("/")+1);
-    let bytes = await this.file.readAsArrayBuffer(folder, fileStruct.name)
-
-    const params={
-      Body:  bytes,
-      Bucket: "barbacopolyvideos-source-x9o9zwmvf1e5",
-      Key: fileStruct.name,
-      ContentType: fileStruct.type
-    };
-    return await this.bucket.putObject(params).promise();
+    this.file.readAsArrayBuffer(folder, fileStruct.name).then(function(bytes){
+        const params={
+          Body:  bytes,
+          Bucket: "barbacopolyvideos-source-x9o9zwmvf1e5",
+          Key: fileStruct.name,
+          ContentType: fileStruct.type
+        };
+        _self.bucket.putObject(params,function(err, data){
+            if (err){
+              console.error(err);
+              _self.fileUploaded.emit(err);
+            }else{
+              //file uploaded ok
+              _self.fileUploaded.emit(null);
+            }
+        });
+    }).catch(function(e){
+      console.error(e);
+      _self.fileUploaded.emit(e);
+    });
   }
 
+  getResultProcessingVideo(){
+    return this.fileUploaded;
+  }
 }
