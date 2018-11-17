@@ -17,7 +17,7 @@ import { PhotoViewer } from '@ionic-native/photo-viewer/ngx';
 import { AngularFireModule } from '@angular/fire';
 import { Firebase } from '@ionic-native/firebase/ngx';
 import { AngularFirestore } from '@angular/fire/firestore';
-import {UniqueDeviceID} from '@ionic-native/unique-device-id/ngx';
+import { UniqueDeviceID} from '@ionic-native/unique-device-id/ngx';
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
 import { NativeStorageService} from './app.native.storage.service';
 import { MediaCapture } from '@ionic-native/media-capture/ngx';

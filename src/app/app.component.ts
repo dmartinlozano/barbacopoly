@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { FcmService } from './fcm.service';
 import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
-import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 
 @Component({
@@ -41,7 +40,6 @@ export class AppComponent {
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
-    private statusBar: StatusBar,
     private fcm: FcmService,
     private localNotifications:LocalNotifications
   ) {
@@ -55,7 +53,6 @@ export class AppComponent {
       this.fcm.listenToNotifications().subscribe(data => {
           _self.localNotifications.schedule({text: data.default});
       });
-      this.statusBar.styleDefault();
       this.splashScreen.hide();
     });
   }
