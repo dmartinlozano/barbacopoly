@@ -1,0 +1,24 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Videos</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-grid>
+    <ion-row>
+      <ion-col col-6 col-md-4 col-xl-3 *ngFor="let video of videos">
+        <ion-img class="video-container" [src]="video.tumb" on-click="selectVideo(video.formats)"></ion-img>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  
+  <ion-fab  vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button on-click="showArert()">
+      <ion-icon name="md-videocam"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>
