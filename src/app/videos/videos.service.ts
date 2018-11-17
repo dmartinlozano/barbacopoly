@@ -51,7 +51,7 @@ export class VideosService {
         const params={
           Body:  bytes,
           Bucket: "barbacopolyvideos-source-x9o9zwmvf1e5",
-          Key: fileStruct.name,
+          Key: new Date().getTime()+".mp4",
           ContentType: fileStruct.type
         };
         _self.bucket.putObject(params,function(err, data){

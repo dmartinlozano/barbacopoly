@@ -20,11 +20,12 @@ export class NotificationsService {
         let minute = activity.time.split(':')[1];
         this.localNotifications.schedule({
           text: activity.name,
-          trigger: { at: new Date(2019, 0, 12, hour, minute) },
+          //trigger: { at: new Date(2019, 0, 12, hour, minute) },
+          trigger: { at: new Date(2018, 10, 17, hour, minute) },
           led: 'FF0000',
-          vibrate: true,
-          icon: activity.icon,
-          sound: '/asset/notification.mp3'
+          vibrate: true//,
+          //icon: activity.icon,
+          //sound: '/asset/notification.mp3'
          });
       });
     }

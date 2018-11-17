@@ -89,7 +89,6 @@
     <plugin name="cordova-plugin-ionic-keyboard" spec="^2.0.5" />
     <plugin name="cordova-plugin-camera" spec="~4.0.3" />
     <plugin name="call-number" spec="~0.0.2" />
-    <plugin name="cordova-plugin-local-notification" spec="~0.9.0-beta.2" />
     <plugin name="com-sarriaroman-photoviewer" spec="1.1.18" />
     <plugin name="cordova-plugin-firebase" spec="2.0.5" />
     <plugin name="cordova-plugin-uniquedeviceid" spec="1.3.2" />
@@ -108,6 +107,7 @@
     <plugin name="uk.co.workingedge.phonegap.plugin.launchnavigator" spec="4.2.2">
         <variable name="OKHTTP_VERSION" value="3.+" />
     </plugin>
+    <plugin name="cordova-plugin-local-notification" spec="^0.9.0-beta.2" />
     <engine name="android" spec="7.1.2" />
     <engine name="browser" spec="5.0.4" />
 </widget>
