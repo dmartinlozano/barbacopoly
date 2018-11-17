@@ -27,6 +27,7 @@
     "@ionic-native/core": "5.0.0-beta.21",
     "@ionic-native/file": "^5.0.0-beta.21",
     "@ionic-native/firebase": "^5.0.0-beta.21",
+    "@ionic-native/launch-navigator": "^5.0.0-beta.21",
     "@ionic-native/local-notifications": "^5.0.0-beta.21",
     "@ionic-native/media-capture": "^5.0.0-beta.21",
     "@ionic-native/native-storage": "^5.0.0-beta.21",
@@ -47,9 +48,11 @@
     "cordova-android": "7.1.2",
     "cordova-android-support-gradle-release": "^2.0.1",
     "cordova-browser": "5.0.4",
+    "cordova-plugin-actionsheet": "2.3.3",
     "cordova-plugin-badge": "^0.8.7",
     "cordova-plugin-camera": "4.0.3",
     "cordova-plugin-device": "^2.0.2",
+    "cordova-plugin-dialogs": "2.0.1",
     "cordova-plugin-file": "6.0.1",
     "cordova-plugin-file-transfer": "^1.6.3",
     "cordova-plugin-firebase": "2.0.5",
@@ -73,6 +76,7 @@
     "firebase": "^5.5.8",
     "rxjs": "6.2.2",
     "rxjs-compat": "^6.3.3",
+    "uk.co.workingedge.phonegap.plugin.launchnavigator": "4.2.2",
     "uuid": "3.3.2",
     "zone.js": "^0.8.26"
   },
@@ -135,7 +139,10 @@
       "cordova-plugin-photo-library": {},
       "cordova-plugin-file": {},
       "com.moust.cordova.videoplayer": {},
-      "cordova-plugin-screen-orientation": {}
+      "cordova-plugin-screen-orientation": {},
+      "uk.co.workingedge.phonegap.plugin.launchnavigator": {
+        "OKHTTP_VERSION": "3.+"
+      }
     },
     "platforms": [
       "android",

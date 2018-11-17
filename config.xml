@@ -105,6 +105,9 @@
     <plugin name="cordova-plugin-file" spec="6.0.1" />
     <plugin name="com.moust.cordova.videoplayer" spec="~1.0.1" />
     <plugin name="cordova-plugin-screen-orientation" spec="3.0.1" />
+    <plugin name="uk.co.workingedge.phonegap.plugin.launchnavigator" spec="4.2.2">
+        <variable name="OKHTTP_VERSION" value="3.+" />
+    </plugin>
     <engine name="android" spec="7.1.2" />
     <engine name="browser" spec="5.0.4" />
 </widget>
