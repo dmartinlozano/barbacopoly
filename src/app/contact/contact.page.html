@@ -8,11 +8,20 @@
 </ion-header>
 
 <ion-content padding>
-  <ion-button block on-click="makeACall('685860013')">
-    Llamar a David
-  </ion-button>
-  <p></p>
-  <ion-button block on-click="makeACall('634565963')">
-    Llamar a María
-  </ion-button>
+    <ion-card  class="card-container">
+        <ion-img class="image-container" src="/assets/david.jpg"></ion-img>
+        <ion-card-content>
+            <ion-button class="button-container" block on-click="makeACall('David_movil')">
+                <ion-icon ios="ios-call" md="md-call"></ion-icon>   Llamar a David
+            </ion-button>
+        </ion-card-content>
+    </ion-card>
+    <ion-card  class="card-container">
+        <ion-img class="image-container" src="/assets/maria.jpg"></ion-img>
+        <ion-card-content>
+            <ion-button class="button-container" block on-click="makeACall('Maria_movil')">
+                <ion-icon ios="ios-call" md="md-call"></ion-icon>   Llamar a María
+            </ion-button>
+        </ion-card-content>
+    </ion-card>
 </ion-content>

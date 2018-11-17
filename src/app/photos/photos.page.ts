@@ -63,10 +63,12 @@ export class PhotosPage implements OnInit {
       });
       toast.present();
     }catch(e){
+      console.error(e);
       let toast = await this.toastController.create({
         message: "Error descagando imagen: "+e.message,
         duration: 2000
       });
+      toast.present();
     }
   }
 
