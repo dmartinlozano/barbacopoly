@@ -4,6 +4,7 @@ import {PhotosService} from './photos.service'
 import {ToastController} from '@ionic/angular';
 import { PhotoLibrary } from '@ionic-native/photo-library/ngx';
 import { PhotoViewer } from '@ionic-native/photo-viewer/ngx';
+import { NativeStorageService}  from '../app.native.storage.service';
 import { File } from '@ionic-native/file/ngx';
 
 @Component({
@@ -21,7 +22,8 @@ export class PhotosPage implements OnInit {
               private photoLibrary: PhotoLibrary,
               private toastController: ToastController,
               private photoViewer: PhotoViewer,
-              private file: File) { }
+              private file: File,
+              private nativeStorageService: NativeStorageService) { }
 
   async ngOnInit() {
     this.list();
@@ -58,12 +60,41 @@ export class PhotosPage implements OnInit {
     id = id.replace(re, "");
     this.photoViewer.show("http://barbacopoly.s3-website.eu-west-1.amazonaws.com/" +id, 'Barbacopoly', {share: true});
     try{
-      await this.photoLibrary.saveImage("http://barbacopoly.s3-website.eu-west-1.amazonaws.com/" +id, "Barbacopoly");
+      let images = await this.nativeStorageService.getItem("images");
+      if (images.indexOf(id) === -1){
+        await this.photoLibrary.saveImage("http://barbacopoly.s3-website.eu-west-1.amazonaws.com/" +id, "Barbacopoly");
+        images.push(id);
+        await this.nativeStorageService.setItem("images", images);
+        let toast = await this.toastController.create({
+          message: "Foto descargada",
+          duration: 2000
+        });
+        toast.present();
+      }
+    }catch(e){
+      console.error(e);
       let toast = await this.toastController.create({
-        message: "Foto descargada",
+        message: "Error: "+e.message,
         duration: 2000
       });
       toast.present();
+    }finally{
+
+    }
+    
+    
+    
+    /*try{
+      let library = await this.photoLibrary.getLibrary('Barbacopoly').toPromise();
+      let found = library.filter(item=>item.fileName === id);
+      if (!found){
+        await this.photoLibrary.saveImage("http://barbacopoly.s3-website.eu-west-1.amazonaws.com/" +id, "Barbacopoly");
+        let toast = await this.toastController.create({
+          message: "Foto descargada",
+          duration: 2000
+        });
+        toast.present();
+      };      
     }catch(e){
       console.error(e);
       let toast = await this.toastController.create({
@@ -71,7 +102,7 @@ export class PhotosPage implements OnInit {
         duration: 2000
       });
       toast.present();
-    }
+    }*/
   }
 
   takePicture() {

@@ -3,7 +3,6 @@ import { Firebase } from '@ionic-native/firebase/ngx';
 import { UniqueDeviceID } from '@ionic-native/unique-device-id/ngx';
 import { CredentialsService } from './app.credentials.service';
 import { NativeStorageService}  from './app.native.storage.service';
-import { NativeStorage } from '@ionic-native/native-storage/ngx';
 import * as SNS from 'aws-sdk/clients/sns';
 
 @Injectable({
@@ -22,8 +21,7 @@ export class FcmService {
     private firebaseNative: Firebase,
     private uniqueDeviceId: UniqueDeviceID,
     private credentialsService: CredentialsService,
-    private nativeStorageService: NativeStorageService,
-    private nativeStorage: NativeStorage
+    private nativeStorageService: NativeStorageService
   ) {
     this.sns = new SNS({
       accessKeyId: this.credentialsService.credentials["aws_access_key_id"],
@@ -34,7 +32,6 @@ export class FcmService {
 
   // Add subscription to aws sns, which is connected to firebase
   async getToken() {  
-
     try{
       this.token = await this.firebaseNative.getToken();  
       this.idDevice = await this.uniqueDeviceId.get();
