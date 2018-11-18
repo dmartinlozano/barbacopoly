@@ -26,6 +26,7 @@ import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
 import { File } from '@ionic-native/file/ngx';
 import { ImageLoader } from '../directives/image.loader.directive';
 import { LaunchNavigator } from '@ionic-native/launch-navigator/ngx';
+import { MenuController } from '@ionic/angular';
 
 //export function getCredentials(credentials: CredentialsService) {
   //return () => credentials.load();
@@ -73,6 +74,7 @@ export function initializeFirebase(){
     VideoPlayer,
     ScreenOrientation,
     LaunchNavigator,
+    MenuController,
     { provide: APP_INITIALIZER, useFactory: initializerApp, deps: [CredentialsService, NotificationsService], multi: true },
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],

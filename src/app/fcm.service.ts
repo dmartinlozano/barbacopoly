@@ -38,12 +38,14 @@ export class FcmService {
       //get endpoint platform
       this.applicationFcmArn = this.credentialsService.credentials["application_fcm_arn"];
       try{
-        let endPointData = await this.nativeStorageService.getItem("endPointArn");
-        this.endPointArn = endPointData.property;
+        let endPointArn = await this.nativeStorageService.getItem("endPointArn");
+        this.endPointArn = endPointArn;
+        console.log("endPointArn 1: "+endPointArn)
       }catch(e){
          //create endpoint platform
          let endPointData = await this.createEndPointAwsSns();
          this.endPointArn = endPointData.EndpointArn;
+         console.log("endPointArn 2: "+this.endPointArn)
          this.nativeStorageService.setItem("endPointArn",this.endPointArn);
       }
 

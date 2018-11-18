@@ -81,28 +81,6 @@ export class PhotosPage implements OnInit {
     }finally{
 
     }
-    
-    
-    
-    /*try{
-      let library = await this.photoLibrary.getLibrary('Barbacopoly').toPromise();
-      let found = library.filter(item=>item.fileName === id);
-      if (!found){
-        await this.photoLibrary.saveImage("http://barbacopoly.s3-website.eu-west-1.amazonaws.com/" +id, "Barbacopoly");
-        let toast = await this.toastController.create({
-          message: "Foto descargada",
-          duration: 2000
-        });
-        toast.present();
-      };      
-    }catch(e){
-      console.error(e);
-      let toast = await this.toastController.create({
-        message: "Error descagando imagen: "+e.message,
-        duration: 2000
-      });
-      toast.present();
-    }*/
   }
 
   takePicture() {

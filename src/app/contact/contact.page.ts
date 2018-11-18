@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { CallNumber } from '@ionic-native/call-number/ngx';
 import {ToastController} from '@ionic/angular';
 import { CredentialsService} from '../app.credentials.service';
@@ -8,14 +8,11 @@ import { CredentialsService} from '../app.credentials.service';
   templateUrl: './contact.page.html',
   styleUrls: ['./contact.page.scss'],
 })
-export class ContactPage implements OnInit {
+export class ContactPage {
 
 constructor(private callNumber: CallNumber,
             private toastController: ToastController,
             private credentialsService:CredentialsService) { }
-
-  ngOnInit() {
-  }
 
   async makeACall(who){
     let number = this.credentialsService.credentials[who];
