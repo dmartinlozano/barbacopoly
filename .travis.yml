@@ -1,0 +1,79 @@
+branches:
+  only:
+  - master
+  - develop
+matrix:
+  include:
+  - os: linux
+    sudo: false
+    language: android
+    android:
+      components:
+      - tools
+      - platform-tools
+      - tools
+      - build-tools-26.0.0
+      - android-25
+      - extra-google-google_play_services
+      - extra-google-m2repository
+      - extra-android-m2repository
+    addons:
+      apt:
+        packages:
+        - oracle-java8-installer
+        - oracle-java8-set-default
+        - jq
+    licenses:
+    - android-sdk-preview-license-.+
+    - android-sdk-license-.+
+    - google-gdk-license-.+
+before_cache:
+- rm -f  $HOME/.gradle/caches/¨*
+cache:
+  directories:
+  - "$HOME/.gradle/caches/"
+  - "$HOME/.gradle/wrapper/"
+before_install:
+- pip install --user awscli
+- aws s3 cp s3://barbacopolysecrets/credentials.json .
+- aws s3 cp s3://barbacopolysecrets/google-services.json .
+- aws s3 cp s3://barbacopolysecrets/release-key.keystore .
+- aws s3 cp s3://barbacopolysecrets/fastlane.json .
+- cp credentials.json ./src/app
+- export LANG=en_US.UTF-8
+- nvm install 8
+- npm install -g ionic cordova
+script:
+- npm install
+- ionic cordova platform add android || true
+- cordova plugin add cordova-plugin-photo-library --force
+- cordova plugin add cordova-plugin-zip --force
+- cordova plugin add cordova-plugin-file-transfer --force
+- cordova plugin add com.moust.cordova.videoplayer --force
+- if [[ "$TRAVIS_BRANCH" == "develop" ]]; then ionic cordova build android --force; fi
+- if [[ "$TRAVIS_BRANCH" == "master" ]]; then ionic cordova build android --force --prod --release; fi
+- mkdir -p output
+- cp platforms/android/build/outputs/apk/android-release-unsigned.apk barbacopoly-unsigned.apk
+- jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore release-key.keystore barbacopoly-unsigned.apk barbacopoly
+- find .|grep zipalign
+- zipalign -v 4 barbacopoly-unsigned.apk barbacopoly.apk
+- gem install fastlane
+- if [[ "$TRAVIS_BRANCH" == "develop" ]]; then fastlane supply --apk barbacopoly.apk --track alpha --json_key fastlane.json --package_name com.barbacopoly; fi
+- if [[ "$TRAVIS_BRANCH" == "master" ]]; then fastlane supply --apk barbacopoly.apk --track alpha --json_key fastlane.json --package_name com.barbacopoly; fi
+- if [[ "$TRAVIS_BRANCH" == "production" ]]; then fastlane supply --apk barbacopoly.apk --track production --json_key fastlane.json --package_name com.barbacopoly; fi
+env:
+  global:
+  - JAVA_HOME=/usr/lib/jvm/java-8-oracle
+  - secure: fmKboiY0m35mODAgPLk/nZcv+XD9oWlSgbyjulDt7zfQrQnM0UieKB9sBavGG5/l9wJjlhI9PcNUlIjjUJe3CDx4gTEpvzLW83CNHQCTTOADl6q5Fs7vjUDq6zF1qthOT7aZ90hGJ/ZB9aKze3fMBZ6lA4DPhox3QK8BjMaiyUp9xzpAqKY2MVrc15oviLAFIbyoIXe+ZyKvUp5Ia8p89mtyaFlSDMmozypzT+E9POYwaNwL9ywgSDAe67foTlTlCqdICfcExGvwIjFAXfimedOOee5axFWPSQZIIa3A72JTMCm72uvl0E8LtE3SosKIEXM5PbELGCiCglQMP3/Sis9BBY8uhMPt+k9rvRQWF48uGLvyjkc9qZSsqPMUGraY9V+nTMUcKbCL0ffGck2faqKrnu3+T2fMHpMRjnH7Izj069H31B4TlTEt0GZD3KHD/ft6xEDp3Od9tXAjU0IOERjrXJPGgZZYbxxJKjynPAeR6EXZLJ32jK1hgKNJGcj9JzIvOocpEsljK1DyjeSfIr+luvpdUT6Ag47YofCJEIUq8BQQzdFtUZ+RShXUQ8TzErt/bhqLaZ8vNXIJj5oarhI4RldJvvI0YaUvfXbJYUdSTG3LIKEkyjv9ZxPqp9Z3OXlAs230hmFkXRhVAxDUdCLYrpb8Fm9XQl2qjvClksI=
+  - secure: eMIe4sIj/7bXVnH785hhLQjZP5DA87fR1n30175KMXQvXt4ZmUxpfThnIU7bzcBy3RR3b8OgDHUFeRrmFmgLPiOi9Ht9KIRtXn8WGvRV6/eKM5NmPK/Cf+xL2BTT/RSNYSd8D51WTuIKNNFUMzbZGRvsqeZiiBNl6anuVrFpLfoeQohQ13bNMZD4MqZDVfAJ1QKTXlzHGot4fFFd5G6VoBTylrVgv4f3BKIcXFan1+wJcBjaA1WalIoYUvDSVD11UKVQL2Jp0jJHy6ukSHwfyeG5rELdS+Wp+Wdgx5+j87Je8ppmhIxRWy5IeHjvNg+1JtsiM+oKvKNmEDwwLhI+nKk+48Jozr15UY+ef5aHNTR3m1WYMLjqZHsiuY2ztK18CA/CW+D6QxnwVg4ICGmVQaPuoyZRtaDRcmGg4H59i5GOsmGx4HLEJFvziQ5jR6mPUqXFfupmhmvpegxtzzeumfSLKIkq1/9q7DbpoKjVDmT8Xi9X1XTp6u11nfGJ09DRv4Etq9b2+MmR5JrqhtBmInYHnc+7MWS6tfJ7iZDt0SFSLymdwK9W6kgmoAfm8lzIhFaY0ediV/WajHPFWq0gYYyBXeVN2MMvSE2UHJ+TDz6+UJUijXabzmYy5YbXoMSQg5yxSbzudMqqBnUoWvNc+G6EGC35r/TV0UzgYhhQ+As=
+  - secure: jY5nOA3weQRnv7Nq4VVm4x0hwj4Pg5v5H4hkkA/R0j5yWWDT9vmZEnpt1HZ0C9iWp1NfdbRvoyzOOXX/D2DKAdT2PsZZZlJVDV64Mvr5GYq4NySx51Qby4lq1YFVGig/uMA94psWx924MngcspipksbUyfd8X1OwGxEuQ8YvFshCGxMravNAHaKHxn1sCWNohqqnndcKAmvWwB6XT9xU5tgt4xbmWYuwQCygfTETTv7BEj46MGuXxNhr1TpX/GaxZqL3hPTtgA6qX8FDzWyjqYYqrO1Rsar/c/MhVz70S9j5IM+eEsQUcjoX8iuArd/anMJc8U31xZdGdTgNsjRIpWQe8ANnlyUtu41T0d6TPlJzHaOwuMMz/CaAAnql9RJkteNxUVpsmaxsXbOojt7vUuUcqglMioPWaZQErB0A7+aZ5CbQZks+/vuURqbfnEcIcaXc5nwGBWQC8q5PY6Kj8boC3dLAVufC2oqe0lgo9cYKi9QpG9UEQeZvAhw3lOjuQ2P7vLn2upELP/vLcf38AMvakevRXXxKkx5kqvqhNIvZBM17eC0AOXfGZw8tENr1PuK5e7zJZEUiGwpQe5Iqnlib2saZZeKBGydSWPgwvBoFxvfHgCj1EiegFAPkB7seXWsxail7ki/ip7Y4kSQS1D2wicaYZS6uK8e1iWEFNwk=
+deploy:
+  provider: releases
+  api_key:
+    secure: lDHib/s88gINdbvHg5VOf24pLULd/om7+ZL+oM/Vp5YMynpdguNbyX5T0aRyOb6bmw4H1ENFsQ2i8ugfycTUx6OcvPceLzuPmoXlhlUPTSz5NmBKCuE0AoqTRic5qIeHeP+3Kb6wvy0dlrNdhM8y/RL9aiSboVzTx+x0B7qPPWPtzkszOW/OsGUbnZSR3HpfTUwVCA43cdQExVZlx/l8Tm0W1WO6ebhDt3JwF6A8bu+95HdazDTt08ZuxPvSIBDZSLiBghNuamsCW/hpCCRebGemyqyToq9fG7ahOm3xIgH1O170co26W/A30qpXGa84OV11hEeJx4SN26cgp+yaFX6YXW8F782rIdru9lHx7cZkRqHyJCNu12xpzKVxmF87wDJH5XLlF7zBwOX2RzsdwRdBn82RM8PfgWhPxRf+o87PWZmh6VrJj5h/QAOtQkTsYY8FqhMSkWj/KkAAoFy+fhve+elOc+p1/JceqT/w4TVsvsOS90RBu1zHhHwpswmVmZ6Sc9Su/l3UlA8/BomJiRy2aJukyBZEZn7VluN0e+GLEW8RQklvsLzEpC5VYfz2VbIGd5237i5N0YwzrWLr/1RW4N4ES+nzcPaw+P9EmecI5DORQ5vjBlx7XSVAXCaeAesVQ+ndFcbg1Q6+KGaUowAhfUNCFGYE0XIDmxl/aNc=
+  file_glob: true
+  file: output/*
+  skip_cleanup: true
+  overwrite: true
+  on:
+    branch: master
