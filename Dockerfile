@@ -1,18 +1,10 @@
 FROM ubuntu:xenial
 
-ARG NODEJS_VERSION="10"
-ARG IONIC_VERSION="4.4.0"
-ARG ANDROID_SDK_VERSION="4333796"
-ARG ANDROID_HOME="/opt/android-sdk"
-ARG ANDROID_BUILD_TOOLS_VERSION="25.0.3"
-
-# 1) Install system package dependencies
-# 2) Install Nodejs/NPM/Ionic-Cli
-# 3) Install Android SDK
-# 4) Install SDK tool for support ionic build command
-# 5) Cleanup
-# 6) Add and set user for use by ionic and set work folder
-
+ENV NODEJS_VERSION "10"
+ENV IONIC_VERSION "4.4.0"
+ENV ANDROID_SDK_VERSION "4333796"
+ENV ANDROID_HOME "/opt/android-sdk"
+ENV ANDROID_BUILD_TOOLS_VERSION "25.0.3"
 ENV ANDROID_HOME "${ANDROID_HOME}"
 
 RUN apt-get update \

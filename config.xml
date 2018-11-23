@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.barbacopoly" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="barbacopoly.com" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Barbacopoly</name>
     <description />
     <content src="index.html" />
@@ -104,7 +104,7 @@
     <plugin name="cordova-plugin-camera" version="4.0.3" />
     <plugin name="cordova-plugin-media-capture" spec="3.0.2" />
     <plugin name="cordova-plugin-file-transfer" version="1.6.3" />
+    <plugin name="cordova-plugin-photo-library" spec="2.1.1" />
     <engine name="android" spec="7.1.2" />
     <engine name="browser" spec="5.0.4" />
-    <plugin name="cordova-plugin-photo-library" spec="2.1.1" />
 </widget>
