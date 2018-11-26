@@ -1,0 +1,45 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Comentarios</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<!--<ion-img class="image-container" [src]="imageSrc" style="max-width: 100px; min-width: 100px;"></ion-img>-->
+<ion-content padding>
+  <ion-card>
+    <ion-grid>
+      <ion-row>
+        <ion-col size="8" *ngIf="!editNameEnabled">
+          <ion-input required type="text" placeholder="Nombre" [(ngModel)]="name"></ion-input>
+        </ion-col>
+        <ion-col size="2" *ngIf="editNameEnabled">
+          <ion-label>{{name}}</ion-label>
+        </ion-col>
+          <ion-col size="3">
+            <ion-button size="small" on-click="setName()">Modificar</ion-button>
+          </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-card>
+  <ion-list>
+    <ion-item>
+      <ion-label>
+        <h2>Finn</h2>
+        <h3>I'm a big deal</h3>
+        <p>Listen, I've had a pretty messed up day...</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+  <div class="bottom">
+    <ion-grid>
+      <ion-row >
+        <ion-col size="8">
+          <ion-input  [disabled]="name === ''" required type="text" placeholder="Pon un comentario!" [(ngModel)]="commentary"></ion-input>
+        </ion-col>
+        <ion-col size="2">
+          <ion-button size="small" on-click="send()">Enviar</ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+</ion-content>

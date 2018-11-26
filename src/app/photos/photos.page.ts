@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import {Camera, CameraOptions} from '@ionic-native/camera/ngx';
-import {PhotosService} from './photos.service'
+import {PhotosService} from './photos.service';
 import {ToastController} from '@ionic/angular';
 import { PhotoLibrary } from '@ionic-native/photo-library/ngx';
 import { PhotoViewer } from '@ionic-native/photo-viewer/ngx';
 import { File } from '@ionic-native/file/ngx';
-import { ActionSheetController } from '@ionic/angular';
+import { ActionSheetController, NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-photos',
@@ -23,7 +23,8 @@ export class PhotosPage implements OnInit {
               private toastController: ToastController,
               private photoViewer: PhotoViewer,
               private file: File,
-              private actionSheetController: ActionSheetController) { }
+              private actionSheetController: ActionSheetController,
+              public navController: NavController) { }
 
   async ngOnInit() {
     this.list();
@@ -61,7 +62,7 @@ export class PhotosPage implements OnInit {
       buttons: [
         {text: "Abrir", icon:"image", handler:()=>{this.open(id)}},
         {text: "Descargar", icon:"cloud-download", handler:()=>{this.download(id)}},
-        {text: "Comentar", icon:"contacts"/*, handler:()=>{this.comments(id)}*/}
+        {text: "Comentar", icon:"contacts", handler:()=>{this.comments(id)}}
       ]
     });
     await actionSheet.present();
@@ -165,5 +166,9 @@ export class PhotosPage implements OnInit {
         _sef.list();
       }
     });
+  }
+
+  async comments(id){
+    this.navController.navigateForward("/photo/"+id);
   }
 }
