@@ -23,7 +23,8 @@ export class PhotoCommentsService {
       s = '{"date": -1}';
     }
     let url = this.urlPost + imageId + "?apiKey=" + this.apiKey + "&" +s;
-    return await this.http.get(url).toPromise();
+    let result = await this.http.get(url).toPromise();
+    return result;
   }
 
   async post(imageId, name, text){
