@@ -28,7 +28,6 @@ import { ImageLoader } from '../directives/image.loader.directive';
 import { LaunchNavigator } from '@ionic-native/launch-navigator/ngx';
 import { MenuController } from '@ionic/angular';
 import { NamePageModule } from './name/name.module';
-import { EmojiPickerComponent } from './emoji-picker/emoji-picker.component';
 
 //export function getCredentials(credentials: CredentialsService) {
   //return () => credentials.load();
@@ -45,7 +44,7 @@ export function initializeFirebase(){
 }
 
 @NgModule({
-  declarations: [AppComponent, ImageLoader, EmojiPickerComponent],
+  declarations: [AppComponent, ImageLoader],
   entryComponents: [],
   imports: [
     BrowserModule,
