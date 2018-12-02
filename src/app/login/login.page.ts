@@ -14,6 +14,9 @@ export class LoginPage implements OnInit{
 
   password: string;
   correctPassword : string = "quepasarael12deEnero?";
+  showPass :boolean = false;
+  typeInput : string = "password";
+
   constructor(private router: Router,
               private menu: MenuController,
               private nativeStorageService: NativeStorageService,
@@ -56,5 +59,14 @@ export class LoginPage implements OnInit{
   ionViewWillLeave() {
     this.menu.enable(true);
    }
+
+  showPassword(){
+    this.showPass = ! this.showPass;
+    if (this.showPass){
+      this.typeInput = "text";
+    }else{
+      this.typeInput = "password";
+    }
+  }
 
 }

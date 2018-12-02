@@ -7,7 +7,9 @@
 <ion-content padding>
   <ion-item >
     <ion-label></ion-label>
-    <ion-input type="password" placeholder="Contraseña" [(ngModel)]="password"></ion-input>
+    <ion-input type="{{typeInput}}" placeholder="Contraseña" [(ngModel)]="password" required></ion-input>
+    <ion-button round on-click="showPassword()" item-right *ngIf="showPass"><ion-icon name="eye-off"></ion-icon></ion-button>
+    <ion-button round on-click="showPassword()" item-right *ngIf="!showPass"><ion-icon name="eye"></ion-icon></ion-button>
    </ion-item>
   <ion-button ion-button  on-click="login()">Entrar</ion-button>
 </ion-content>
