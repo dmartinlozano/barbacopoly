@@ -6,15 +6,9 @@
 
 <ion-content padding>
   <ion-card>
-    <ion-grid>
-      <ion-row>
-        <ion-col size="6">
-          <ion-input required type="text" placeholder="Pon aquí tu nombre" [(ngModel)]="name"></ion-input>
-        </ion-col>
-        <ion-col size="3">
-          <ion-button size="small" on-click="setName()">Aceptar</ion-button>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
+    <ion-item>
+      <ion-input required type="text" placeholder="Pon aquí tu nombre" [(ngModel)]="name"></ion-input>
+      <ion-button size="small" item-right on-click="setName()">Aceptar</ion-button>
+    </ion-item>
   </ion-card>
 </ion-content>

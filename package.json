@@ -72,6 +72,7 @@
     "core-js": "^2.5.3",
     "es6-promise-plugin": "^4.2.2",
     "firebase": "^5.5.8",
+    "ionic-emoji-picker": "^0.1.8",
     "rxjs": "6.2.2",
     "rxjs-compat": "^6.3.3",
     "uk.co.workingedge.phonegap.plugin.launchnavigator": "^4.2.2",

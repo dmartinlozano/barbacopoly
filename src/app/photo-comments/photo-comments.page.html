@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar color="primary">
     <ion-title>
-      <ion-button href="/photos" routerDirection="backward">
+      <ion-button icon-only href="/photos" routerDirection="backward">
         <ion-icon name="arrow-round-back"></ion-icon>  
       </ion-button>
       &nbsp;&nbsp;&nbsp;Comentarios</ion-title>
@@ -11,8 +11,7 @@
 <!--<ion-img class="image-container" [src]="imageSrc" style="max-width: 100px; min-width: 100px;"></ion-img>-->
 <ion-content #content>
     <div class="message-wrap">
-      <div *ngFor="let msg of msgList"
-           class="message left">
+      <div *ngFor="let msg of msgList" class="message left">
         <div class="msg-detail">
           <div class="msg-info">
             <p>
@@ -27,15 +26,15 @@
     </div>
   </ion-content>
   
-  <ion-footer no-border [style.height]="showEmojiPicker ? '255px' : '55px'">
+  <ion-footer no-border>
     <div class="input-wrap">
-      <ion-button clear icon-only item-right (click)="switchEmojiPicker()">
+      <ion-button clear icon-only (click)="toggled = !toggled" [(emojiPickerIf)]="toggled" [emojiPickerDirection]="'top'|| 'right'" (emojiPickerSelect)="handleSelection($event)">
         <ion-icon name="md-happy"></ion-icon>
-      </ion-button>
+      </ion-button>&nbsp;&nbsp;&nbsp;
       <ion-input placeholder="Escribenos un comentario"
-                [(ngModel)]="commentary"
-                (keyup.enter)="send()"
-                (focusin)="onFocus()">
+                  [(ngModel)]="commentary"
+                  (keyup.enter)="send()"
+                  (focusin)="onFocus()">
       </ion-input>
       <ion-button ion-button clear icon-only item-right (click)="send()">
         <ion-icon name="ios-send" ios="ios-send" md="md-send"></ion-icon>

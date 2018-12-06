@@ -18,8 +18,8 @@ export class PhotoCommentsPage implements OnInit {
   imageSrc: string="";
   imageId: string="";
   msgList;
-  commentary: string;
-  showEmojiPicker = false;
+  commentary: string = "";
+  toggled: boolean = false;
   
   constructor(private activatedRoute: ActivatedRoute,
               private photoCommentsService: PhotoCommentsService,
@@ -47,13 +47,13 @@ export class PhotoCommentsPage implements OnInit {
   }
 
   onFocus() {
-    this.showEmojiPicker = false;
+    this.toggled = false;
     this.scrollToBottom();
   }
 
   switchEmojiPicker() {
-    this.showEmojiPicker = !this.showEmojiPicker;
-    if (!this.showEmojiPicker) {
+    this.toggled = !this.toggled;
+    if (!this.toggled) {
       this.focus();
     }
     this.scrollToBottom();
@@ -77,6 +77,10 @@ export class PhotoCommentsPage implements OnInit {
     this.msgList = await this.photoCommentsService.list(this.imageId, false);
   }
 
+  handleSelection(event) {
+    this.commentary += event.char;
+  }
+
   async send(){
     try{
       let name = await this.nameService.get();
@@ -85,7 +89,7 @@ export class PhotoCommentsPage implements OnInit {
       this.commentary = "";
       let toast = await this.toastController.create({message: "Comentario enviado", duration: 2000});
       toast.present();
-      if (!this.showEmojiPicker) {
+      if (!this.toggled) {
         this.focus();
       }
     }catch(e){
