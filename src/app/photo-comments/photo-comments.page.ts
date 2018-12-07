@@ -37,32 +37,12 @@ export class PhotoCommentsPage implements OnInit {
   }
 
   async ngOnInit() {
-    let name = await this.nameService.get();
-    if (name === null){
-      let modal = await this.modalCtrl.create({component: NamePage});
-      modal.present();
-    }else{
-      this.list();
-    }
+    this.list();
   }
 
   onFocus() {
     this.toggled = false;
     this.scrollToBottom();
-  }
-
-  switchEmojiPicker() {
-    this.toggled = !this.toggled;
-    if (!this.toggled) {
-      this.focus();
-    }
-    this.scrollToBottom();
-  }
-
-  private focus() {
-    /*if (this.messageInput && this.messageInput.nativeElement) {
-      this.messageInput.nativeElement.focus();
-    }*/
   }
 
   scrollToBottom() {
@@ -89,9 +69,7 @@ export class PhotoCommentsPage implements OnInit {
       this.commentary = "";
       let toast = await this.toastController.create({message: "Comentario enviado", duration: 2000});
       toast.present();
-      if (!this.toggled) {
-        this.focus();
-      }
+      this.scrollToBottom();
     }catch(e){
       console.error(e)
       let toast = await this.toastController.create({message: "Error: "+e.message, duration: 2000});

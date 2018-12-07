@@ -12,8 +12,9 @@ import {CredentialsService} from '../app.credentials.service';
 })
 export class LoginPage implements OnInit{
 
+  name: string;
   password: string;
-  correctPassword : string = "quepasarael12deEnero?";
+  correctPassword : string;
   showPass :boolean = false;
   typeInput : string = "password";
 
@@ -21,27 +22,23 @@ export class LoginPage implements OnInit{
               private menu: MenuController,
               private nativeStorageService: NativeStorageService,
               private toastController: ToastController,
-              private credentialsService: CredentialsService) { }
+              private credentialsService: CredentialsService) { 
+    this.correctPassword = this.credentialsService.credentials["password"];
+              }
 
   async ngOnInit() {
     try{
-      let storedPassword = await this.nativeStorageService.getItem("password");
-      if (storedPassword === this.correctPassword){
-        this.router.navigateByUrl('/photos');
-        let toast = await this.toastController.create({
-          message: "Contraseña almacenada correcta",
-          duration: 2000
-        });
-        toast.present();
-      }
+      this.name = await this.nativeStorageService.getItem("name");
+      this.password = await this.nativeStorageService.getItem("password");
     }catch(e){
-      console.log("Contraseña no almacenada");
+      console.log("Contraseña o nombre no almacenados");
     }
   }
 
   async login(){
-    if (this.password === this.credentialsService.credentials["password"]){
+    if (this.name != "" && this.password === this.correctPassword){
       await this.nativeStorageService.setItem("password", this.password);
+      await this.nativeStorageService.setItem("name", this.name);
       this.router.navigateByUrl('/photos');
     }else{
       let toast = await this.toastController.create({
