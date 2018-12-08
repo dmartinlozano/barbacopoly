@@ -27,7 +27,6 @@ import { File } from '@ionic-native/file/ngx';
 import { ImageLoader } from '../directives/image.loader.directive';
 import { LaunchNavigator } from '@ionic-native/launch-navigator/ngx';
 import { MenuController } from '@ionic/angular';
-import { NamePageModule } from './name/name.module';
 
 //export function getCredentials(credentials: CredentialsService) {
   //return () => credentials.load();
@@ -51,7 +50,6 @@ export function initializeFirebase(){
     IonicModule.forRoot(),
     AppRoutingModule,
     HttpClientModule,
-    NamePageModule,
     AngularFireModule.initializeApp(initializeFirebase())
   ],
   exports:[ImageLoader],

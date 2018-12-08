@@ -9,7 +9,7 @@
 </ion-header>
 
 <!--<ion-img class="image-container" [src]="imageSrc" style="max-width: 100px; min-width: 100px;"></ion-img>-->
-<ion-content #content>
+<ion-content #content [ngStyle]="bkUrl">
     <div class="message-wrap">
       <div *ngFor="let msg of msgList" class="message left">
         <div class="msg-detail">

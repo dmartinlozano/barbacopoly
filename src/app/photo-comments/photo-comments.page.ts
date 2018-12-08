@@ -4,8 +4,6 @@ import { ActivatedRoute } from '@angular/router';
 import { PhotoCommentsService } from './photo-comments.service';
 import { ModalController } from '@ionic/angular';
 import {ToastController} from '@ionic/angular';
-import {NameService} from '../name/name.service';
-import { NamePage } from '../name/name.page';
 
 @Component({
   selector: 'app-photo-comments',
@@ -24,7 +22,6 @@ export class PhotoCommentsPage implements OnInit {
   constructor(private activatedRoute: ActivatedRoute,
               private photoCommentsService: PhotoCommentsService,
               private toastController: ToastController,
-              private nameService: NameService,
               private modalCtrl:ModalController) {
     this.activatedRoute.paramMap.subscribe(params => {
       let re = /resized\-/gi;
@@ -63,7 +60,6 @@ export class PhotoCommentsPage implements OnInit {
 
   async send(){
     try{
-      let name = await this.nameService.get();
       await this.photoCommentsService.post(this.imageId, name, this.commentary);
       this.msgList = await this.photoCommentsService.list(this.imageId, true);
       this.commentary = "";
