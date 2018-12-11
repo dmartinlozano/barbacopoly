@@ -1,19 +1,19 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { Content } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
 import { PhotoCommentsService } from './photo-comments.service';
-import { ModalController } from '@ionic/angular';
 import {ToastController} from '@ionic/angular';
 
 @Component({
   selector: 'app-photo-comments',
   templateUrl: './photo-comments.page.html',
-  styleUrls: ['./photo-comments.page.scss'],
+  styleUrls: ['./photo-comments.page.scss']
 })
 export class PhotoCommentsPage implements OnInit {
 
   @ViewChild(Content) content: Content;
-  imageSrc: string="";
+  imageBackground ={};
+  showMessageWarning :boolean = true;
   imageId: string="";
   msgList;
   commentary: string = "";
@@ -21,13 +21,18 @@ export class PhotoCommentsPage implements OnInit {
   
   constructor(private activatedRoute: ActivatedRoute,
               private photoCommentsService: PhotoCommentsService,
-              private toastController: ToastController,
-              private modalCtrl:ModalController) {
+              private toastController: ToastController) {
     this.activatedRoute.paramMap.subscribe(params => {
       let re = /resized\-/gi;
       let id = params.get("id");
       id = id.replace(re, "");
-      this.imageSrc = "http://barbacopoly.s3-website.eu-west-1.amazonaws.com/" +id;
+      this.imageBackground = {
+        //center/150% no-repeat fixed
+        'background-image': 'url(' + "https://s3-eu-west-1.amazonaws.com/barbacopolygraysed/gray-" +id + ')',
+        'background-repeat': 'no-repeat',
+        'background-attachment': 'fixed',
+        'background-position': 'center' 
+      };
       id = id.split('.').slice(0, -1).join('.');
       this.imageId = id;
     });
@@ -52,6 +57,7 @@ export class PhotoCommentsPage implements OnInit {
 
   async list(){
     this.msgList = await this.photoCommentsService.list(this.imageId, false);
+    this.msgList !== undefined && this.msgList.length === 0 ? this.showMessageWarning = true : this.showMessageWarning = false; 
   }
 
   handleSelection(event) {
