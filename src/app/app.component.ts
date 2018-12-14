@@ -32,6 +32,11 @@ export class AppComponent {
       icon: 'ios-home'
     },
     {
+      title: 'Música',
+      url: '/music',
+      icon: 'musical-notes'
+    },
+    {
       title: 'Contacto',
       url: '/contact',
       icon: 'md-contacts'
