@@ -37,7 +37,7 @@
                   (keyup.enter)="send()"
                   (focusin)="onFocus()">
       </ion-input>
-      <ion-button ion-button clear icon-only item-right (click)="send()">
+      <ion-button *ngIf="commentary !== ''" ion-button clear icon-only item-right (click)="send()">
         <ion-icon name="ios-send" ios="ios-send" md="md-send"></ion-icon>
       </ion-button>
     </div>
