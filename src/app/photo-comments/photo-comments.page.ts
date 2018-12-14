@@ -3,6 +3,7 @@ import { Content } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
 import { PhotoCommentsService } from './photo-comments.service';
 import {ToastController} from '@ionic/angular';
+import { NativeStorageService}  from '../app.native.storage.service';
 
 @Component({
   selector: 'app-photo-comments',
@@ -21,6 +22,7 @@ export class PhotoCommentsPage implements OnInit {
   
   constructor(private activatedRoute: ActivatedRoute,
               private photoCommentsService: PhotoCommentsService,
+              private nativeStorageService: NativeStorageService,
               private toastController: ToastController) {
     this.activatedRoute.paramMap.subscribe(params => {
       let re = /resized\-/gi;
@@ -66,6 +68,7 @@ export class PhotoCommentsPage implements OnInit {
 
   async send(){
     try{
+      let name = await this.nativeStorageService.getItem("name");
       await this.photoCommentsService.post(this.imageId, name, this.commentary);
       this.msgList = await this.photoCommentsService.list(this.imageId, true);
       this.commentary = "";
