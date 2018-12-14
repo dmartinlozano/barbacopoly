@@ -68,10 +68,10 @@ export class PhotoCommentsPage implements OnInit {
 
   async send(){
     try{
+      this.commentary = "";
       let name = await this.nativeStorageService.getItem("name");
       await this.photoCommentsService.post(this.imageId, name, this.commentary);
       this.msgList = await this.photoCommentsService.list(this.imageId, true);
-      this.commentary = "";
       let toast = await this.toastController.create({message: "Comentario enviado", duration: 2000});
       toast.present();
       this.scrollToBottom();
