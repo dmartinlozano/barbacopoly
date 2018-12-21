@@ -99,6 +99,7 @@ export class VideosPage implements OnInit {
       duration: 5000
     });
     toast.present();
+    this.photoLibrary.requestAuthorization({read:true,write:true});
     await this.photoLibrary.saveVideo(result[0].fullPath, "Barbacopoly");
     this.videosService.postVideo(result[0]);
   }

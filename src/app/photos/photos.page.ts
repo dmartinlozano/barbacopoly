@@ -78,6 +78,7 @@ export class PhotosPage implements OnInit {
     try{
       let re = /resized\-/gi;
       id = id.replace(re, "");
+      this.photoLibrary.requestAuthorization({read:true,write:true});
       await this.photoLibrary.saveImage("http://barbacopoly.s3-website.eu-west-1.amazonaws.com/" +id, "Barbacopoly");
       let toast = await this.toastController.create({
         message: "Foto descargada",
