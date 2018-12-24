@@ -8,11 +8,11 @@ import { VideoPlayer } from '@ionic-native/video-player/ngx';
 import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
 
 @Component({
-  selector: 'app-videos',
+  selector: 'videos-view',
   templateUrl: './videos-view.page.html',
   styleUrls: ['./videos-view.page.scss'],
 })
-export class VideosPage implements OnInit {
+export class VideosViewPage implements OnInit {
 
   isAsc=true;
   videos=[];

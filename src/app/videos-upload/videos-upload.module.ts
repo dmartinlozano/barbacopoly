@@ -3,12 +3,12 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
-import { VideosViewPage } from './videos-view.page';
+import { VideosUploadPage } from './videos-upload.page';
 
 const routes: Routes = [
   {
     path: '',
-    component: VideosViewPage
+    component: VideosUploadPage
   }
 ];
 
@@ -19,6 +19,6 @@ const routes: Routes = [
     IonicModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [VideosViewPage]
+  declarations: [VideosUploadPage]
 })
-export class VideosViewModule {}
+export class VideosUploadModule {}

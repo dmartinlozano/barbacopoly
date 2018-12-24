@@ -1,0 +1,29 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Videos</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content padding>
+  <ion-tabs preloadTabs="true" #tabs>
+    <ion-tab tab="videos-view">
+      <videos-view></videos-view>
+    </ion-tab>
+    <ion-tab tab="videos-upload">
+      <videos-upload></videos-upload>
+    </ion-tab>
+    <ion-tab-bar slot="top">
+      <ion-tab-button tab="videos-view">
+        <ion-label>Subidos</ion-label>
+        <ion-icon name="globe"></ion-icon>
+      </ion-tab-button>
+      <ion-tab-button tab="videos-upload">
+        <ion-label>Subiendo</ion-label>
+        <ion-icon name="cloud-upload"></ion-icon>
+        <ion-badge>6</ion-badge>
+      </ion-tab-button>
+    </ion-tab-bar>
+  </ion-tabs>
+</ion-content>
