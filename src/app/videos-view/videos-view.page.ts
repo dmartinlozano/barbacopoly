@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {ToastController, AlertController} from '@ionic/angular';
-import { MediaCapture, MediaFile, CaptureError, CaptureVideoOptions } from '@ionic-native/media-capture/ngx';
-import { VideosService } from './videos.service';
+import { MediaCapture, CaptureVideoOptions } from '@ionic-native/media-capture/ngx';
+import { VideosService } from './videos-view.service';
 import { PhotoLibrary } from '@ionic-native/photo-library/ngx';
 import { ActionSheetController } from '@ionic/angular';
 import { VideoPlayer } from '@ionic-native/video-player/ngx';
@@ -9,8 +9,8 @@ import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
 
 @Component({
   selector: 'app-videos',
-  templateUrl: './videos.page.html',
-  styleUrls: ['./videos.page.scss'],
+  templateUrl: './videos-view.page.html',
+  styleUrls: ['./videos-view.page.scss'],
 })
 export class VideosPage implements OnInit {
 
