@@ -1,5 +1,4 @@
 import { Component, ViewChild, AfterViewInit } from '@angular/core';
-import { VideosService } from './videos.service';
 import { Tabs } from '@ionic/angular';
 
 @Component({
@@ -10,11 +9,9 @@ import { Tabs } from '@ionic/angular';
 export class VideosPage implements AfterViewInit{
   @ViewChild("tabs") tabs: Tabs;
   subscriptionVideoToUpload: any;
-  numberUploadingVideos = 0;
 
-  constructor(private videosService: VideosService) { }
+  constructor() { }
   ngAfterViewInit(){
-    var _self = this;
     setTimeout(()=>{
       this.tabs.select("videos-view");
     },500);
