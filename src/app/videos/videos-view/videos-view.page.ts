@@ -1,11 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter } from '@angular/core';
 import {ToastController, AlertController} from '@ionic/angular';
-import { MediaCapture, CaptureVideoOptions } from '@ionic-native/media-capture/ngx';
-import { VideosService } from './videos-view.service';
+import { MediaCapture, MediaFile, CaptureVideoOptions } from '@ionic-native/media-capture/ngx';
+import { VideosService } from '../videos.service';
 import { PhotoLibrary } from '@ionic-native/photo-library/ngx';
 import { ActionSheetController } from '@ionic/angular';
 import { VideoPlayer } from '@ionic-native/video-player/ngx';
 import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
+import { VideosPage } from '../videos.page';
 
 @Component({
   selector: 'videos-view',
@@ -16,7 +17,6 @@ export class VideosViewPage implements OnInit {
 
   isAsc=true;
   videos=[];
-  subscritionVideoUploaded: any;
 
   constructor(private toastController: ToastController,
               private videosService: VideosService,
@@ -25,31 +25,16 @@ export class VideosViewPage implements OnInit {
               private videoPlayer: VideoPlayer,
               private actionSheetController: ActionSheetController,
               private screenOrientation: ScreenOrientation,
-              private alertController: AlertController) { }
+              private alertController: AlertController,
+              private videosPage: VideosPage) { }
 
   async ngOnInit() {
     this.list();
-    var _self = this;
-    this.subscritionVideoUploaded = this.videosService.getResultProcessingVideo().subscribe( async function(e){
-      if (e === null){
-        let toast = await _self.toastController.create({
-          message: "Video subido a Internet. En breve te notificaremos de que está disponible para verlo otros invitados.",
-          duration: 5000
-        });
-        toast.present();
-      }else{
-        let toast = await _self.toastController.create({
-          message: "El video no se ha podido subir a Internet: "+e.message,
-          duration: 2000
-        });
-        toast.present();
-      }
-    });
   }
 
   async list(){
     try{
-      const items = await this.videosService.list(this.isAsc);
+      const items = await this.videosService.list();
       this.videos = items.reverse();
     }catch(e){
       console.error(e);
@@ -94,14 +79,16 @@ export class VideosViewPage implements OnInit {
   async takeVideo(){
     let options: CaptureVideoOptions = { limit: 1, quality:100, };
     let result = await this.mediaCapture.captureVideo(options);
-    let toast = await this.toastController.create({
-      message: "Procesando video.",
-      duration: 5000
-    });
-    toast.present();
+    
     this.photoLibrary.requestAuthorization({read:true,write:true});
     await this.photoLibrary.saveVideo(result[0].fullPath, "Barbacopoly");
-    this.videosService.postVideo(result[0]);
+    this.videosService.addVideoToUpload(result[0]);
+    this.videosPage.selectTab("videos-upload");
+    let toast = await this.toastController.create({
+      message: "Video añadido a la pestaña 'Subiendo'",
+      duration: 2000
+    });
+    toast.present();
   }
 
   async selectVideo(formats){
