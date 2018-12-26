@@ -1,13 +1,13 @@
  <ion-grid>
     <ion-list>
       <ion-item *ngFor="let video of videos">
-        <ion-button on-click="initUpload(video)" *ngIf="video.state !== 3">
+        <ion-button on-click="initUpload(video)" *ngIf="video.state === 0">
           <ion-icon name="play"></ion-icon>
         </ion-button>
-        <ion-spinner name="dots" *ngIf="video.error === null && video.state === 1"></ion-spinner>
-        <ion-button on-click="initUpload(video)" *ngIf="video.error === null && video.state === 1">
+        <ion-button on-click="initUpload(video)" *ngIf="video.state === 1">
             <ion-icon name="refresh"></ion-icon>
           </ion-button>
+          <ion-spinner name="dots" *ngIf="video.error === null && video.state === 1"></ion-spinner>
         <ion-icon name="checkmark-circle" *ngIf="video.error === null && video.state === 3"></ion-icon>
         <ion-icon name="close-circle" *ngIf="video.error !== null"></ion-icon>
         &nbsp;&nbsp;&nbsp;{{video.file.name}}

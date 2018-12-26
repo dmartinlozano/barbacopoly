@@ -35,8 +35,10 @@ export class VideosUploadPage implements OnInit {
     try{
       this.videos = await this.nativeStorageService.getItem("videos");
       this.videos.forEach(v => {
-          v.error = null;
-          v.state = 0;
+          if (v.state !== 3 && v.error !== null){
+            v.error = null;
+            v.state = 0;
+          }
       });
     }catch(e){
       this.videos =[];
@@ -47,7 +49,7 @@ export class VideosUploadPage implements OnInit {
       await _self.nativeStorageService.setItem("videos", _self.videos);
     });
     this.subscriptionVideoUploaded = this.videosService.getFileUploaded().subscribe( async function(video: FileUpload){
-      
+
       if (video.state === 3){
         _self.localNotifications.schedule({
           title: 'Barbacopoly',
