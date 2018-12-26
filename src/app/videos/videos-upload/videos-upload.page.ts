@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import { MediaFile } from '@ionic-native/media-capture/ngx';
 import { VideosService } from '../videos.service';
 import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
@@ -13,6 +13,7 @@ export enum ProgressUpload{
 export class FileUpload{
   file: MediaFile;
   state: ProgressUpload;
+  progress: Number;
   error: Error;
 }
 
@@ -25,19 +26,28 @@ export class VideosUploadPage implements OnInit {
   videos :FileUpload[]=[];
   subscriptionVideoToUpload: any;
   subscriptionVideoUploaded: any;
+  subscriptionVideoProgress: any;
 
   constructor(private videosService: VideosService,
               private localNotifications: LocalNotifications,
-              private nativeStorageService: NativeStorageService) { }
+              private nativeStorageService: NativeStorageService,
+              private ngZone: NgZone) { }
+
+  async findAndReplace(video: FileUpload, videos: FileUpload[]){
+    let foundIndex = videos.findIndex(v => v.file.fullPath === video.file.fullPath);
+    videos[foundIndex] = video;
+    await this.nativeStorageService.setItem("videos", videos);
+  }
 
   async ngOnInit() {
     var _self = this;
     try{
       this.videos = await this.nativeStorageService.getItem("videos");
       this.videos.forEach(v => {
-          if (v.state !== 3 && v.error !== null){
+          if (v.state !== 3){
             v.error = null;
             v.state = 0;
+            v.progress = 0;
           }
       });
     }catch(e){
@@ -45,8 +55,13 @@ export class VideosUploadPage implements OnInit {
     }
 
     this.subscriptionVideoToUpload = this.videosService.getFileUploading().subscribe( async function(newVideo: MediaFile){
-      _self.videos.unshift({file: newVideo, state: ProgressUpload.Wait, error: null});
+      _self.videos.unshift({file: newVideo, state: ProgressUpload.Wait, error: null, progress: 0});
       await _self.nativeStorageService.setItem("videos", _self.videos);
+    });
+    this.subscriptionVideoProgress = this.videosService.getFileUploadProgress().subscribe( async function(video: FileUpload){
+      _self.ngZone.run(() => {
+        _self.findAndReplace(video, _self.videos);
+      });
     });
     this.subscriptionVideoUploaded = this.videosService.getFileUploaded().subscribe( async function(video: FileUpload){
 
@@ -63,14 +78,9 @@ export class VideosUploadPage implements OnInit {
           text: video.error.message,
         });
       }
-
-      _self.videos.forEach(v => {
-        if (v.file.fullPath === video.file.fullPath){
-          v.error = video.error;
-          v.state = video.state;
-        };
+      _self.ngZone.run(() => {
+        _self.findAndReplace(video, _self.videos);
       });
-      await _self.nativeStorageService.setItem("videos", _self.videos);
     });
   }
 
