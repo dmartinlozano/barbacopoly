@@ -86,7 +86,7 @@ export class VideosViewPage implements OnInit {
   }
 
   async takeVideo(){
-    let options: CaptureVideoOptions = { limit: 1, quality:100, duration: 300 };
+    let options: CaptureVideoOptions = { limit: 1, quality:100, duration: 120 };
     let result = await this.mediaCapture.captureVideo(options);
     
     this.photoLibrary.requestAuthorization({read:true,write:true});
