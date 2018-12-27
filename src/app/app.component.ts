@@ -58,7 +58,7 @@ export class AppComponent {
     this.platform.ready().then(async function(){
       _self.fcm.getToken();
       _self.fcm.listenToNotifications().subscribe(data => {
-          _self.localNotifications.schedule({text: data.default});
+          _self.localNotifications.schedule({text: data.default, vibrate: true, icon: 'warning'});
       });
       try{
         await _self.nativeStorageService.getItem("images");  

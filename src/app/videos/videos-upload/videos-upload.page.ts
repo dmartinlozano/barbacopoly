@@ -74,6 +74,8 @@ export class VideosUploadPage implements OnInit {
         _self.localNotifications.schedule({
           title: 'Barbacopoly',
           text: 'Video subido. En breve lo publicaremos.',
+          vibrate: true,
+          icon: 'warning',
         });
       }
 
@@ -81,6 +83,8 @@ export class VideosUploadPage implements OnInit {
         _self.localNotifications.schedule({
           title: 'Barbacopoly',
           text: video.error.message,
+          vibrate: true,
+          icon: 'warning',
         });
       }
       _self.ngZone.run(() => {
