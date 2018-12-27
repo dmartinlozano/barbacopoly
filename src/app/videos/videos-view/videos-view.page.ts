@@ -86,7 +86,7 @@ export class VideosViewPage implements OnInit {
   }
 
   async takeVideo(){
-    let options: CaptureVideoOptions = { limit: 1, quality:100, };
+    let options: CaptureVideoOptions = { limit: 1, quality:100, duration: 300 };
     let result = await this.mediaCapture.captureVideo(options);
     
     this.photoLibrary.requestAuthorization({read:true,write:true});
@@ -95,7 +95,7 @@ export class VideosViewPage implements OnInit {
     this.videosPage.selectTab("videos-upload");
     let toast = await this.toastController.create({
       message: "Video añadido a la pestaña 'Subiendo'",
-      duration: 2000
+      duration: 2000,
     });
     toast.present();
   }
