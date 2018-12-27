@@ -50,10 +50,13 @@ export class PhotosPage implements OnInit {
     this.isAsc = !this.isAsc;
     this.images.reverse();
   }
-
-  async refresh(){
-    this.list();
-    this.isAsc=true;
+  
+  refresh(event) {
+    setTimeout(async() =>  {
+      this.list();
+      this.isAsc=true;
+      event.target.complete();
+    }, 2000);
   }
 
   async selectImage(id){

@@ -51,9 +51,12 @@ export class VideosViewPage implements OnInit {
     this.videos.reverse();
   }
 
-  async refresh(){
-    this.list();
-    this.isAsc=true;
+  refresh(event) {
+    setTimeout(async() =>  {
+      this.list();
+      this.isAsc=true;
+      event.target.complete();
+    }, 2000);
   }
 
   async showAlert(){
