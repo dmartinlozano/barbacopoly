@@ -1,0 +1,29 @@
+ <ion-grid>
+    <ion-list>
+      <ion-item *ngFor="let video of videos">
+        <ion-button on-click="initUpload(video)" *ngIf="video.state === 0">
+          <ion-icon name="play"></ion-icon>
+        </ion-button>
+        <ion-button on-click="initUpload(video)" *ngIf="video.error !== null">
+            <ion-icon name="refresh"></ion-icon>
+        </ion-button>
+        <ion-badge color="medium"  *ngIf="video.error === null && video.state === 1">&nbsp;&nbsp;&nbsp;{{video.progress}} %</ion-badge>
+        <ion-icon name="checkmark-circle" *ngIf="video.error === null && video.state === 3"></ion-icon>
+        <ion-icon name="close-circle" *ngIf="video.error !== null"></ion-icon>
+        &nbsp;&nbsp;&nbsp;{{video.file.name}}
+      </ion-item>
+    </ion-list>
+  </ion-grid>
+
+  <ion-fab  vertical="bottom" horizontal="end" slot="fixed">
+      <ion-fab-button>
+          <ion-icon name="add"></ion-icon>
+      </ion-fab-button>
+      <ion-fab-list side="top">
+        <ion-fab-button color="primary" on-click="deleteAll()">
+            <ion-icon name="trash"></ion-icon>
+        </ion-fab-button>
+        <ion-label class="first">Borrar todo</ion-label>
+
+      </ion-fab-list>
+    </ion-fab>

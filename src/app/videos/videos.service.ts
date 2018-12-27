@@ -1,6 +1,7 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { CredentialsService} from '../app.credentials.service';
 import { File } from '@ionic-native/file/ngx';
+import { FileUpload, ProgressUpload} from './videos-upload/videos-upload.page';
 import * as S3 from 'aws-sdk/clients/s3';
 
 @Injectable({
@@ -10,7 +11,9 @@ export class VideosService {
 
   maxResults :number= 30;
   bucket;
-  fileUploaded: EventEmitter<Error> = new EventEmitter();
+  fileUploading: EventEmitter<FileUpload> = new EventEmitter();
+  fileUploaded: EventEmitter<FileUpload> = new EventEmitter();
+  fileUploadProgress: EventEmitter<FileUpload> = new EventEmitter();
   
   constructor(private credentialsService:CredentialsService,
               private file: File) {
@@ -21,7 +24,7 @@ export class VideosService {
     });
   }
 
-  async list(isAsc: boolean){
+  async list(){
     var _self = this;
     let result = [];
     //get folders of s3 bucket
@@ -44,32 +47,52 @@ export class VideosService {
     return result;    
   }
 
-  postVideo(fileStruct){
+  async postVideo(video: FileUpload){
     var _self = this;
-    let folder = fileStruct.fullPath.substring(0,fileStruct.fullPath.lastIndexOf("/")+1);
-    this.file.readAsArrayBuffer(folder, fileStruct.name).then(function(bytes){
-        const params={
-          Body:  bytes,
+    video.state = 1;
+    video.progress = 0;
+    _self.fileUploaded.emit(video);
+    let folder = video.file.fullPath.substring(0,video.file.fullPath.lastIndexOf("/")+1);
+    this.file.readAsArrayBuffer(folder, video.file.name).then(function(bytes){
+        let opts = {queueSize: 1, partSize: 1024 * 1024 * 5};
+        let params = {
           Bucket: "barbacopolyvideos-source-x9o9zwmvf1e5",
-          Key: new Date().getTime()+".mp4",
-          ContentType: fileStruct.type
+          Key: video.file.name,
+          ContentType: video.file.type,
+          Body: bytes
         };
-        _self.bucket.putObject(params,function(err, data){
-            if (err){
-              console.error(err);
-              _self.fileUploaded.emit(err);
-            }else{
-              //file uploaded ok
-              _self.fileUploaded.emit(null);
-            }
+        _self.bucket.upload(params, opts, function (err, data) {
+          if (err){
+            console.error(err);
+            video.state = 2;
+            video.error = err;
+            _self.fileUploaded.emit(video);
+          }else{
+            video.state = 3;
+            video.error = null;
+            video.progress = 100;
+            _self.fileUploaded.emit(video);
+          }
+        }).on('httpUploadProgress', function(evt) {
+            video.progress = Math.trunc(evt.loaded / evt.total * 100)
+            _self.fileUploadProgress.emit(video);
         });
-    }).catch(function(e){
-      console.error(e);
-      _self.fileUploaded.emit(e);
     });
   }
 
-  getResultProcessingVideo(){
+  addVideoToUpload(file: FileUpload){
+    this.fileUploading.emit(file);
+  }
+
+  getFileUploading(){
+    return this.fileUploading;
+  }
+  getFileUploaded(){
     return this.fileUploaded;
   }
+
+  getFileUploadProgress(){
+    return this.fileUploadProgress;
+  }
+
 }
