@@ -1,7 +1,7 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { CredentialsService} from '../app.credentials.service';
 import { File } from '@ionic-native/file/ngx';
-import { FileUpload, ProgressUpload} from './videos-upload/videos-upload.page';
+import { FileUpload} from './videos-upload/videos-upload.page';
 import * as S3 from 'aws-sdk/clients/s3';
 
 @Injectable({
@@ -11,7 +11,7 @@ export class VideosService {
 
   maxResults :number= 30;
   bucket;
-  fileUploading: EventEmitter<FileUpload> = new EventEmitter();
+  fileUploading: EventEmitter<String> = new EventEmitter();
   fileUploaded: EventEmitter<FileUpload> = new EventEmitter();
   fileUploadProgress: EventEmitter<FileUpload> = new EventEmitter();
   
@@ -52,13 +52,13 @@ export class VideosService {
     video.state = 1;
     video.progress = 0;
     _self.fileUploaded.emit(video);
-    let folder = video.file.fullPath.substring(0,video.file.fullPath.lastIndexOf("/")+1);
+    let folder = video.file.nativeURL.substring(0,video.file.nativeURL.lastIndexOf("/")+1);
     this.file.readAsArrayBuffer(folder, video.file.name).then(function(bytes){
         let opts = {queueSize: 1, partSize: 1024 * 1024 * 5};
         let params = {
           Bucket: "barbacopolyvideos-source-x9o9zwmvf1e5",
           Key: video.file.name,
-          ContentType: video.file.type,
+          ContentType: "video/mp4",
           Body: bytes
         };
         _self.bucket.upload(params, opts, function (err, data) {
@@ -80,8 +80,8 @@ export class VideosService {
     });
   }
 
-  addVideoToUpload(file: FileUpload){
-    this.fileUploading.emit(file);
+  addVideoToUpload(fullPath: String){
+    this.fileUploading.emit(fullPath);
   }
 
   getFileUploading(){

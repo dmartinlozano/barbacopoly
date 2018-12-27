@@ -1,11 +1,13 @@
-import { Component, OnInit, EventEmitter } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {ToastController, AlertController} from '@ionic/angular';
-import { MediaCapture, MediaFile, CaptureVideoOptions } from '@ionic-native/media-capture/ngx';
+import { MediaCapture, CaptureVideoOptions } from '@ionic-native/media-capture/ngx';
+import {Camera, CameraOptions} from '@ionic-native/camera/ngx';
 import { VideosService } from '../videos.service';
 import { PhotoLibrary } from '@ionic-native/photo-library/ngx';
 import { ActionSheetController } from '@ionic/angular';
 import { VideoPlayer } from '@ionic-native/video-player/ngx';
 import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
+import { File } from '@ionic-native/file/ngx';
 import { VideosPage } from '../videos.page';
 
 @Component({
@@ -21,6 +23,8 @@ export class VideosViewPage implements OnInit {
   constructor(private toastController: ToastController,
               private videosService: VideosService,
               private mediaCapture: MediaCapture,
+              private camera: Camera,
+              private file: File,
               private photoLibrary: PhotoLibrary,
               private videoPlayer: VideoPlayer,
               private actionSheetController: ActionSheetController,
@@ -55,7 +59,9 @@ export class VideosViewPage implements OnInit {
     setTimeout(async() =>  {
       this.list();
       this.isAsc=true;
-      event.target.complete();
+      if (event){
+        event.target.complete();
+      }
     }, 2000);
   }
 
@@ -85,7 +91,7 @@ export class VideosViewPage implements OnInit {
     
     this.photoLibrary.requestAuthorization({read:true,write:true});
     await this.photoLibrary.saveVideo(result[0].fullPath, "Barbacopoly");
-    this.videosService.addVideoToUpload(result[0]);
+    this.videosService.addVideoToUpload(result[0].fullPath);
     this.videosPage.selectTab("videos-upload");
     let toast = await this.toastController.create({
       message: "Video añadido a la pestaña 'Subiendo'",
@@ -141,6 +147,30 @@ export class VideosViewPage implements OnInit {
     }finally{
       this.screenOrientation.unlock();
     }
+  }
+
+  upload(){
+    var _sef=this;
+    const options: CameraOptions = {
+      quality: 100,
+      destinationType: this.camera.DestinationType.FILE_URI,
+      sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
+      mediaType: this.camera.MediaType.VIDEO,
+      correctOrientation: true
+    };
+    this.camera.getPicture(options).then(async(videoUrl) => {
+
+      let videoEntry = await _sef.file.resolveLocalFilesystemUrl("file:///"+videoUrl)
+      _sef.photoLibrary.requestAuthorization({read:true,write:true});
+      await _sef.photoLibrary.saveVideo(videoEntry.nativeURL, "Barbacopoly");
+      _sef.videosService.addVideoToUpload(videoEntry.nativeURL);
+      _sef.videosPage.selectTab("videos-upload");
+      let toast = await _sef.toastController.create({
+        message: "Video añadido a la pestaña 'Subiendo'",
+        duration: 2000
+      });
+      toast.present();
+    });
   }
 
 }

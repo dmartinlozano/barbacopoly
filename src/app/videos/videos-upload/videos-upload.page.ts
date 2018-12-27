@@ -1,5 +1,5 @@
 import { Component, OnInit, NgZone } from '@angular/core';
-import { MediaFile } from '@ionic-native/media-capture/ngx';
+import { File, FileEntry } from '@ionic-native/file/ngx';
 import { VideosService } from '../videos.service';
 import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 import { NativeStorageService}  from '../../app.native.storage.service';
@@ -11,7 +11,7 @@ export enum ProgressUpload{
 }
 
 export class FileUpload{
-  file: MediaFile;
+  file: FileEntry;
   state: ProgressUpload;
   progress: Number;
   error: Error;
@@ -31,6 +31,7 @@ export class VideosUploadPage implements OnInit {
   constructor(private videosService: VideosService,
               private localNotifications: LocalNotifications,
               private nativeStorageService: NativeStorageService,
+              private file: File,
               private ngZone: NgZone) { }
 
   async findAndReplace(video: FileUpload, videos: FileUpload[]){
@@ -54,8 +55,12 @@ export class VideosUploadPage implements OnInit {
       this.videos =[];
     }
 
-    this.subscriptionVideoToUpload = this.videosService.getFileUploading().subscribe( async function(newVideo: MediaFile){
-      _self.videos.unshift({file: newVideo, state: ProgressUpload.Wait, error: null, progress: 0});
+    this.subscriptionVideoToUpload = this.videosService.getFileUploading().subscribe( async function(fullPath: string){
+      let folder = fullPath.substring(0, fullPath.lastIndexOf("/")+1);
+      let folderEntry = await _self.file.resolveDirectoryUrl(folder);
+      let fileName = await _self.file.resolveLocalFilesystemUrl(fullPath);
+      let fileEntry = await _self.file.getFile(folderEntry, fileName.name, {create:false})
+      _self.videos.unshift({file: fileEntry, state: ProgressUpload.Wait, error: null, progress: 0});
       await _self.nativeStorageService.setItem("videos", _self.videos);
     });
     this.subscriptionVideoProgress = this.videosService.getFileUploadProgress().subscribe( async function(video: FileUpload){
@@ -88,6 +93,7 @@ export class VideosUploadPage implements OnInit {
     this.videos = [];
     await this.nativeStorageService.setItem("videos", this.videos);
   }
+  
   initUpload(video: FileUpload){
     this.videosService.postVideo(video);
   }

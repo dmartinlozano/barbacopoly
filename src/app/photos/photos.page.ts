@@ -55,7 +55,9 @@ export class PhotosPage implements OnInit {
     setTimeout(async() =>  {
       this.list();
       this.isAsc=true;
-      event.target.complete();
+      if (event){
+        event.target.complete();
+      }
     }, 2000);
   }
 
