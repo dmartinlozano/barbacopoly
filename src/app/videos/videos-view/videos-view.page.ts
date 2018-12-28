@@ -86,14 +86,18 @@ export class VideosViewPage implements OnInit {
   }
 
   async takeVideo(){
-    let options: CaptureVideoOptions = { limit: 1, quality:100, duration: 120 };
+    let options: CaptureVideoOptions = { limit: 1, quality:100 };
     let result = await this.mediaCapture.captureVideo(options);
-    
+    let toast = await this.toastController.create({
+      message: "Guardando el video",
+      duration: 2000,
+    });
+    toast.present();
     this.photoLibrary.requestAuthorization({read:true,write:true});
     await this.photoLibrary.saveVideo(result[0].fullPath, "Barbacopoly");
     this.videosService.addVideoToUpload(result[0].fullPath);
     this.videosPage.selectTab("videos-upload");
-    let toast = await this.toastController.create({
+    toast = await this.toastController.create({
       message: "Video añadido a la pestaña 'Subiendo'",
       duration: 2000,
     });
