@@ -9,6 +9,8 @@ import { VideoPlayer } from '@ionic-native/video-player/ngx';
 import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
 import { File } from '@ionic-native/file/ngx';
 import { VideosPage } from '../videos.page';
+import { LoadingController } from '@ionic/angular';
+import { LoginPageModule } from '../../login/login.module';
 
 @Component({
   selector: 'videos-view',
@@ -30,7 +32,8 @@ export class VideosViewPage implements OnInit {
               private actionSheetController: ActionSheetController,
               private screenOrientation: ScreenOrientation,
               private alertController: AlertController,
-              private videosPage: VideosPage) { }
+              private videosPage: VideosPage,
+              private loadingController:LoadingController) { }
 
   async ngOnInit() {
     this.list();
@@ -86,22 +89,17 @@ export class VideosViewPage implements OnInit {
   }
 
   async takeVideo(){
+    this.photoLibrary.requestAuthorization({read:true,write:true});
     let options: CaptureVideoOptions = { limit: 1, quality:100 };
     let result = await this.mediaCapture.captureVideo(options);
-    let toast = await this.toastController.create({
-      message: "Guardando el video",
-      duration: 2000,
+    const loading = await this.loadingController.create({
+      message: 'Guardando el video'
     });
-    toast.present();
-    this.photoLibrary.requestAuthorization({read:true,write:true});
+    await loading.present();
     await this.photoLibrary.saveVideo(result[0].fullPath, "Barbacopoly");
     this.videosService.addVideoToUpload(result[0].fullPath);
     this.videosPage.selectTab("videos-upload");
-    toast = await this.toastController.create({
-      message: "Video añadido a la pestaña 'Subiendo'",
-      duration: 2000,
-    });
-    toast.present();
+    await loading.dismiss();
   }
 
   async selectVideo(formats){
