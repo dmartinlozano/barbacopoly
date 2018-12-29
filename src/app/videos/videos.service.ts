@@ -51,6 +51,22 @@ export class VideosService {
     return result;    
   }
 
+  async abortUploadVideo(video: FileUpload){
+    if (video.awsUploading.uploadId !== ""){
+      var params = {
+        Bucket: "barbacopolyvideos-source-x9o9zwmvf1e5",
+        Key: video.awsUploading.key,
+        UploadId: video.awsUploading.uploadId
+      };
+      await this.bucket.abortMultipartUpload(params).promise();
+      video.state = 0;
+      video.error = null;
+      video.progress = 0;
+      video.awsUploading = {uploadId:"", key:""};
+      this.fileUploaded.emit(video);
+    }
+  }
+
   //TO POST A VIDEO:
 
   async postVideo(video: FileUpload){
@@ -60,6 +76,7 @@ export class VideosService {
       video.state = 1;
       video.error = null;
       video.progress = 0;
+      video.awsUploading = {uploadId:"", key:""};
       _self.fileUploaded.emit(video);
 
       //reload fileEntry:
@@ -70,6 +87,9 @@ export class VideosService {
         let extension = file.name.substr(file.name.lastIndexOf('.') + 1);
         let key = String(new Date().getTime())+"."+extension;
         let uploadId = await _self.createMultipartUpload(key, file.type);
+        video.awsUploading = {uploadId: uploadId, key: key};
+        _self.fileUploaded.emit(video);
+
         let partNumber = 1;
         let partSize = 1024 * 1024 * 5;
         let numParts = file.size/partSize;
@@ -90,12 +110,14 @@ export class VideosService {
         video.state = 3;
         video.error = null;
         video.progress = 100;
+        video.awsUploading = {uploadId:"", key:""};
         _self.fileUploaded.emit(video);
       });
     }catch(err){
       console.error(err);
       video.state = 2;
       video.error = err;
+      video.awsUploading = {uploadId:"", key:""};
       _self.fileUploaded.emit(video);
     }
   }

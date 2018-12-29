@@ -10,7 +10,6 @@ import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
 import { File } from '@ionic-native/file/ngx';
 import { VideosPage } from '../videos.page';
 import { LoadingController } from '@ionic/angular';
-import { LoginPageModule } from '../../login/login.module';
 
 @Component({
   selector: 'videos-view',

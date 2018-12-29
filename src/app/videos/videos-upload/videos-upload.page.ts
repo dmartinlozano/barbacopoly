@@ -1,5 +1,6 @@
 import { Component, OnInit, NgZone } from '@angular/core';
 import { File, FileEntry } from '@ionic-native/file/ngx';
+import { AlertController} from '@ionic/angular';
 import { VideosService } from '../videos.service';
 import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 import { NativeStorageService}  from '../../app.native.storage.service';
@@ -15,6 +16,10 @@ export class FileUpload{
   state: ProgressUpload;
   progress: Number;
   error: Error;
+  awsUploading: {
+    uploadId: string;
+    key: string;
+  };
 }
 
 @Component({
@@ -32,6 +37,7 @@ export class VideosUploadPage implements OnInit {
               private localNotifications: LocalNotifications,
               private nativeStorageService: NativeStorageService,
               private file: File,
+              private alertController: AlertController,
               private ngZone: NgZone) { }
 
   async findAndReplace(video: FileUpload, videos: FileUpload[]){
@@ -49,6 +55,7 @@ export class VideosUploadPage implements OnInit {
             v.error = null;
             v.state = 0;
             v.progress = 0;
+            v.awsUploading = {key:"", uploadId:""}
           }
       });
     }catch(e){
@@ -60,7 +67,7 @@ export class VideosUploadPage implements OnInit {
       let folderEntry = await _self.file.resolveDirectoryUrl(folder);
       let fileName = await _self.file.resolveLocalFilesystemUrl(fullPath);
       let fileEntry = await _self.file.getFile(folderEntry, fileName.name, {create:false})
-      _self.videos.unshift({file: fileEntry, state: ProgressUpload.Wait, error: null, progress: 0});
+      _self.videos.unshift({file: fileEntry, state: ProgressUpload.Wait, error: null, progress: 0, awsUploading: {uploadId:"",key:""}});
       await _self.nativeStorageService.setItem("videos", _self.videos);
     });
     this.subscriptionVideoProgress = this.videosService.getFileUploadProgress().subscribe( async function(video: FileUpload){
@@ -100,6 +107,30 @@ export class VideosUploadPage implements OnInit {
   
   initUpload(video: FileUpload){
     this.videosService.postVideo(video);
+  }
+
+  async showAlert(video: FileUpload){
+    var _self = this;
+    const alert = await this.alertController.create({
+      header: 'Cuidado!',
+      message: '¿Seguro que deseas interrumpir la subida del video?',
+      buttons: [{
+          text: 'No',
+          role: 'cancel',
+          cssClass: 'secondary'
+        }, {
+          text: 'Si, aborta la subida',
+          handler: () => {
+            _self.abortUpload(video);
+          }
+        }
+      ]
+    });
+    await alert.present();
+  }
+
+  abortUpload(video: FileUpload){
+    this.videosService.abortUploadVideo(video);
   }
 
 }
