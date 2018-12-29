@@ -96,7 +96,7 @@ export class VideosViewPage implements OnInit {
     });
     await loading.present();
     await this.photoLibrary.saveVideo(result[0].fullPath, "Barbacopoly");
-    this.videosService.addVideoToUpload(result[0].fullPath);
+    this.videosService.fileInitUpload.emit(result[0].fullPath);
     this.videosPage.selectTab("videos-upload");
     await loading.dismiss();
   }
@@ -164,7 +164,7 @@ export class VideosViewPage implements OnInit {
       let videoEntry = await _sef.file.resolveLocalFilesystemUrl("file:///"+videoUrl)
       _sef.photoLibrary.requestAuthorization({read:true,write:true});
       await _sef.photoLibrary.saveVideo(videoEntry.nativeURL, "Barbacopoly");
-      _sef.videosService.addVideoToUpload(videoEntry.nativeURL);
+      _sef.videosService.fileInitUpload.emit(videoEntry.nativeURL);
       _sef.videosPage.selectTab("videos-upload");
       let toast = await _sef.toastController.create({
         message: "Video añadido a la pestaña 'Subiendo'",

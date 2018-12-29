@@ -32,8 +32,7 @@ export class FileUpload{
 export class VideosUploadPage implements OnInit {
   videos :FileUpload[]=[];
   subscriptionVideoToUpload: any;
-  subscriptionVideoUploaded: any;
-  subscriptionVideoProgress: any;
+  subscriptionVideoUpload: any;
 
   constructor(private videosService: VideosService,
               private localNotifications: LocalNotifications,
@@ -64,7 +63,7 @@ export class VideosUploadPage implements OnInit {
       this.videos =[];
     }
 
-    this.subscriptionVideoToUpload = this.videosService.getFileUploading().subscribe( async function(fullPath: string){
+    this.subscriptionVideoToUpload = this.videosService.getFileInitUpload().subscribe( async function(fullPath: string){
       let folder = fullPath.substring(0, fullPath.lastIndexOf("/")+1);
       let folderEntry = await _self.file.resolveDirectoryUrl(folder);
       let fileName = await _self.file.resolveLocalFilesystemUrl(fullPath);
@@ -72,12 +71,7 @@ export class VideosUploadPage implements OnInit {
       _self.videos.unshift({file: fileEntry, state: ProgressUpload.Wait, error: null, progress: 0, awsUploading: {uploadId:"",key:""}});
       await _self.nativeStorageService.setItem("videos", _self.videos);
     });
-    this.subscriptionVideoProgress = this.videosService.getFileUploadProgress().subscribe( async function(video: FileUpload){
-      _self.ngZone.run(() => {
-        _self.findAndReplace(video, _self.videos);
-      });
-    });
-    this.subscriptionVideoUploaded = this.videosService.getFileUploaded().subscribe( async function(video: FileUpload){
+    this.subscriptionVideoUpload = this.videosService.getFileUpload().subscribe( async function(video: FileUpload){
       //uploaded
       if (video.state === 4){
         _self.localNotifications.schedule({

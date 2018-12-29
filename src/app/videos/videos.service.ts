@@ -3,8 +3,6 @@ import { CredentialsService} from '../app.credentials.service';
 import { File } from '@ionic-native/file/ngx';
 import { FileUpload} from './videos-upload/videos-upload.page';
 import * as S3 from 'aws-sdk/clients/s3';
-import { fileURLToPath } from 'url';
-
 
 @Injectable({
   providedIn: 'root'
@@ -13,10 +11,8 @@ export class VideosService {
 
   maxResults :number= 30;
   bucket;
-  fileUploading: EventEmitter<String> = new EventEmitter();
-  fileUploaded: EventEmitter<FileUpload> = new EventEmitter();
-  fileUploadProgress: EventEmitter<FileUpload> = new EventEmitter();
-  
+  public fileInitUpload: EventEmitter<String> = new EventEmitter();
+  public fileUpload: EventEmitter<FileUpload> = new EventEmitter(); 
   
   constructor(private credentialsService:CredentialsService,
               private file: File) {
@@ -63,7 +59,7 @@ export class VideosService {
       video.error = null;
       video.progress = 0;
       video.awsUploading = {uploadId:"", key:""};
-      this.fileUploaded.emit(video);
+      this.fileUpload.emit(video);
     }
   }
 
@@ -77,7 +73,7 @@ export class VideosService {
       video.error = null;
       video.progress = 0;
       video.awsUploading = {uploadId:"", key:""};
-      _self.fileUploaded.emit(video);
+      _self.fileUpload.emit(video);
 
       //reload fileEntry:
       let folder = video.file.nativeURL.substring(0,video.file.nativeURL.lastIndexOf("/")+1);
@@ -88,7 +84,7 @@ export class VideosService {
         let key = String(new Date().getTime())+"."+extension;
         let uploadId = await _self.createMultipartUpload(key, file.type);
         video.awsUploading = {uploadId: uploadId, key: key};
-        _self.fileUploaded.emit(video);
+        _self.fileUpload.emit(video);
 
         let partNumber = 1;
         let partSize = 1024 * 1024 * 5;
@@ -99,7 +95,7 @@ export class VideosService {
           let blob = await _self.chunkReaderBlock(rangeStart, rangeEnd, file);
           let eTag = await _self.uploadPart(partNumber, blob, key, uploadId);
           video.progress = Math.trunc((100 * partNumber)/numParts);
-          _self.fileUploaded.emit(video);
+          _self.fileUpload.emit(video);
           multipartMap.Parts[partNumber - 1] = {
             ETag: eTag,
             PartNumber: partNumber
@@ -111,14 +107,14 @@ export class VideosService {
         video.error = null;
         video.progress = 100;
         video.awsUploading = {uploadId:"", key:""};
-        _self.fileUploaded.emit(video);
+        _self.fileUpload.emit(video);
       });
     }catch(err){
       console.error(err);
       video.state = 3;
       video.error = err;
       video.awsUploading = {uploadId:"", key:""};
-      _self.fileUploaded.emit(video);
+      _self.fileUpload.emit(video);
     }
   }
 
@@ -171,19 +167,12 @@ export class VideosService {
 
   //END POST A VIDEO
 
-  addVideoToUpload(fullPath: String){
-    this.fileUploading.emit(fullPath);
+  getFileInitUpload(){
+    return this.fileInitUpload;
   }
 
-  getFileUploading(){
-    return this.fileUploading;
-  }
-  getFileUploaded(){
-    return this.fileUploaded;
-  }
-
-  getFileUploadProgress(){
-    return this.fileUploadProgress;
+  getFileUpload(){
+    return this.fileUpload;
   }
 
 }
