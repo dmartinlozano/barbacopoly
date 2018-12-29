@@ -59,7 +59,7 @@ export class VideosService {
         UploadId: video.awsUploading.uploadId
       };
       await this.bucket.abortMultipartUpload(params).promise();
-      video.state = 0;
+      video.state = 2;
       video.error = null;
       video.progress = 0;
       video.awsUploading = {uploadId:"", key:""};
@@ -107,7 +107,7 @@ export class VideosService {
           partNumber++;
         }
         await _self.completeMultipartUpload(key, multipartMap, uploadId);
-        video.state = 3;
+        video.state = 4;
         video.error = null;
         video.progress = 100;
         video.awsUploading = {uploadId:"", key:""};
@@ -115,7 +115,7 @@ export class VideosService {
       });
     }catch(err){
       console.error(err);
-      video.state = 2;
+      video.state = 3;
       video.error = err;
       video.awsUploading = {uploadId:"", key:""};
       _self.fileUploaded.emit(video);

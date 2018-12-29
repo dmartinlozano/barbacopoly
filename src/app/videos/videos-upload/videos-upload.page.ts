@@ -7,8 +7,10 @@ import { NativeStorageService}  from '../../app.native.storage.service';
 
 export enum ProgressUpload{
   Wait = 0,
-  Uploading,
-  Uploaded
+  Uploading, //1
+  Aborted, //2
+  Error, //3
+  Uploaded //4
 }
 
 export class FileUpload{
@@ -51,7 +53,7 @@ export class VideosUploadPage implements OnInit {
     try{
       this.videos = await this.nativeStorageService.getItem("videos");
       this.videos.forEach(v => {
-          if (v.state !== 3){
+          if (v.state !== 4){
             v.error = null;
             v.state = 0;
             v.progress = 0;
@@ -76,8 +78,8 @@ export class VideosUploadPage implements OnInit {
       });
     });
     this.subscriptionVideoUploaded = this.videosService.getFileUploaded().subscribe( async function(video: FileUpload){
-
-      if (video.state === 3){
+      //uploaded
+      if (video.state === 4){
         _self.localNotifications.schedule({
           title: 'Barbacopoly',
           text: 'Video subido. En breve lo publicaremos.',
@@ -85,8 +87,8 @@ export class VideosUploadPage implements OnInit {
           icon: 'warning',
         });
       }
-
-      if (video.error !== null){
+      //error
+      if (video.state === 3){
         _self.localNotifications.schedule({
           title: 'Barbacopoly',
           text: video.error.message,
