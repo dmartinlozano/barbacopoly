@@ -24,7 +24,6 @@ import { MediaCapture } from '@ionic-native/media-capture/ngx';
 import { VideoPlayer } from '@ionic-native/video-player/ngx';
 import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
 import { File } from '@ionic-native/file/ngx';
-import { ImageLoader } from '../directives/image.loader.directive';
 import { LaunchNavigator } from '@ionic-native/launch-navigator/ngx';
 import { MenuController } from '@ionic/angular';
 import { MusicService } from '../app/music/music.service';
@@ -44,7 +43,7 @@ export function initializeFirebase(){
 }
 
 @NgModule({
-  declarations: [AppComponent, ImageLoader],
+  declarations: [AppComponent],
   entryComponents: [],
   imports: [
     BrowserModule,
@@ -53,7 +52,6 @@ export function initializeFirebase(){
     HttpClientModule,
     AngularFireModule.initializeApp(initializeFirebase())
   ],
-  exports:[ImageLoader],
   providers: [
     File,
     StatusBar,
