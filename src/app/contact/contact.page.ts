@@ -21,7 +21,7 @@ constructor(private callNumber: CallNumber,
     }catch(e){
       console.error(e);
       let toast = await this.toastController.create({
-        message: "Error relaizando la llamada: "+e.message,
+        message: "Error realizando la llamada: "+e.message,
         duration: 2000
       });
       toast.present();
