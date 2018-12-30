@@ -68,54 +68,64 @@ export class VideosService {
   async postVideo(video: FileUpload){
 
     var _self = this;
-    try{
-      video.state = 1;
-      video.error = null;
-      video.progress = 0;
-      video.awsUploading = {uploadId:"", key:""};
+    video.state = 1;
+    video.error = null;
+    video.progress = 0;
+    video.awsUploading = {uploadId:"", key:""};
+    _self.fileUpload.emit(video);
+
+    //reload fileEntry:
+    let folder = video.file.nativeURL.substring(0,video.file.nativeURL.lastIndexOf("/")+1);
+    let folderEntry = await this.file.resolveDirectoryUrl(folder);
+    let fileEntry = await this.file.getFile(folderEntry, video.file.name, { create: false });
+
+    fileEntry.file(async function(file){
+      let extension = file.name.substr(file.name.lastIndexOf('.') + 1);
+      let key = String(new Date().getTime())+"."+extension;
+      let uploadId = await _self.createMultipartUpload(key, file.type);
+      video.awsUploading = {uploadId: uploadId, key: key};
       _self.fileUpload.emit(video);
 
-      //reload fileEntry:
-      let folder = video.file.nativeURL.substring(0,video.file.nativeURL.lastIndexOf("/")+1);
-      let folderEntry = await this.file.resolveDirectoryUrl(folder);
-      let fileEntry = await this.file.getFile(folderEntry, video.file.name, { create: false });
-      fileEntry.file(async function(file){
-        let extension = file.name.substr(file.name.lastIndexOf('.') + 1);
-        let key = String(new Date().getTime())+"."+extension;
-        let uploadId = await _self.createMultipartUpload(key, file.type);
-        video.awsUploading = {uploadId: uploadId, key: key};
-        _self.fileUpload.emit(video);
-
-        let partNumber = 1;
-        let partSize = 1024 * 1024 * 5;
-        let numParts = file.size/partSize;
-        let multipartMap = {Parts: []};
-        for (let rangeStart = 0; rangeStart < file.size; rangeStart += partSize) {
-          let rangeEnd = Math.min(rangeStart + partSize, file.size);
-          let blob = await _self.chunkReaderBlock(rangeStart, rangeEnd, file);
-          let eTag = await _self.uploadPart(partNumber, blob, key, uploadId);
-          video.progress = Math.trunc((100 * partNumber)/numParts);
-          _self.fileUpload.emit(video);
-          multipartMap.Parts[partNumber - 1] = {
-            ETag: eTag,
-            PartNumber: partNumber
-          };
-          partNumber++;
+      let partNumber = 1;
+      let partSize = 1024 * 1024 * 5;
+      let numParts = file.size/partSize;
+      let multipartMap = {Parts: []};
+      let hasBeenAborted = false;
+      for (let rangeStart = 0; rangeStart < file.size; rangeStart += partSize) {
+        try{
+          if (hasBeenAborted === false){
+            let rangeEnd = Math.min(rangeStart + partSize, file.size);
+            let blob = await _self.chunkReaderBlock(rangeStart, rangeEnd, file);
+            let eTag = await _self.uploadPart(partNumber, blob, key, uploadId);
+            video.progress = Math.trunc((100 * partNumber)/numParts);
+            _self.fileUpload.emit(video);
+            multipartMap.Parts[partNumber - 1] = {
+              ETag: eTag,
+              PartNumber: partNumber
+            };
+            partNumber++;
+          }
+        }catch(e){
+          if (e.code === "NoSuchUpload"){
+            hasBeenAborted = true;
+          }else{
+            console.error(e);
+            video.state = 3;
+            video.error = e;
+            video.awsUploading = {uploadId:"", key:""};
+            _self.fileUpload.emit(video);
+          }
         }
+      }
+      if (hasBeenAborted === false){
         await _self.completeMultipartUpload(key, multipartMap, uploadId);
         video.state = 4;
         video.error = null;
         video.progress = 100;
         video.awsUploading = {uploadId:"", key:""};
         _self.fileUpload.emit(video);
-      });
-    }catch(err){
-      console.error(err);
-      video.state = 3;
-      video.error = err;
-      video.awsUploading = {uploadId:"", key:""};
-      _self.fileUpload.emit(video);
-    }
+      }
+    });
   }
 
   async createMultipartUpload(key, contentType){
@@ -140,7 +150,7 @@ export class VideosService {
       let mData = await this.bucket.uploadPart(params).promise();
       return mData.ETag;
     }catch(e){
-      console.error(e);
+      throw e;
     }
   }
 

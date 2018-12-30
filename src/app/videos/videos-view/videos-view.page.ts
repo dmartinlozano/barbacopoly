@@ -163,10 +163,15 @@ export class VideosViewPage implements OnInit {
 
       let videoEntry = await _sef.file.resolveLocalFilesystemUrl("file:///"+videoUrl)
       _sef.photoLibrary.requestAuthorization({read:true,write:true});
+      let toast = await _sef.toastController.create({
+        message: 'Guardando el video',
+        duration: 2000
+      });
+      toast.present();
       await _sef.photoLibrary.saveVideo(videoEntry.nativeURL, "Barbacopoly");
       _sef.videosService.fileInitUpload.emit(videoEntry.nativeURL);
       _sef.videosPage.selectTab("videos-upload");
-      let toast = await _sef.toastController.create({
+      toast = await _sef.toastController.create({
         message: "Video añadido a la pestaña 'Subiendo'",
         duration: 2000
       });
