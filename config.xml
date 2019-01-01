@@ -107,4 +107,5 @@
     <plugin name="cordova-plugin-photo-library" spec="2.1.1" />
     <engine name="android" spec="7.1.2" />
     <engine name="browser" spec="5.0.4" />
+    <plugin name="cordova-plugin-app-version" spec="~0.1.9" />
 </widget>

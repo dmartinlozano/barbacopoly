@@ -27,6 +27,7 @@ import { File } from '@ionic-native/file/ngx';
 import { LaunchNavigator } from '@ionic-native/launch-navigator/ngx';
 import { MenuController } from '@ionic/angular';
 import { MusicService } from '../app/music/music.service';
+import { AppVersion } from '@ionic-native/app-version/ngx';
 
 //export function getCredentials(credentials: CredentialsService) {
   //return () => credentials.load();
@@ -75,6 +76,7 @@ export function initializeFirebase(){
     LaunchNavigator,
     MenuController,
     MusicService,
+    AppVersion,
     { provide: APP_INITIALIZER, useFactory: initializerApp, deps: [CredentialsService, NotificationsService], multi: true },
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],

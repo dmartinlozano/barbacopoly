@@ -4,6 +4,7 @@ import { MenuController } from '@ionic/angular';
 import { NativeStorageService}  from '../app.native.storage.service';
 import {ToastController} from '@ionic/angular';
 import {CredentialsService} from '../app.credentials.service';
+import { AppVersion } from '@ionic-native/app-version/ngx';
 
 @Component({
   selector: 'app-login',
@@ -17,12 +18,15 @@ export class LoginPage implements OnInit{
   correctPassword : string;
   showPass :boolean = false;
   typeInput : string = "password";
+  versionCode = null;
 
   constructor(private router: Router,
               private menu: MenuController,
               private nativeStorageService: NativeStorageService,
               private toastController: ToastController,
-              private credentialsService: CredentialsService) { 
+              private credentialsService: CredentialsService,
+              private appVersion: AppVersion
+              ) { 
     this.correctPassword = this.credentialsService.credentials["password"];
               }
 
@@ -30,6 +34,7 @@ export class LoginPage implements OnInit{
     try{
       this.name = await this.nativeStorageService.getItem("name");
       this.password = await this.nativeStorageService.getItem("password");
+      this.versionCode = await this.appVersion.getVersionCode();
     }catch(e){
       console.log("Contraseña o nombre no almacenados");
     }
