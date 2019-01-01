@@ -42,7 +42,7 @@ export class LoginPage implements OnInit{
       this.router.navigateByUrl('/photos');
     }else{
       let toast = await this.toastController.create({
-        message: "Contraseña incorrecta.\nRevisa tu invitación\no el mensaje de Whatasapp",
+        message: "Contraseña incorrecta.\nRevisa tu invitación\no el mensaje de WhatsApp",
         duration: 4000
       });
       toast.present();
