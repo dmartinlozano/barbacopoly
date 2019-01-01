@@ -5,9 +5,14 @@
 
 .card-container{
     max-width: 200px;
-    max-height: 260px;
+    max-height: 240px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
 }
 
 .button-container{
     margin-left: -5px;
+    margin-top: -25px;
 }
