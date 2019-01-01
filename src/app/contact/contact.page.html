@@ -8,20 +8,32 @@
 </ion-header>
 
 <ion-content padding>
-    <ion-card  class="card-container">
-        <ion-img class="image-container" src="/assets/david.jpg"></ion-img>
-        <ion-card-content>
-            <ion-button class="button-container" block on-click="makeACall('David_movil')">
-                <ion-icon ios="ios-call" md="md-call"></ion-icon>   Llamar a David
-            </ion-button>
-        </ion-card-content>
-    </ion-card>
-    <ion-card  class="card-container">
-        <ion-img class="image-container" src="/assets/maria.jpg"></ion-img>
-        <ion-card-content>
-            <ion-button class="button-container" block on-click="makeACall('Maria_movil')">
-                <ion-icon ios="ios-call" md="md-call"></ion-icon>   Llamar a María
-            </ion-button>
-        </ion-card-content>
-    </ion-card>
+    <ion-grid>
+        <ion-row>
+            <ion-col size="6">
+                <ion-card >
+                    <ion-card-content>
+                        <ion-img src="/assets/david.jpg"></ion-img>
+                    </ion-card-content>
+                    <ion-item>
+                        <ion-button block on-click="makeACall('David_movil')">
+                            <ion-icon ios="ios-call" md="md-call"></ion-icon>&nbsp;&nbsp;&nbsp;Llamar a David
+                        </ion-button>
+                    </ion-item>
+                </ion-card>
+            </ion-col>
+            <ion-col size="6">
+                <ion-card >
+                    <ion-card-content>
+                        <ion-img src="/assets/maria.jpg"></ion-img>
+                    </ion-card-content>
+                    <ion-item>
+                        <ion-button block on-click="makeACall('Maria_movil')">
+                            <ion-icon ios="ios-call" md="md-call"></ion-icon>&nbsp;&nbsp;&nbsp;Llamar a María
+                        </ion-button>
+                    </ion-item>
+                </ion-card>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
 </ion-content>
