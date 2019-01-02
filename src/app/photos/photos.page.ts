@@ -6,6 +6,13 @@ import { PhotoLibrary } from '@ionic-native/photo-library/ngx';
 import { PhotoViewer } from '@ionic-native/photo-viewer/ngx';
 import { File } from '@ionic-native/file/ngx';
 import { ActionSheetController, NavController } from '@ionic/angular';
+import { PhotoCommentsService } from '../photo-comments/photo-comments.service';
+
+export class Image{
+  key: string;
+  src: string;
+  count: Number;
+}
 
 @Component({
   selector: 'app-photos',
@@ -14,7 +21,7 @@ import { ActionSheetController, NavController } from '@ionic/angular';
 })
 export class PhotosPage implements OnInit {
 
-  images=[];
+  images :Image[]=[];
   isAsc=true;
 
   constructor(private photosService: PhotosService,
@@ -24,6 +31,7 @@ export class PhotosPage implements OnInit {
               private photoViewer: PhotoViewer,
               private file: File,
               private actionSheetController: ActionSheetController,
+              private photoCommentsService: PhotoCommentsService,
               public navController: NavController) { }
 
   async ngOnInit() {
@@ -31,11 +39,16 @@ export class PhotosPage implements OnInit {
   }
 
   async list(){
+    var _self = this;
     try{
       const data = await this.photosService.list(this.isAsc);
       this.images=[];
-      data.Contents.reverse().forEach(image => {
-        this.images.push({key:image.Key, src:"http://barbacopolyresized.s3-website.eu-west-1.amazonaws.com/"+image.Key})
+      data.Contents.reverse().forEach(async function(image){
+        let key = image.Key.split('.').slice(0, -1).join('.');
+        let re = /resized\-/gi;
+        key = key.replace(re, "");
+        let count = await _self.photoCommentsService.count(key);
+        _self.images.push({key:image.Key, src:"http://barbacopolyresized.s3-website.eu-west-1.amazonaws.com/"+image.Key, count: count})
       });
     }catch(e){
       let toast = await this.toastController.create({
