@@ -48,7 +48,7 @@ export class PhotosPage implements OnInit {
         let re = /resized\-/gi;
         key = key.replace(re, "");
         let count = await _self.photoCommentsService.count(key);
-        _self.images.push({key:image.Key, src:"http://barbacopolyresized.s3-website.eu-west-1.amazonaws.com/"+image.Key, count: count})
+        _self.images.push({key:image.Key, src:"http://barbacopolyresized.s3-website.eu-west-1.amazonaws.com/"+image.Key, count: Number(count)})
       });
     }catch(e){
       let toast = await this.toastController.create({
