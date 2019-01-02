@@ -14,9 +14,5 @@
     <ion-button round on-click="showPassword()" item-right *ngIf="!showPass"><ion-icon name="eye"></ion-icon></ion-button>
   </ion-item>
   <ion-button ion-button  on-click="login()">Entrar</ion-button>
+  <p><ion-label *ngIf="versionCode !== null" style="color:white">#{{versionCode}}</ion-label></p>
 </ion-content>
-<ion-footer>
-  <ion-toolbar transparent>
-    <ion-title *ngIf="versionCode !== null" style="color:white">#{{versionCode}}</ion-title>
-  </ion-toolbar>
-</ion-footer>
