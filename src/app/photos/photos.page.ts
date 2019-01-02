@@ -39,17 +39,17 @@ export class PhotosPage implements OnInit {
   }
 
   async list(){
-    var _self = this;
     try{
       const data = await this.photosService.list(this.isAsc);
       this.images=[];
-      data.Contents.reverse().forEach(async function(image){
-        let key = image.Key.split('.').slice(0, -1).join('.');
+      let result = data.Contents.reverse();
+      for (let i = 0; i < result.length; i++) {
+        let key = result[i].Key.split('.').slice(0, -1).join('.');
         let re = /resized\-/gi;
         key = key.replace(re, "");
-        let count = await _self.photoCommentsService.count(key);
-        _self.images.push({key:image.Key, src:"http://barbacopolyresized.s3-website.eu-west-1.amazonaws.com/"+image.Key, count: Number(count)})
-      });
+        let count = await this.photoCommentsService.count(key);
+        this.images.push({key:result[i].Key, src:"http://barbacopolyresized.s3-website.eu-west-1.amazonaws.com/"+result[i].Key, count: Number(count)})
+      };
     }catch(e){
       let toast = await this.toastController.create({
         message: "Error: "+e.message,
