@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import {Camera, CameraOptions} from '@ionic-native/camera/ngx';
 import {PhotosService} from './photos.service';
 import {ToastController} from '@ionic/angular';
@@ -32,7 +32,8 @@ export class PhotosPage implements OnInit {
               private file: File,
               private actionSheetController: ActionSheetController,
               private photoCommentsService: PhotoCommentsService,
-              public navController: NavController) { }
+              public navController: NavController,
+              private ngZone: NgZone) { }
 
   async ngOnInit() {
     this.list();
@@ -40,16 +41,21 @@ export class PhotosPage implements OnInit {
 
   async list(){
     try{
-      const data = await this.photosService.list(this.isAsc);
+      var _self = this;
       this.images=[];
-      let result = data.Contents.reverse();
-      for (let i = 0; i < result.length; i++) {
-        let key = result[i].Key.split('.').slice(0, -1).join('.');
-        let re = /resized\-/gi;
-        key = key.replace(re, "");
-        let count = await this.photoCommentsService.count(key);
-        this.images.push({key:result[i].Key, src:"http://barbacopolyresized.s3-website.eu-west-1.amazonaws.com/"+result[i].Key, count: Number(count)})
-      };
+      this.ngZone.run(async function(){
+        const data = await _self.photosService.list(_self.isAsc);
+        data.Contents.reverse().forEach(image => {
+          _self.images.push({key:image.Key, src:"http://barbacopolyresized.s3-website.eu-west-1.amazonaws.com/"+image.Key, count: 0})
+        });
+        for (let i = 0; i< _self.images.length; i++){
+          let key = _self.images[i].key.split('.').slice(0, -1).join('.');
+          let re = /resized\-/gi;
+          key = key.replace(re, "");
+          let count = await _self.photoCommentsService.count(key);
+          _self.images[i].count = Number(count);
+        }
+      });
     }catch(e){
       let toast = await this.toastController.create({
         message: "Error: "+e.message,
