@@ -24,15 +24,42 @@ ion-label {
 }
 
 .first{
-    margin-top: -163px;
+    margin-top: -213px;
 }
 
 .second{
-    margin-top: -113px;
+    margin-top: -163px; 
 }
 .third{
-    margin-top: -63px;
+    margin-top: -113px;
 }
 .four{
+    margin-top: -63px;
+}
+.five{
     margin-top: -13px;
+}
+
+
+//Pinterest:
+@media (min-width: 0px) {
+    .images {
+        column-count: 2;
+    }
+}
+
+@media (min-width: 420px) {
+    .images {
+        column-count: 3;
+    }
+}
+
+@media (min-width: 720px) {
+    .images {
+        column-count: 4;
+    }
+}
+
+.one-image {
+    margin: 2px;
 }

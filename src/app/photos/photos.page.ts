@@ -23,6 +23,7 @@ export class PhotosPage implements OnInit {
 
   images :Image[]=[];
   isAsc=true;
+  isPinterest=false;
 
   constructor(private photosService: PhotosService,
               private camera: Camera,
@@ -213,5 +214,9 @@ export class PhotosPage implements OnInit {
 
   async comments(id){
     this.navController.navigateForward("/photo/"+id);
+  }
+
+  changeStyle(){
+    this.isPinterest = !this.isPinterest;
   }
 }
