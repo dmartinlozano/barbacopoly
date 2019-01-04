@@ -33,7 +33,9 @@ export class LoginPage implements OnInit{
     var _self = this;
     this.correctPassword = this.credentialsService.credentials["password"];
     this.platform.backButton.subscribe(() => {
-      _self.backgroundMode.moveToBackground();
+      if (_self.router.url === '' || _self.router.url === '/') {
+        _self.backgroundMode.moveToBackground();
+      }
     });
               }
 
