@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { MenuController } from '@ionic/angular';
+import { MenuController, Platform } from '@ionic/angular';
 import { NativeStorageService}  from '../app.native.storage.service';
 import {ToastController} from '@ionic/angular';
 import {CredentialsService} from '../app.credentials.service';
 import { AppVersion } from '@ionic-native/app-version/ngx';
+import { BackgroundMode } from '@ionic-native/background-mode/ngx';
 
 @Component({
   selector: 'app-login',
@@ -25,9 +26,15 @@ export class LoginPage implements OnInit{
               private nativeStorageService: NativeStorageService,
               private toastController: ToastController,
               private credentialsService: CredentialsService,
-              private appVersion: AppVersion
+              private appVersion: AppVersion,
+              private platform: Platform,
+              private backgroundMode: BackgroundMode
               ) { 
+    var _self = this;
     this.correctPassword = this.credentialsService.credentials["password"];
+    this.platform.backButton.subscribe(() => {
+      _self.backgroundMode.moveToBackground();
+    });
               }
 
   async ngOnInit() {
