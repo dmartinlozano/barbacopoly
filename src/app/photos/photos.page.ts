@@ -1,7 +1,7 @@
 import { Component, OnInit, NgZone } from '@angular/core';
 import {Camera, CameraOptions} from '@ionic-native/camera/ngx';
 import {PhotosService} from './photos.service';
-import {ToastController} from '@ionic/angular';
+import {ToastController, AlertController} from '@ionic/angular';
 import { PhotoLibrary } from '@ionic-native/photo-library/ngx';
 import { PhotoViewer } from '@ionic-native/photo-viewer/ngx';
 import { File } from '@ionic-native/file/ngx';
@@ -33,6 +33,7 @@ export class PhotosPage implements OnInit {
               private actionSheetController: ActionSheetController,
               private photoCommentsService: PhotoCommentsService,
               public navController: NavController,
+              private alertController: AlertController,
               private ngZone: NgZone) { }
 
   async ngOnInit() {
@@ -120,6 +121,7 @@ export class PhotosPage implements OnInit {
   }
 
   takePicture() {
+    var _self: this;
     const options: CameraOptions = {
       quality: 100,
       destinationType: this.camera.DestinationType.DATA_URL,
@@ -129,18 +131,34 @@ export class PhotosPage implements OnInit {
       saveToPhotoAlbum: true,
       correctOrientation: true
     };
-    this.camera.getPicture(options).then(async(imageData) => {
+    _self.camera.getPicture(options).then(async(imageData) => {
       try{
-        await this.photosService.postImage(imageData);
-        let toast = await this.toastController.create({
-          message: "Foto subida a Internet",
-          duration: 2000
+        const alert = await _self.alertController.create({
+          header: 'Oye!',
+          message: '¿Quieres subir esta foto para que la vean otros invitados?',
+          buttons: [{
+              text: 'Paso',
+              role: 'cancel',
+              cssClass: 'secondary'
+            }, {
+              text: 'Si, claro',
+              cssClass: 'primary',
+              handler: async() => {
+                await _self.photosService.postImage(imageData);
+                let toast = await _self.toastController.create({
+                  message: "Foto subida",
+                  duration: 2000
+                });
+                toast.present();
+              }
+            }
+          ]
         });
-        toast.present();
+        await alert.present();
       }catch(e){
         console.error(e);
         let toast = await this.toastController.create({
-          message: "La foto no se ha podido subir a Internet",
+          message: "La foto no se ha podido subir",
           duration: 2000
         });
         toast.present();
@@ -168,14 +186,14 @@ export class PhotosPage implements OnInit {
         _sef.file.readAsArrayBuffer(folder, name).then(async function(bytes){
           await _sef.photosService.postImage(bytes);
           let toast = await _sef.toastController.create({
-            message: "Foto subida a Internet",
+            message: "Foto subida",
             duration: 2000
           });
           toast.present();
         }).catch(async function(e){
           console.error(e);
           let toast = await _sef.toastController.create({
-            message: "Error subiendo foto a Internet: "+e.message,
+            message: "Error subiendo foto: "+e.message,
             duration: 2000
           });
           toast.present();
@@ -183,7 +201,7 @@ export class PhotosPage implements OnInit {
       }catch(e){
         console.error(e);
         let toast = await _sef.toastController.create({
-          message: "La foto no se ha podido subir a Internet",
+          message: "La foto no se ha podido subir",
           duration: 2000
         });
         toast.present();
