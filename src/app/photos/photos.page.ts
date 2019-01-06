@@ -184,7 +184,6 @@ export class PhotosPage implements OnInit {
       try{
         let name = imageUrl.split(/(\\|\/)/g).pop().split("?")[0];
         let folder = imageUrl.substring(0,imageUrl.lastIndexOf("/")+1);
-        await _sef.photosService.postImage(bytes);
         let toast = await _sef.toastController.create({
           message: "Subiendo foto, por favor espere.",
           duration: 2000
