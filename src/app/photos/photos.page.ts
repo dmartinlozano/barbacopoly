@@ -88,7 +88,7 @@ export class PhotosPage implements OnInit {
       buttons: [
         {text: "Abrir", icon:"image", handler:()=>{this.open(id)}},
         {text: "Descargar", icon:"cloud-download", handler:()=>{this.download(id)}},
-        {text: "Comentar", icon:"contacts", handler:()=>{this.comments(id)}}
+        {text: "Comentarios", icon:"contacts", handler:()=>{this.comments(id)}}
       ]
     });
     await actionSheet.present();
