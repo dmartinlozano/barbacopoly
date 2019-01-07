@@ -53,6 +53,7 @@ export class LoginPage implements OnInit{
   }
 
   async login(){
+    this.actionSheetController.dismiss();
     if (this.name != "" && this.password === this.correctPassword){
       await this.nativeStorageService.setItem("password", this.password);
       await this.nativeStorageService.setItem("name", this.name);
