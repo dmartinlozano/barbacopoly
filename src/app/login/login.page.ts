@@ -34,16 +34,30 @@ export class LoginPage implements OnInit{
               ) { 
     var _self = this;
     this.correctPassword = this.credentialsService.credentials["password"];
-    this.platform.backButton.subscribe(() => {
+    this.platform.backButton.subscribe(async function(){
       if (_self.router.url === '' || _self.router.url === '/') {
         _self.backgroundMode.moveToBackground();
       }
-      _self.actionSheetController.dismiss();
+      _self.removeActionSheets();
     });
               }
 
+  async removeActionSheets(){
+    //fix back actionsheets:
+    let ionActionSheets = document.querySelectorAll('ion-action-sheet');
+    for (let i = 0; i< ionActionSheets.length; i++){
+      await ionActionSheets[i].dismiss();
+    }
+
+    let ionAlert = document.querySelectorAll('ion-alert');
+    for (let i = 0; i< ionAlert.length; i++){
+      await ionAlert[i].dismiss();
+    }
+  }
+
   async ngOnInit() {
     try{
+      this.removeActionSheets();
       this.name = await this.nativeStorageService.getItem("name");
       this.password = await this.nativeStorageService.getItem("password");
       this.versionCode = await this.appVersion.getVersionCode();
@@ -53,7 +67,7 @@ export class LoginPage implements OnInit{
   }
 
   async login(){
-    this.actionSheetController.dismiss();
+    this.removeActionSheets();
     if (this.name != "" && this.password === this.correctPassword){
       await this.nativeStorageService.setItem("password", this.password);
       await this.nativeStorageService.setItem("name", this.name);
