@@ -1,55 +1,55 @@
 [
  {
    "name":"Llegada",
-   "day": 7,
+   "day": 12,
    "time":"14:00",
    "icon":"assets/img/88Uay9uDToCssQ5WcJxV_home-3.svg"
  },
  {
    "name":"Barbacoa",
-   "day": 7,
+   "day": 12,
    "time":"14:30",
    "icon":"assets/img/89KCvepTiicsyO9eUfwQ_2000px-Maki-bbq-11.svg.png"
  },
  {
    "name":"Tarta",
-   "day": 7,
+   "day": 12,
    "time":"16:00",
    "icon":"assets/img/ywF6XvLsTO6FBepXc4Ld_img_574174.png"
  },
  {
    "name":"Multiaventura",
-   "day": 7,
+   "day": 12,
    "time":"16:30",
    "icon":"assets/img/mDG816FRS4Ci0kH59TPR_33736.png"
  },
  {
    "name":"Juegos",
-   "day": 7,
+   "day": 12,
    "time":"17:30",
    "icon":"assets/img/qHhH0LrGR9CChQY9UpGw_219710-200.png"
  },
  {
     "name":"Karaoke",
-    "day": 7,
+    "day": 12,
     "time":"18:30",
     "icon":"assets/img/YS8amBVBRpejKBqao8mC_img_496903.png"
   },
   {
     "name":"Agradecimientos",
-    "day": 7,
+    "day": 12,
     "time":"20:30",
     "icon":"assets/img/koklHgacQqS6lte5L8dl_56317.png"
   },
   {
     "name":"Cena de picoteo",
-    "day": 7,
+    "day": 12,
     "time":"21:00",
     "icon":"assets/img/bXoCKo7T5CLUuSmrH1CS_11139.png"
   },
   {
     "name":"Baile",
-    "day": 7,
+    "day": 12,
     "time":"21:30",
     "icon":"assets/img/cRsxMSITbyRzMMiUAXsA_42175.svg"
   },
