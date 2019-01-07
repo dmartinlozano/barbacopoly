@@ -6,6 +6,7 @@ import {ToastController} from '@ionic/angular';
 import {CredentialsService} from '../app.credentials.service';
 import { AppVersion } from '@ionic-native/app-version/ngx';
 import { BackgroundMode } from '@ionic-native/background-mode/ngx';
+import { ActionSheetController } from '@ionic/angular';
 
 @Component({
   selector: 'app-login',
@@ -28,7 +29,8 @@ export class LoginPage implements OnInit{
               private credentialsService: CredentialsService,
               private appVersion: AppVersion,
               private platform: Platform,
-              private backgroundMode: BackgroundMode
+              private backgroundMode: BackgroundMode,
+              private actionSheetController: ActionSheetController
               ) { 
     var _self = this;
     this.correctPassword = this.credentialsService.credentials["password"];
@@ -36,6 +38,7 @@ export class LoginPage implements OnInit{
       if (_self.router.url === '' || _self.router.url === '/') {
         _self.backgroundMode.moveToBackground();
       }
+      _self.actionSheetController.dismiss();
     });
               }
 
