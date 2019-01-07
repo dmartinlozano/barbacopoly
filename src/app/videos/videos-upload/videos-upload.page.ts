@@ -75,19 +75,17 @@ export class VideosUploadPage implements OnInit {
       //uploaded
       if (video.state === 4){
         _self.localNotifications.schedule({
-          title: 'Barbacopoly',
           text: 'Video subido. En breve lo publicaremos.',
-          vibrate: true,
-          icon: 'warning',
+          group: 'notifications', 
+          id: 20
         });
       }
       //error
       if (video.state === 3){
         _self.localNotifications.schedule({
-          title: 'Barbacopoly',
           text: video.error.message,
-          vibrate: true,
-          icon: 'warning',
+          group: 'notifications', 
+          id: 20
         });
       }
       _self.ngZone.run(() => {
