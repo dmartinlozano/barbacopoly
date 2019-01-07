@@ -2,15 +2,9 @@
   <ion-list>
     <ion-item-group>
       <ion-item *ngFor="let video of videos">
-        <ion-button slot="start" fill="outline" on-click="initUpload(video)" *ngIf="video.state === 0">
-          <ion-icon name="cloud-upload"></ion-icon>
-        </ion-button>
-        <ion-button slot="start" fill="outline" on-click="initUpload(video)" *ngIf="video.state === 2 || video.state === 3">
-          <ion-icon name="refresh"></ion-icon>
-        </ion-button>
-        <ion-button slot="start" fill="outline" on-click="showAlert(video)" *ngIf="video.state === 1 && video.awsUploading.uploadId !== ''">
-          <ion-icon name="hand"></ion-icon>
-        </ion-button>
+        <ion-button slot="start" on-click="initUpload(video)" *ngIf="video.state === 0">Subir</ion-button>
+        <ion-button slot="start" on-click="initUpload(video)" *ngIf="video.state === 2 || video.state === 3">Reintentar</ion-button>
+        <ion-button slot="start" on-click="showAlert(video)" *ngIf="video.state === 1 && video.awsUploading.uploadId !== ''">Parar</ion-button>
         <ion-badge slot="start" color="medium" *ngIf="video.state === 1">{{video.progress}} %</ion-badge>
         <label>{{video.file.name}}</label>
         <ion-icon slot="end" color="success" name="checkmark-circle" *ngIf="video.state === 4"></ion-icon>
