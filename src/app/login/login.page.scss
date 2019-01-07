@@ -1,4 +1,7 @@
 ion-content {
     --background: url("/assets/img/login_2.jpg") center/150% no-repeat fixed;
 }
-$toolbar-background: transparent;
+ion-input{
+    color: white;
+    background-color: rgba(0, 0, 0, 0.5);
+}
