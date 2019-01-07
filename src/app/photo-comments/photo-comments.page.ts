@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Content } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
 import { PhotoCommentsService } from './photo-comments.service';
@@ -13,6 +13,7 @@ import { NativeStorageService}  from '../app.native.storage.service';
 export class PhotoCommentsPage implements OnInit {
 
   @ViewChild(Content) content: Content;
+  @ViewChild('input') input: ElementRef;
   imageBackground ={};
   showMessageWarning :boolean = true;
   imageId: string="";
@@ -64,6 +65,11 @@ export class PhotoCommentsPage implements OnInit {
 
   handleSelection(event) {
     this.commentary += event.char;
+  }
+  resize(event){
+    if (this.input.nativeElement.scrollHeight > 43){
+      this.input.nativeElement.style.height = this.input.nativeElement.scrollHeight + 'px';
+    }
   }
 
   async send(){
