@@ -231,6 +231,10 @@ export class PhotosPage implements OnInit {
      for (let i = 0; i< ionActionSheets.length; i++){
        await ionActionSheets[i].dismiss();
      }
+     let ionActionSheetControllers = document.querySelectorAll('ion-action-sheet-controller');
+     for (let i = 0; i< ionActionSheetControllers.length; i++){
+      await ionActionSheetControllers[i].dismiss();
+      }
      let ionAlert = document.querySelectorAll('ion-alert');
      for (let i = 0; i< ionAlert.length; i++){
        await ionAlert[i].dismiss();
