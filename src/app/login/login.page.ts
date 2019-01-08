@@ -7,6 +7,7 @@ import {CredentialsService} from '../app.credentials.service';
 import { AppVersion } from '@ionic-native/app-version/ngx';
 import { BackgroundMode } from '@ionic-native/background-mode/ngx';
 import { ActionSheetController } from '@ionic/angular';
+import { FixModalService } from '../fix-modal.service';
 
 @Component({
   selector: 'app-login',
@@ -30,7 +31,7 @@ export class LoginPage implements OnInit{
               private appVersion: AppVersion,
               private platform: Platform,
               private backgroundMode: BackgroundMode,
-              private actionSheetController: ActionSheetController
+              private fixModalService: FixModalService
               ) { 
     var _self = this;
     this.correctPassword = this.credentialsService.credentials["password"];
@@ -43,24 +44,11 @@ export class LoginPage implements OnInit{
               }
 
   async removeActionSheets(){
-    //fix back actionsheets:
-    let ionActionSheets = document.querySelectorAll('ion-action-sheet');
-    for (let i = 0; i< ionActionSheets.length; i++){
-      await ionActionSheets[i].dismiss();
-    }
-    let ionActionSheetControllers = document.querySelectorAll('ion-action-sheet-controller');
-    for (let i = 0; i< ionActionSheetControllers.length; i++){
-      await ionActionSheetControllers[i].dismiss();
-    }
-    let ionAlert = document.querySelectorAll('ion-alert');
-    for (let i = 0; i< ionAlert.length; i++){
-      await ionAlert[i].dismiss();
-    }
+    this.fixModalService.fix();
   }
 
   async ngOnInit() {
     try{
-      this.removeActionSheets();
       this.name = await this.nativeStorageService.getItem("name");
       this.password = await this.nativeStorageService.getItem("password");
       this.versionCode = await this.appVersion.getVersionCode();
@@ -70,7 +58,6 @@ export class LoginPage implements OnInit{
   }
 
   async login(){
-    this.removeActionSheets();
     if (this.name != "" && this.password === this.correctPassword){
       await this.nativeStorageService.setItem("password", this.password);
       await this.nativeStorageService.setItem("name", this.name);
@@ -85,6 +72,7 @@ export class LoginPage implements OnInit{
   }
 
   ionViewDidEnter() {
+    this.removeActionSheets();
     this.menu.enable(false);
   }
 

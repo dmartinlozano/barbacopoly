@@ -28,6 +28,7 @@ import { LaunchNavigator } from '@ionic-native/launch-navigator/ngx';
 import { MusicService } from '../app/music/music.service';
 import { AppVersion } from '@ionic-native/app-version/ngx';
 import { BackgroundMode } from '@ionic-native/background-mode/ngx';
+import { FixModalService} from './fix-modal.service';
 
 //export function getCredentials(credentials: CredentialsService) {
   //return () => credentials.load();
@@ -78,6 +79,7 @@ export function initializeFirebase(){
     MusicService,
     AppVersion,
     BackgroundMode,
+    FixModalService,
     { provide: APP_INITIALIZER, useFactory: initializerApp, deps: [CredentialsService, NotificationsService], multi: true },
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],

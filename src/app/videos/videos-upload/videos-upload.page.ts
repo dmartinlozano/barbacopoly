@@ -4,6 +4,7 @@ import { AlertController} from '@ionic/angular';
 import { VideosService } from '../videos.service';
 import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 import { NativeStorageService}  from '../../app.native.storage.service';
+import { FixModalService } from '../../fix-modal.service';
 
 export enum ProgressUpload{
   Wait = 0,
@@ -39,7 +40,8 @@ export class VideosUploadPage implements OnInit {
               private nativeStorageService: NativeStorageService,
               private file: File,
               private alertController: AlertController,
-              private ngZone: NgZone) { }
+              private ngZone: NgZone,
+              private fixModalService: FixModalService) { }
 
   async findAndReplace(video: FileUpload, videos: FileUpload[]){
     let foundIndex = videos.findIndex(v => v.file.fullPath === video.file.fullPath);
@@ -128,19 +130,7 @@ export class VideosUploadPage implements OnInit {
   }
 
   async ionViewWillLeave() {
-    //fix back actionsheets:
-    let ionActionSheets = document.querySelectorAll('ion-action-sheet');
-    for (let i = 0; i< ionActionSheets.length; i++){
-      await ionActionSheets[i].dismiss();
-    }
-    let ionActionSheetControllers = document.querySelectorAll('ion-action-sheet-controller');
-     for (let i = 0; i< ionActionSheetControllers.length; i++){
-      await ionActionSheetControllers[i].dismiss();
-      }
-    let ionAlert = document.querySelectorAll('ion-alert');
-    for (let i = 0; i< ionAlert.length; i++){
-      await ionAlert[i].dismiss();
-    }
+    this.fixModalService.fix();
  }
 
 }

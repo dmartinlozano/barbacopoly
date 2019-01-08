@@ -7,6 +7,7 @@ import { PhotoViewer } from '@ionic-native/photo-viewer/ngx';
 import { File } from '@ionic-native/file/ngx';
 import { ActionSheetController, NavController } from '@ionic/angular';
 import { PhotoCommentsService } from '../photo-comments/photo-comments.service';
+import { FixModalService } from '../fix-modal.service';
 
 export class Image{
   key: string;
@@ -35,7 +36,8 @@ export class PhotosPage implements OnInit {
               private photoCommentsService: PhotoCommentsService,
               public navController: NavController,
               private alertController: AlertController,
-              private ngZone: NgZone) { }
+              private ngZone: NgZone,
+              private fixModalService: FixModalService) { }
 
   async ngOnInit() {
     this.list();
@@ -238,18 +240,6 @@ export class PhotosPage implements OnInit {
   }
   
   async ionViewWillLeave() {
-     //fix back actionsheets:
-     let ionActionSheets = document.querySelectorAll('ion-action-sheet');
-     for (let i = 0; i< ionActionSheets.length; i++){
-       await ionActionSheets[i].dismiss();
-     }
-     let ionActionSheetControllers = document.querySelectorAll('ion-action-sheet-controller');
-     for (let i = 0; i< ionActionSheetControllers.length; i++){
-      await ionActionSheetControllers[i].dismiss();
-      }
-     let ionAlert = document.querySelectorAll('ion-alert');
-     for (let i = 0; i< ionAlert.length; i++){
-       await ionAlert[i].dismiss();
-     }
+    this.fixModalService.fix();
   }
 }
