@@ -147,7 +147,7 @@ export class PhotosPage implements OnInit {
               handler: async() => {
                 await _self.photosService.postImage(imageData);
                 let toast = await _self.toastController.create({
-                  message: "Foto subida",
+                  message: "Foto subida, en breve la publicaremos.",
                   duration: 2000
                 });
                 toast.present();
