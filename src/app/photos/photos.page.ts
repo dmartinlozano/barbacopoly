@@ -170,7 +170,7 @@ export class PhotosPage implements OnInit {
   }
 
   upload(){
-    var _sef=this;
+    var _self = this;
     const options: CameraOptions = {
       quality: 100,
       destinationType: this.camera.DestinationType.FILE_URI,
