@@ -127,4 +127,16 @@ export class VideosUploadPage implements OnInit {
     this.videosService.abortUploadVideo(video);
   }
 
+  async ionViewWillLeave() {
+    //fix back actionsheets:
+    let ionActionSheets = document.querySelectorAll('ion-action-sheet');
+    for (let i = 0; i< ionActionSheets.length; i++){
+      await ionActionSheets[i].dismiss();
+    }
+    let ionAlert = document.querySelectorAll('ion-alert');
+    for (let i = 0; i< ionAlert.length; i++){
+      await ionAlert[i].dismiss();
+    }
+ }
+
 }

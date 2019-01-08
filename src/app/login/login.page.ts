@@ -86,6 +86,7 @@ export class LoginPage implements OnInit{
   }
 
   ionViewWillLeave() {
+    this.removeActionSheets();
     this.menu.enable(true);
    }
 
