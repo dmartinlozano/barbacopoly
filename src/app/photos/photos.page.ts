@@ -182,28 +182,40 @@ export class PhotosPage implements OnInit {
     };
     this.camera.getPicture(options).then(async(imageUrl) => {
       try{
-        let name = imageUrl.split(/(\\|\/)/g).pop().split("?")[0];
-        let folder = imageUrl.substring(0,imageUrl.lastIndexOf("/")+1);
-        let toast = await _sef.toastController.create({
-          message: "Subiendo foto, por favor espere.",
-          duration: 2000
+
+        const alert = await _self.alertController.create({
+          header: 'Oye!',
+          message: '¿Quieres subir esta foto para que la vean otros invitados?',
+          buttons: [{
+              text: 'Paso',
+              role: 'cancel',
+              cssClass: 'secondary'
+            }, {
+              text: 'Si, claro',
+              cssClass: 'primary',
+              handler: async() => {
+                let name = imageUrl.split(/(\\|\/)/g).pop().split("?")[0];
+                let folder = imageUrl.substring(0,imageUrl.lastIndexOf("/")+1);
+                let toast = await _sef.toastController.create({
+                message: "Subiendo foto, por favor espere.",
+                duration: 2000
+                });
+                toast.present();
+                _sef.file.readAsArrayBuffer(folder, name).then(async function(bytes){
+                    await _sef.photosService.postImage(bytes);
+                    let toast = await _sef.toastController.create({
+                        message: "Foto subida, en breve la publicaremos.",
+                        duration: 2000
+                    });
+                    toast.present();
+                }).catch(async function(e){
+                    throw e;
+                });
+              }
+            }
+          ]
         });
-        toast.present();
-        _sef.file.readAsArrayBuffer(folder, name).then(async function(bytes){
-          await _sef.photosService.postImage(bytes);
-          let toast = await _sef.toastController.create({
-            message: "Foto subida",
-            duration: 2000
-          });
-          toast.present();
-        }).catch(async function(e){
-          console.error(e);
-          let toast = await _sef.toastController.create({
-            message: "Error subiendo foto: "+e.message,
-            duration: 2000
-          });
-          toast.present();
-        });
+        await alert.present();          
       }catch(e){
         console.error(e);
         let toast = await _sef.toastController.create({
