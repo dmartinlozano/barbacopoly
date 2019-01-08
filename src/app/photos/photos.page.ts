@@ -196,14 +196,14 @@ export class PhotosPage implements OnInit {
               handler: async() => {
                 let name = imageUrl.split(/(\\|\/)/g).pop().split("?")[0];
                 let folder = imageUrl.substring(0,imageUrl.lastIndexOf("/")+1);
-                let toast = await _sef.toastController.create({
+                let toast = await _self.toastController.create({
                 message: "Subiendo foto, por favor espere.",
                 duration: 2000
                 });
                 toast.present();
-                _sef.file.readAsArrayBuffer(folder, name).then(async function(bytes){
-                    await _sef.photosService.postImage(bytes);
-                    let toast = await _sef.toastController.create({
+                _self.file.readAsArrayBuffer(folder, name).then(async function(bytes){
+                    await _self.photosService.postImage(bytes);
+                    let toast = await _self.toastController.create({
                         message: "Foto subida, en breve la publicaremos.",
                         duration: 2000
                     });
@@ -218,13 +218,13 @@ export class PhotosPage implements OnInit {
         await alert.present();          
       }catch(e){
         console.error(e);
-        let toast = await _sef.toastController.create({
+        let toast = await _self.toastController.create({
           message: "La foto no se ha podido subir",
           duration: 2000
         });
         toast.present();
       }finally{
-        _sef.list();
+        _self.list();
       }
     });
   }
