@@ -79,6 +79,7 @@ export class VideosUploadPage implements OnInit {
         _self.localNotifications.schedule({
           text: 'Video subido. En breve lo publicaremos.',
           group: 'notifications', 
+          vibrate: true,
           id: 20
         });
       }
@@ -87,6 +88,7 @@ export class VideosUploadPage implements OnInit {
         _self.localNotifications.schedule({
           text: video.error.message,
           group: 'notifications', 
+          vibrate: true,
           id: 20
         });
       }
