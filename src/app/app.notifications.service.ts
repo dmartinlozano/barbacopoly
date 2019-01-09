@@ -16,6 +16,7 @@ export class NotificationsService {
                               title: activitiesJson[i].name,
                               text: hour+":"+minute, 
                               group: "activities",
+                              vibrate: true,
                               trigger: { at: new Date(2019, 0, activitiesJson[i].day, hour, minute) }})
       };
       this.localNotifications.schedule(this.activities);
