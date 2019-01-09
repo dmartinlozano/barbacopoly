@@ -11,7 +11,7 @@ export class FixModalService {
 
   async fix() {
 
-    //try dismiss without problems.
+    //try dismiss without problems:
     let actionSheetController = await this.actionSheetController.getTop();
     if (actionSheetController) { try { actionSheetController.dismiss(); } catch (e) { } }
 
