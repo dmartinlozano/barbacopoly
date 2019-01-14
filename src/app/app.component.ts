@@ -17,29 +17,19 @@ export class AppComponent {
       icon: 'md-images'
     },
     {
-      title: 'Videos',
+      title: 'Videos subidos',
       url: '/videos',
       icon: 'md-videocam'
     },
     {
-      title: 'Actividades',
+      title: 'Videos pendientes de subir',
+      url: '/videos-upload',
+      icon: 'cloud-upload'
+    },
+    {
+      title: 'Gracias!!!',
       url: '/activities',
-      icon: 'md-american-football'
-    },
-    {
-      title: 'Punto de encuentro',
-      url: '/meeting-point',
-      icon: 'ios-home'
-    },
-    {
-      title: 'Música',
-      url: '/music',
-      icon: 'musical-notes'
-    },
-    {
-      title: 'Contacto',
-      url: '/contact',
-      icon: 'md-contacts'
+      icon: 'megaphone'
     }
   ];
 

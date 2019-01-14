@@ -29,6 +29,8 @@ import { MusicService } from '../app/music/music.service';
 import { AppVersion } from '@ionic-native/app-version/ngx';
 import { BackgroundMode } from '@ionic-native/background-mode/ngx';
 import { FixModalService} from './fix-modal.service';
+import { VideosUploadPage} from './videos/videos-upload/videos-upload.page';
+import { VideosViewPage } from './videos/videos-view/videos-view.page';
 
 //export function getCredentials(credentials: CredentialsService) {
   //return () => credentials.load();

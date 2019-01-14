@@ -9,17 +9,6 @@
 
 <ion-content padding>
 
-  <ion-spinner name="bubbles" *ngIf="images.length === 0"></ion-spinner>
-
-  <ion-refresher slot="fixed" (ionRefresh)="refresh($event)">
-    <ion-refresher-content
-      pullingIcon="arrow-dropdown"
-      pullingText="Desliza hacia abajo para recargar"
-      refreshingSpinner="crescent"
-      refreshingText="Recargando...">
-    </ion-refresher-content>
-  </ion-refresher>
-
   <ion-grid *ngIf="!isPinterest">
     <ion-row>
       <ion-col col-6 col-md-4 col-xl-3 *ngFor="let image of images">
@@ -63,10 +52,10 @@
       </ion-fab-button>
       <ion-label class="second">Subir</ion-label>
 
-      <ion-fab-button color="primary" on-click="takePicture()">
+      <!--<ion-fab-button color="primary" on-click="takePicture()">
         <ion-icon name="md-camera"></ion-icon>
       </ion-fab-button>
-      <ion-label class="first">Fotografiar</ion-label>
+      <ion-label class="first">Fotografiar</ion-label>-->
 
     </ion-fab-list>
   </ion-fab>

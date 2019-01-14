@@ -8,7 +8,6 @@ import { ActionSheetController } from '@ionic/angular';
 import { VideoPlayer } from '@ionic-native/video-player/ngx';
 import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
 import { File } from '@ionic-native/file/ngx';
-import { VideosPage } from '../videos.page';
 import { LoadingController } from '@ionic/angular';
 
 @Component({
@@ -31,7 +30,6 @@ export class VideosViewPage implements OnInit {
               private actionSheetController: ActionSheetController,
               private screenOrientation: ScreenOrientation,
               private alertController: AlertController,
-              private videosPage: VideosPage,
               private loadingController:LoadingController) { }
 
   async ngOnInit() {
