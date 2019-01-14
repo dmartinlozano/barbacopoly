@@ -9,6 +9,7 @@ import { VideoPlayer } from '@ionic-native/video-player/ngx';
 import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
 import { File } from '@ionic-native/file/ngx';
 import { LoadingController } from '@ionic/angular';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'videos-view',
@@ -20,7 +21,8 @@ export class VideosViewPage implements OnInit {
   isAsc=true;
   videos=[];
 
-  constructor(private toastController: ToastController,
+  constructor(private router: Router,
+              private toastController: ToastController,
               private videosService: VideosService,
               private mediaCapture: MediaCapture,
               private camera: Camera,
@@ -95,7 +97,7 @@ export class VideosViewPage implements OnInit {
     await loading.present();
     await this.photoLibrary.saveVideo(result[0].fullPath, "Barbacopoly");
     this.videosService.fileInitUpload.emit(result[0].fullPath);
-    this.videosPage.selectTab("videos-upload");
+    this.router.navigateByUrl('/photos');
     await loading.dismiss();
   }
 
@@ -168,7 +170,7 @@ export class VideosViewPage implements OnInit {
       toast.present();
       await _sef.photoLibrary.saveVideo(videoEntry.nativeURL, "Barbacopoly");
       _sef.videosService.fileInitUpload.emit(videoEntry.nativeURL);
-      _sef.videosPage.selectTab("videos-upload");
+      this.router.navigateByUrl('/photos');
       toast = await _sef.toastController.create({
         message: "Video añadido a la pestaña 'Subiendo'",
         duration: 2000
