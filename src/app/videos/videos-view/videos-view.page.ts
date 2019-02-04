@@ -125,7 +125,6 @@ export class VideosViewPage implements OnInit {
 
   async play(url){
     try{
-      this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.LANDSCAPE);
       await this.videoPlayer.play(url); 
     }catch(e){
       if (e !== "OK"){
