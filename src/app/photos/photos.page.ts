@@ -1,5 +1,4 @@
 import { Component, OnInit, NgZone } from '@angular/core';
-import {Camera, CameraOptions} from '@ionic-native/camera/ngx';
 import {PhotosService} from './photos.service';
 import {ToastController, AlertController} from '@ionic/angular';
 import { PhotoLibrary } from '@ionic-native/photo-library/ngx';
@@ -7,7 +6,6 @@ import { PhotoViewer } from '@ionic-native/photo-viewer/ngx';
 import { File } from '@ionic-native/file/ngx';
 import { ActionSheetController, NavController } from '@ionic/angular';
 import { PhotoCommentsService } from '../photo-comments/photo-comments.service';
-import { FixModalService } from '../fix-modal.service';
 
 export class Image{
   key: string;
@@ -27,17 +25,13 @@ export class PhotosPage implements OnInit {
   isPinterest=false;
 
   constructor(private photosService: PhotosService,
-              private camera: Camera,
-              private photoLibrary: PhotoLibrary,
               private toastController: ToastController,
-              private photoViewer: PhotoViewer,
               private file: File,
               private actionSheetController: ActionSheetController,
               private photoCommentsService: PhotoCommentsService,
               public navController: NavController,
               private alertController: AlertController,
-              private ngZone: NgZone,
-              private fixModalService: FixModalService) { }
+              private ngZone: NgZone) { }
 
   async ngOnInit() {
     this.list();
