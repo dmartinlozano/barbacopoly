@@ -39,9 +39,9 @@ export class VideosUploadPage implements OnInit {
               private ngZone: NgZone) { }
 
   async findAndReplace(video: FileUpload, videos: FileUpload[]){
-    let foundIndex = videos.findIndex(v => v.file.fullPath === video.file.fullPath);
+    /*let foundIndex = videos.findIndex(v => v.file.fullPath === video.file.fullPath);
     videos[foundIndex] = video;
-    await this.nativeStorageService.setItem("videos", videos);
+    await this.nativeStorageService.setItem("videos", videos);*/
   }
 
   async ngOnInit() {
