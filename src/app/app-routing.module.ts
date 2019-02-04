@@ -7,10 +7,7 @@ const routes: Routes = [
   { path: 'videos', loadChildren: './videos/videos-view/videos-view.module#VideosViewModule' },
   { path: 'videos-upload', loadChildren: './videos/videos-upload/videos-upload.module#VideosUploadModule' },
   { path: 'activities', loadChildren: './activities/activities.module#ActivitiesPageModule' },
-  { path: 'meeting-point', loadChildren: './meeting-point/meeting-point.module#MeetingPointPageModule' },
-  { path: 'contact', loadChildren: './contact/contact.module#ContactPageModule' },
-  { path: 'photo/:id', loadChildren: './photo-comments/photo-comments.module#PhotoCommentsPageModule' },
-  { path: 'music', loadChildren: './music/music.module#MusicPageModule' }
+  { path: 'photo/:id', loadChildren: './photo-comments/photo-comments.module#PhotoCommentsPageModule' }
 ];
 
 @NgModule({
