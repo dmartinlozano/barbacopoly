@@ -1,19 +1,18 @@
 import { Injectable } from '@angular/core';
-import { NativeStorage } from '@ionic-native/native-storage/ngx';
 
 @Injectable()
 export class NativeStorageService {
     
-    constructor(private nativeStorage: NativeStorage) {}
+    constructor() {}
 
-    async setItem(name, value){
-        await this.nativeStorage.setItem(name, value);
+    setItem(name, value){
+       localStorage.setItem(name, value);
     }
 
-    async getItem(name){
-        return await this.nativeStorage.getItem(name);
+    getItem(name){
+        return localStorage.getItem(name);
     }
-    async clear(){
-        return await this.nativeStorage.clear();
+    clear(){
+        return localStorage.clear();
     }
 }
