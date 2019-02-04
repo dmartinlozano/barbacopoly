@@ -124,20 +124,6 @@ export class VideosViewPage implements OnInit {
   }
 
   async play(url){
-    try{
-      await this.videoPlayer.play(url); 
-    }catch(e){
-      if (e !== "OK"){
-        console.error(e);
-        let toast = await this.toastController.create({
-          message: "error: "+e.message,
-          duration: 5000
-        });
-        toast.present();
-      }
-    }finally{
-      this.screenOrientation.unlock();
-    }
   }
 
   upload(){
