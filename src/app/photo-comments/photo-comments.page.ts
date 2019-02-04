@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { Content } from '@ionic/angular';
+import { IonContent } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
 import { PhotoCommentsService } from './photo-comments.service';
 import {ToastController} from '@ionic/angular';
@@ -12,7 +12,7 @@ import { NativeStorageService}  from '../app.native.storage.service';
 })
 export class PhotoCommentsPage implements OnInit {
 
-  @ViewChild(Content) content: Content;
+  @ViewChild(Content) content: IonContent;
   @ViewChild('input') input: ElementRef;
   imageBackground ={};
   showMessageWarning :boolean = true;
