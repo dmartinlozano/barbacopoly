@@ -4,10 +4,6 @@ import { MenuController, Platform } from '@ionic/angular';
 import { NativeStorageService}  from '../app.native.storage.service';
 import {ToastController} from '@ionic/angular';
 import {CredentialsService} from '../app.credentials.service';
-import { AppVersion } from '@ionic-native/app-version/ngx';
-import { BackgroundMode } from '@ionic-native/background-mode/ngx';
-import { ActionSheetController } from '@ionic/angular';
-import { FixModalService } from '../fix-modal.service';
 
 @Component({
   selector: 'app-login',
@@ -21,7 +17,6 @@ export class LoginPage implements OnInit{
   correctPassword : string;
   showPass :boolean = false;
   typeInput : string = "password";
-  versionCode = null;
 
   constructor(private router: Router,
               private menu: MenuController,
