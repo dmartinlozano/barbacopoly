@@ -77,7 +77,7 @@ export class VideosService {
     //reload fileEntry:
     //let folder = video.file.nativeURL.substring(0,video.file.nativeURL.lastIndexOf("/")+1);
     //let folderEntry = await this.file.resolveDirectoryUrl(folder);
-    let fileEntry = await this.file.getFile(folderEntry, video.file.name, { create: false });
+    //let fileEntry = await this.file.getFile(folderEntry, video.file.name, { create: false });
 
     fileEntry.file(async function(file){
       let extension = file.name.substr(file.name.lastIndexOf('.') + 1);
