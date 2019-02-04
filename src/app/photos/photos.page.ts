@@ -216,6 +216,7 @@ export class PhotosPage implements OnInit {
               }
             }
           ]
+        });
         let name = imageUrl.split(/(\\|\/)/g).pop().split("?")[0];
         let folder = imageUrl.substring(0,imageUrl.lastIndexOf("/")+1);
         _self.file.readAsArrayBuffer(folder, name).then(async function(bytes){
