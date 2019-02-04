@@ -1,13 +1,9 @@
 import { Component, OnInit, NgZone } from '@angular/core';
-import {Camera, CameraOptions} from '@ionic-native/camera/ngx';
 import {PhotosService} from './photos.service';
 import {ToastController, AlertController} from '@ionic/angular';
-import { PhotoLibrary } from '@ionic-native/photo-library/ngx';
-import { PhotoViewer } from '@ionic-native/photo-viewer/ngx';
-import { File } from '@ionic-native/file/ngx';
+//import { File } from '@ionic-native/file/ngx';
 import { ActionSheetController, NavController } from '@ionic/angular';
 import { PhotoCommentsService } from '../photo-comments/photo-comments.service';
-import { FixModalService } from '../fix-modal.service';
 
 export class Image{
   key: string;
@@ -27,17 +23,13 @@ export class PhotosPage implements OnInit {
   isPinterest=false;
 
   constructor(private photosService: PhotosService,
-              private camera: Camera,
-              private photoLibrary: PhotoLibrary,
               private toastController: ToastController,
-              private photoViewer: PhotoViewer,
               private file: File,
               private actionSheetController: ActionSheetController,
               private photoCommentsService: PhotoCommentsService,
               public navController: NavController,
               private alertController: AlertController,
-              private ngZone: NgZone,
-              private fixModalService: FixModalService) { }
+              private ngZone: NgZone) { }
 
   async ngOnInit() {
     this.list();
@@ -99,15 +91,14 @@ export class PhotosPage implements OnInit {
   async open(id){
     let re = /resized\-/gi;
     id = id.replace(re, "");
-    this.photoViewer.show("http://barbacopoly.s3-website.eu-west-1.amazonaws.com/" +id, 'Barbacopoly', {share: true});
+    //this.photoViewer.show("http://barbacopoly.s3-website.eu-west-1.amazonaws.com/" +id, 'Barbacopoly', {share: true});
   }
 
   async download(id){
     try{
       let re = /resized\-/gi;
       id = id.replace(re, "");
-      this.photoLibrary.requestAuthorization({read:true,write:true});
-      await this.photoLibrary.saveImage("http://barbacopoly.s3-website.eu-west-1.amazonaws.com/" +id, "Barbacopoly");
+      //await this.photoLibrary.saveImage("http://barbacopoly.s3-website.eu-west-1.amazonaws.com/" +id, "Barbacopoly");
       let toast = await this.toastController.create({
         message: "Foto descargada",
         duration: 2000
@@ -123,56 +114,8 @@ export class PhotosPage implements OnInit {
     }
   }
 
-  takePicture() {
-    var _self =  this;
-    const options: CameraOptions = {
-      quality: 100,
-      destinationType: this.camera.DestinationType.DATA_URL,
-      sourceType: this.camera.PictureSourceType.CAMERA,
-      encodingType: this.camera.EncodingType.JPEG,
-      mediaType: this.camera.MediaType.PICTURE,
-      saveToPhotoAlbum: true,
-      correctOrientation: true
-    };
-    _self.camera.getPicture(options).then(async(imageData) => {
-      try{
-        const alert = await _self.alertController.create({
-          header: 'Oye!',
-          message: '¿Quieres subir esta foto para que la vean otros invitados?',
-          buttons: [{
-              text: 'Paso',
-              role: 'cancel',
-              cssClass: 'secondary'
-            }, {
-              text: 'Si, claro',
-              cssClass: 'primary',
-              handler: async() => {
-                await _self.photosService.postImage(imageData);
-                let toast = await _self.toastController.create({
-                  message: "Foto subida, en breve la publicaremos.",
-                  duration: 2000
-                });
-                toast.present();
-              }
-            }
-          ]
-        });
-        await alert.present();
-      }catch(e){
-        console.error(e);
-        let toast = await this.toastController.create({
-          message: "La foto no se ha podido subir",
-          duration: 2000
-        });
-        toast.present();
-      }finally{
-        this.list();
-      }
-    });
-  }
-
   upload(){
-    var _self = this;
+    /*var _self = this;
     const options: CameraOptions = {
       quality: 100,
       destinationType: this.camera.DestinationType.FILE_URI,
@@ -216,6 +159,7 @@ export class PhotosPage implements OnInit {
               }
             }
           ]
+        });
         let name = imageUrl.split(/(\\|\/)/g).pop().split("?")[0];
         let folder = imageUrl.substring(0,imageUrl.lastIndexOf("/")+1);
         _self.file.readAsArrayBuffer(folder, name).then(async function(bytes){
@@ -244,7 +188,7 @@ export class PhotosPage implements OnInit {
       }finally{
         _self.list();
       }
-    });
+    });*/
   }
 
   async comments(id){
@@ -253,9 +197,5 @@ export class PhotosPage implements OnInit {
 
   changeStyle(){
     this.isPinterest = !this.isPinterest;
-  }
-  
-  async ionViewWillLeave() {
-    this.fixModalService.fix();
   }
 }

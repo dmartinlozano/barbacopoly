@@ -1,6 +1,6 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { CredentialsService} from '../app.credentials.service';
-import { File } from '@ionic-native/file/ngx';
+//import { File } from '@ionic-native/file/ngx';
 import { FileUpload} from './videos-upload/videos-upload.page';
 import * as S3 from 'aws-sdk/clients/s3';
 
@@ -75,11 +75,11 @@ export class VideosService {
     _self.fileUpload.emit(video);
 
     //reload fileEntry:
-    let folder = video.file.nativeURL.substring(0,video.file.nativeURL.lastIndexOf("/")+1);
-    let folderEntry = await this.file.resolveDirectoryUrl(folder);
-    let fileEntry = await this.file.getFile(folderEntry, video.file.name, { create: false });
+    //let folder = video.file.nativeURL.substring(0,video.file.nativeURL.lastIndexOf("/")+1);
+    //let folderEntry = await this.file.resolveDirectoryUrl(folder);
+    //let fileEntry = await this.file.getFile(folderEntry, video.file.name, { create: false });
 
-    fileEntry.file(async function(file){
+   /* fileEntry.file(async function(file){
       let extension = file.name.substr(file.name.lastIndexOf('.') + 1);
       let key = String(new Date().getTime())+"."+extension;
       let uploadId = await _self.createMultipartUpload(key, file.type);
@@ -125,7 +125,7 @@ export class VideosService {
         video.awsUploading = {uploadId:"", key:""};
         _self.fileUpload.emit(video);
       }
-    });
+    });*/
   }
 
   async createMultipartUpload(key, contentType){
