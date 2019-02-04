@@ -1,8 +1,6 @@
 import { Component, OnInit, NgZone } from '@angular/core';
 import {PhotosService} from './photos.service';
 import {ToastController, AlertController} from '@ionic/angular';
-import { PhotoLibrary } from '@ionic-native/photo-library/ngx';
-import { PhotoViewer } from '@ionic-native/photo-viewer/ngx';
 import { File } from '@ionic-native/file/ngx';
 import { ActionSheetController, NavController } from '@ionic/angular';
 import { PhotoCommentsService } from '../photo-comments/photo-comments.service';
