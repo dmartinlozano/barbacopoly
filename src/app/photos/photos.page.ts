@@ -1,7 +1,7 @@
 import { Component, OnInit, NgZone } from '@angular/core';
 import {PhotosService} from './photos.service';
 import {ToastController, AlertController} from '@ionic/angular';
-import { File } from '@ionic-native/file/ngx';
+//import { File } from '@ionic-native/file/ngx';
 import { ActionSheetController, NavController } from '@ionic/angular';
 import { PhotoCommentsService } from '../photo-comments/photo-comments.service';
 
@@ -98,8 +98,7 @@ export class PhotosPage implements OnInit {
     try{
       let re = /resized\-/gi;
       id = id.replace(re, "");
-      this.photoLibrary.requestAuthorization({read:true,write:true});
-      await this.photoLibrary.saveImage("http://barbacopoly.s3-website.eu-west-1.amazonaws.com/" +id, "Barbacopoly");
+      //await this.photoLibrary.saveImage("http://barbacopoly.s3-website.eu-west-1.amazonaws.com/" +id, "Barbacopoly");
       let toast = await this.toastController.create({
         message: "Foto descargada",
         duration: 2000
@@ -198,9 +197,5 @@ export class PhotosPage implements OnInit {
 
   changeStyle(){
     this.isPinterest = !this.isPinterest;
-  }
-  
-  async ionViewWillLeave() {
-    this.fixModalService.fix();
   }
 }
