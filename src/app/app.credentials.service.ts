@@ -8,6 +8,6 @@ export class CredentialsService {
     constructor() {}
 
     load(){
-        this.credentials = credentials;
+        //this.credentials = credentials;
     }
 }
