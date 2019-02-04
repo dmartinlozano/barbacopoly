@@ -11,9 +11,8 @@ import { NativeStorageService} from './app.native.storage.service';
 import { VideosUploadPage} from './videos/videos-upload/videos-upload.page';
 import { VideosViewPage } from './videos/videos-view/videos-view.page';
 
-export function initializerApp(credentials: CredentialsService, notifications: NotificationsService) {
-  credentials.load();
-  return () => notifications.load();
+export function initializerApp(credentials: CredentialsService) {
+  return () => credentials.load();
 }
 
 @NgModule({
@@ -30,8 +29,6 @@ export function initializerApp(credentials: CredentialsService, notifications: N
     HttpClient,
     NativeStorageService,
     CredentialsService,
-    NotificationsService,
-    ScreenOrientation,
     MenuController,
     { provide: APP_INITIALIZER, useFactory: initializerApp, deps: [CredentialsService, NotificationsService], multi: true },
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
