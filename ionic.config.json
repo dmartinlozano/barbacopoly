@@ -1,7 +1,5 @@
 {
   "name": "barbacopoly",
-  "integrations": {
-    "cordova": {}
-  },
+  "integrations": {},
   "type": "angular"
 }
