@@ -12,7 +12,7 @@ import { NativeStorageService}  from '../app.native.storage.service';
 })
 export class PhotoCommentsPage implements OnInit {
 
-  @ViewChild(Content) content: IonContent;
+  @ViewChild(IonContent) content: IonContent;
   @ViewChild('input') input: ElementRef;
   imageBackground ={};
   showMessageWarning :boolean = true;
