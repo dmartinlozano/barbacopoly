@@ -30,7 +30,7 @@ export function initializerApp(credentials: CredentialsService) {
     NativeStorageService,
     CredentialsService,
     MenuController,
-    { provide: APP_INITIALIZER, useFactory: initializerApp, deps: [CredentialsService, NotificationsService], multi: true },
+    { provide: APP_INITIALIZER, useFactory: initializerApp, deps: [CredentialsService], multi: true },
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]
