@@ -71,22 +71,22 @@ export class VideosUploadPage implements OnInit {
     });
     this.subscriptionVideoUpload = this.videosService.getFileUpload().subscribe( async function(video: FileUpload){
       //uploaded
-      if (video.state === 4){
+     /* if (video.state === 4){
         _self.localNotifications.schedule({
           text: 'Video subido. En breve lo publicaremos.',
           group: 'notifications', 
           vibrate: true,
           id: 20
         });
-      }
+      }*/
       //error
-      if (video.state === 3){
+      /*if (video.state === 3){
         _self.localNotifications.schedule({
           text: video.error.message,
           group: 'notifications', 
           vibrate: true,
           id: 20
-        });
+        });*/
       }
       _self.ngZone.run(() => {
         _self.findAndReplace(video, _self.videos);
@@ -126,9 +126,5 @@ export class VideosUploadPage implements OnInit {
   abortUpload(video: FileUpload){
     this.videosService.abortUploadVideo(video);
   }
-
-  async ionViewWillLeave() {
-    this.fixModalService.fix();
- }
 
 }
