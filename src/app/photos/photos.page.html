@@ -8,39 +8,54 @@
 </ion-header>
 
 <ion-content padding>
-  <ion-grid>
+
+  <ion-grid *ngIf="!isPinterest">
     <ion-row>
       <ion-col col-6 col-md-4 col-xl-3 *ngFor="let image of images">
-        <ion-img #imageLoader class="image-container" [src]="image.src" on-click="selectImage(image.key)"></ion-img>
+        <ion-img class="image-container" [src]="image.src" on-click="selectImage(image.key)"></ion-img>
+        <ion-badge color="secondary" class="commentaryCount">{{image.count}}</ion-badge>
       </ion-col>
     </ion-row>
   </ion-grid>
+  <div class="images" *ngIf="isPinterest">
+    <div class="one-image" *ngFor="let image of images">
+      <ion-img class="image-container" [src]="image.src" on-click="selectImage(image.key)"></ion-img>
+      <ion-badge color="secondary" class="commentaryCount">{{image.count}}</ion-badge>
+    </div>
+  </div>
   
   <ion-fab  vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button>
         <ion-icon name="add"></ion-icon>
     </ion-fab-button>
     <ion-fab-list side="top">
-      <ion-fab-button color="primary" on-click="refresh()">
+      <ion-fab-button color="primary" on-click="refresh($event)">
           <ion-icon name="refresh" ></ion-icon>
       </ion-fab-button>
-      <ion-label class="four">Actualizar</ion-label>
+      <ion-label class="five">Actualizar</ion-label>
+
+      <ion-fab-button color="primary" on-click="changeStyle()">
+        <ion-icon name="aperture"></ion-icon>
+      </ion-fab-button>
+      <ion-label class="four" *ngIf="!isPinterest">Desordenar</ion-label>
+      <ion-label class="four" *ngIf="isPinterest">Ordenar</ion-label>
 
       <ion-fab-button color="primary" on-click="changeAscDesc()">
           <ion-icon name="md-arrow-round-down" *ngIf="!isAsc"></ion-icon>
           <ion-icon name="md-arrow-round-up" *ngIf="isAsc"></ion-icon>
       </ion-fab-button>
-      <ion-label class="third">Ordenar</ion-label>
+      <ion-label class="third" *ngIf="isAsc">Antiguas&nbsp;primero</ion-label>
+      <ion-label class="third" *ngIf="!isAsc">Nuevas&nbsp;primero</ion-label>
 
       <ion-fab-button color="primary" on-click="upload()">
           <ion-icon name="md-cloud-upload"></ion-icon>
       </ion-fab-button>
       <ion-label class="second">Subir</ion-label>
 
-      <ion-fab-button color="primary" on-click="takePicture()">
+      <!--<ion-fab-button color="primary" on-click="takePicture()">
         <ion-icon name="md-camera"></ion-icon>
       </ion-fab-button>
-      <ion-label class="first">Fotografiar</ion-label>
+      <ion-label class="first">Fotografiar</ion-label>-->
 
     </ion-fab-list>
   </ion-fab>

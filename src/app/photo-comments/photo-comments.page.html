@@ -1,0 +1,42 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>
+      <ion-button class="noBorder" icon-only item-end clear href="/photos" routerDirection="backward">
+        <ion-icon name="arrow-round-back"></ion-icon>
+      </ion-button>
+      &nbsp;&nbsp;&nbsp;Comentarios</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<!--<ion-img class="image-container" [src]="imageSrc" style="max-width: 100px; min-width: 100px;"></ion-img>-->
+<ion-content #content [ngStyle]="imageBackground">
+  <ion-badge color="primary" *ngIf="showMessageWarning">No hay comentarios de momento, sé el primero de los invitados en comentar!</ion-badge>
+    <div class="message-wrap">
+      <div *ngFor="let msg of msgList" class="message left">
+        <div class="msg-detail">
+          <div class="msg-content">
+              <div class="msg-info">
+                  <p>{{msg.name}}</p>
+                </div>
+            <p class="line-breaker ">{{msg.text}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ion-content>
+  
+  <ion-footer no-border>
+    <div class="input-wrap">
+      <ion-button clear icon-only (click)="toggled = !toggled" [(emojiPickerIf)]="toggled" [emojiPickerDirection]="'top'|| 'right'" (emojiPickerSelect)="handleSelection($event)">
+        <ion-icon name="md-happy"></ion-icon>
+      </ion-button>&nbsp;&nbsp;&nbsp;
+      <textarea #input rows="1" maxLength="500"  placeholder="Escribenos un comentario"
+                [(ngModel)]="commentary"
+                (keyup.enter)="send()"
+                (keyup)="resize($event)"
+                (focusin)="onFocus()"></textarea>
+      <ion-button *ngIf="commentary !== ''" ion-button clear icon-only item-right (click)="send()">
+        <ion-icon name="ios-send" ios="ios-send" md="md-send"></ion-icon>
+      </ion-button>
+    </div>
+  </ion-footer>

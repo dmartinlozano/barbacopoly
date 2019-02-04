@@ -1,0 +1,33 @@
+.video-container{
+    background-size: cover;
+    min-height: 100px;
+    min-width: 150px;
+}
+
+ion-label {
+    position: absolute;
+    right: 55px;
+    background: rgba(248, 248, 248, 1);
+    height: 24px;
+    line-height: 16px;
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.14), 0 4px 5px rgba(0, 0, 0, 0.1);
+}
+
+.first-one{
+    margin-top: -163px;
+}
+
+.second-one{
+    margin-top: -113px;
+}
+.third-one{
+    margin-top: -63px;
+}
+.four-one{
+    margin-top: -13px;
+}

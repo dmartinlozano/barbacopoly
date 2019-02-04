@@ -1,0 +1,27 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Música que está sonando</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-badge color="primary" *ngIf="music === null">Parece que no está sonando nada. Inadmisible.</ion-badge>
+  <ion-badge color="primary" *ngIf="music === null">Habla con los novios para que pongan algo!!!</ion-badge>
+  <ion-card *ngIf="music !== null">
+      <ion-img src="{{music.cover}}"></ion-img>
+      <ion-card-header>
+          <ion-card-title>{{music.artist}}</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+          <p>{{music.song}}</p>
+      </ion-card-content>
+  </ion-card>
+  <ion-fab  vertical="bottom" horizontal="end" slot="fixed">
+      <ion-fab-button small on-click="getMusic()">
+        <ion-icon name="refresh"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+</ion-content>

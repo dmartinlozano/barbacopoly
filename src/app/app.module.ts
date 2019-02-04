@@ -2,7 +2,7 @@ import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 import { Camera } from '@ionic-native/camera/ngx';
-import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
+import { IonicModule, IonicRouteStrategy, MenuController} from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
@@ -24,9 +24,13 @@ import { MediaCapture } from '@ionic-native/media-capture/ngx';
 import { VideoPlayer } from '@ionic-native/video-player/ngx';
 import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
 import { File } from '@ionic-native/file/ngx';
-import { ImageLoader } from '../directives/image.loader.directive';
 import { LaunchNavigator } from '@ionic-native/launch-navigator/ngx';
-import { MenuController } from '@ionic/angular';
+import { MusicService } from '../app/music/music.service';
+import { AppVersion } from '@ionic-native/app-version/ngx';
+import { BackgroundMode } from '@ionic-native/background-mode/ngx';
+import { FixModalService} from './fix-modal.service';
+import { VideosUploadPage} from './videos/videos-upload/videos-upload.page';
+import { VideosViewPage } from './videos/videos-view/videos-view.page';
 
 //export function getCredentials(credentials: CredentialsService) {
   //return () => credentials.load();
@@ -43,7 +47,7 @@ export function initializeFirebase(){
 }
 
 @NgModule({
-  declarations: [AppComponent, ImageLoader],
+  declarations: [AppComponent],
   entryComponents: [],
   imports: [
     BrowserModule,
@@ -52,7 +56,6 @@ export function initializeFirebase(){
     HttpClientModule,
     AngularFireModule.initializeApp(initializeFirebase())
   ],
-  exports:[ImageLoader],
   providers: [
     File,
     StatusBar,
@@ -75,6 +78,10 @@ export function initializeFirebase(){
     ScreenOrientation,
     LaunchNavigator,
     MenuController,
+    MusicService,
+    AppVersion,
+    BackgroundMode,
+    FixModalService,
     { provide: APP_INITIALIZER, useFactory: initializerApp, deps: [CredentialsService, NotificationsService], multi: true },
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],

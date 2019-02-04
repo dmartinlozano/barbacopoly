@@ -52,9 +52,7 @@ export class FcmService {
       //subscribe to particular topic
       this.topicArn = this.credentialsService.credentials["topic_fcm_arn"];
       await this.subscribeTopic();
-      this.nativeStorageService.setItem("susbscriptionArnEnabled",true);
     }catch(e){
-      this.nativeStorageService.setItem("susbscriptionArnEnabled",false);
       console.error(e);
     }
     

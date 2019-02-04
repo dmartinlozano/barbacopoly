@@ -1,0 +1,38 @@
+<ion-header>
+    <ion-toolbar color="primary">
+      <ion-buttons slot="start">
+        <ion-menu-button></ion-menu-button>
+      </ion-buttons>
+      <ion-title>Videos pendientes de subir</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  
+  <ion-content padding>
+  <ion-grid>
+  <ion-list>
+    <ion-item-group>
+      <ion-item *ngFor="let video of videos">
+        <ion-button slot="start" on-click="initUpload(video)" *ngIf="video.state === 0">Subir</ion-button>
+        <ion-button slot="start" on-click="initUpload(video)" *ngIf="video.state === 2 || video.state === 3">Reintentar</ion-button>
+        <ion-button slot="start" on-click="showAlert(video)" *ngIf="video.state === 1 && video.awsUploading.uploadId !== ''">Parar</ion-button>
+        <ion-badge slot="start" color="medium" *ngIf="video.state === 1">{{video.progress}} %</ion-badge>
+        <label>{{video.file.name}}</label>
+        <ion-icon slot="end" color="success" name="checkmark-circle" *ngIf="video.state === 4"></ion-icon>
+        <ion-icon slot="end" color="danger" name="close-circle" *ngIf="video.state === 3"></ion-icon>
+      </ion-item>
+    </ion-item-group>
+  </ion-list>
+</ion-grid>
+</ion-content>
+
+<ion-fab  vertical="bottom" horizontal="end" slot="fixed">
+  <ion-fab-button>
+    <ion-icon name="add"></ion-icon>
+  </ion-fab-button>
+  <ion-fab-list side="top">
+    <ion-fab-button color="primary" on-click="deleteAll()">
+      <ion-icon name="trash"></ion-icon>
+    </ion-fab-button>
+    <ion-label class="first-two">Borrar todo</ion-label>
+  </ion-fab-list>
+</ion-fab>

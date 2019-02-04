@@ -17,24 +17,19 @@ export class AppComponent {
       icon: 'md-images'
     },
     {
-      title: 'Videos',
+      title: 'Videos subidos',
       url: '/videos',
       icon: 'md-videocam'
     },
     {
-      title: 'Actividades',
+      title: 'Videos pendientes de subir',
+      url: '/videos-upload',
+      icon: 'cloud-upload'
+    },
+    {
+      title: 'Gracias!!!',
       url: '/activities',
-      icon: 'md-american-football'
-    },
-    {
-      title: 'Punto de encuentro',
-      url: '/meeting-point',
-      icon: 'ios-home'
-    },
-    {
-      title: 'Contacto',
-      url: '/contact',
-      icon: 'md-contacts'
+      icon: 'megaphone'
     }
   ];
 
@@ -53,7 +48,7 @@ export class AppComponent {
     this.platform.ready().then(async function(){
       _self.fcm.getToken();
       _self.fcm.listenToNotifications().subscribe(data => {
-          _self.localNotifications.schedule({text: data.default});
+          _self.localNotifications.schedule({title: data.default, group: 'notifications', id: 20, vibrate: true});
       });
       try{
         await _self.nativeStorageService.getItem("images");  

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams, HttpResponse} from '@angular/common/http';
+import { HttpClient} from '@angular/common/http';
 import {ToastController} from '@ionic/angular';
 import { CredentialsService} from '../app.credentials.service';
 import * as S3 from 'aws-sdk/clients/s3';
@@ -38,5 +38,4 @@ export class PhotosService {
     };
     return await this.bucket.putObject(params).promise();
   }
-
 }

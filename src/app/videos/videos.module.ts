@@ -2,11 +2,9 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
-
 import { IonicModule } from '@ionic/angular';
-
 import { VideosPage } from './videos.page';
-
+import { VideosViewPage } from './videos-view/videos-view.page';
 const routes: Routes = [
   {
     path: '',
@@ -21,6 +19,8 @@ const routes: Routes = [
     IonicModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [VideosPage]
+  providers: [VideosViewPage],
+  declarations: [VideosPage, VideosViewPage],
+  exports: [VideosViewPage]
 })
-export class VideosPageModule {}
+export class VideosModule {}

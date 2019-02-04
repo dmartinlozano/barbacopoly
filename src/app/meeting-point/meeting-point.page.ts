@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { LaunchNavigator, LaunchNavigatorOptions } from '@ionic-native/launch-navigator/ngx'
+import { Component } from '@angular/core';
+import { LaunchNavigator } from '@ionic-native/launch-navigator/ngx';
 
 @Component({
   selector: 'app-meeting-point',
@@ -9,6 +9,6 @@ import { LaunchNavigator, LaunchNavigatorOptions } from '@ionic-native/launch-na
 export class MeetingPointPage {
   constructor(private launchNavigator: LaunchNavigator) { }
   async navigate(){
-    await this.launchNavigator.navigate('La dehesilla de Melque, Toleado');
+    await this.launchNavigator.navigate('La dehesilla de Melque, Toledo');
   }
 }

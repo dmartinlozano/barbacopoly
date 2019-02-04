@@ -38,3 +38,5 @@ src/app/credentials\.json
 google-services\.json
 
 1
+secrets.tar
+credentials.json
