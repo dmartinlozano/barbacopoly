@@ -5,7 +5,7 @@ import { Component, ViewChild, AfterViewInit } from '@angular/core';
   templateUrl: './videos.page.html',
   styleUrls: ['./videos.page.scss'],
 })
-export class VideosPage implements AfterViewInit{
+export class VideosPage{
   subscriptionVideoToUpload: any;
 
   constructor() { }
