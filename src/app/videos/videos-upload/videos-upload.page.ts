@@ -46,52 +46,6 @@ export class VideosUploadPage implements OnInit {
   }
 
   async ngOnInit() {
-    var _self = this;
-    try{
-      //this.videos = await this.nativeStorageService.getItem("videos");
-      this.videos.forEach(v => {
-          if (v.state !== 4){
-            v.error = null;
-            v.state = 0;
-            v.progress = 0;
-            v.awsUploading = {key:"", uploadId:""}
-          }
-      });
-    }catch(e){
-      this.videos =[];
-    }
-
-    this.subscriptionVideoToUpload = this.videosService.getFileInitUpload().subscribe( async function(fullPath: string){
-      let folder = fullPath.substring(0, fullPath.lastIndexOf("/")+1);
-      //let folderEntry = await _self.file.resolveDirectoryUrl(folder);
-      //let fileName = await _self.file.resolveLocalFilesystemUrl(fullPath);
-      let fileEntry = await _self.file.getFile(folderEntry, fileName.name, {create:false})
-      //_self.videos.unshift({file: fileEntry, state: ProgressUpload.Wait, error: null, progress: 0, awsUploading: {uploadId:"",key:""}});
-      await _self.nativeStorageService.setItem("videos", _self.videos);
-    });
-    this.subscriptionVideoUpload = this.videosService.getFileUpload().subscribe( async function(video: FileUpload){
-      //uploaded
-     /* if (video.state === 4){
-        _self.localNotifications.schedule({
-          text: 'Video subido. En breve lo publicaremos.',
-          group: 'notifications', 
-          vibrate: true,
-          id: 20
-        });
-      }*/
-      //error
-      /*if (video.state === 3){
-        _self.localNotifications.schedule({
-          text: video.error.message,
-          group: 'notifications', 
-          vibrate: true,
-          id: 20
-        });*/
-      }
-      _self.ngZone.run(() => {
-        _self.findAndReplace(video, _self.videos);
-      });
-    });
   }
 
   async deleteAll(){
