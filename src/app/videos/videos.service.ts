@@ -79,7 +79,7 @@ export class VideosService {
     //let folderEntry = await this.file.resolveDirectoryUrl(folder);
     //let fileEntry = await this.file.getFile(folderEntry, video.file.name, { create: false });
 
-    fileEntry.file(async function(file){
+   /* fileEntry.file(async function(file){
       let extension = file.name.substr(file.name.lastIndexOf('.') + 1);
       let key = String(new Date().getTime())+"."+extension;
       let uploadId = await _self.createMultipartUpload(key, file.type);
@@ -125,7 +125,7 @@ export class VideosService {
         video.awsUploading = {uploadId:"", key:""};
         _self.fileUpload.emit(video);
       }
-    });
+    });*/
   }
 
   async createMultipartUpload(key, contentType){
