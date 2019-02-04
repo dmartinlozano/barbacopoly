@@ -216,12 +216,28 @@ export class PhotosPage implements OnInit {
               }
             }
           ]
+        let name = imageUrl.split(/(\\|\/)/g).pop().split("?")[0];
+        let folder = imageUrl.substring(0,imageUrl.lastIndexOf("/")+1);
+        _self.file.readAsArrayBuffer(folder, name).then(async function(bytes){
+          await _self.photosService.postImage(bytes);
+          let toast = await _self.toastController.create({
+            message: "Foto subida a Internet",
+            duration: 2000
+          });
+          toast.present();
+        }).catch(async function(e){
+          console.error(e);
+          let toast = await _self.toastController.create({
+            message: "Error subiendo foto a Internet: "+e.message,
+            duration: 2000
+          });
+          toast.present();
         });
         await alert.present();          
       }catch(e){
         console.error(e);
         let toast = await _self.toastController.create({
-          message: "La foto no se ha podido subir",
+          message: "La foto no se ha podido subir a Internet",
           duration: 2000
         });
         toast.present();
