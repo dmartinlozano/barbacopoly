@@ -13,7 +13,6 @@ export enum ProgressUpload{
 }
 
 export class FileUpload{
-  file: FileEntry;
   state: ProgressUpload;
   progress: Number;
   error: Error;
