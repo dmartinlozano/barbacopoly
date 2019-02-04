@@ -1,13 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {ToastController, AlertController} from '@ionic/angular';
-import { MediaCapture, CaptureVideoOptions } from '@ionic-native/media-capture/ngx';
-import {Camera, CameraOptions} from '@ionic-native/camera/ngx';
 import { VideosService } from '../videos.service';
-import { PhotoLibrary } from '@ionic-native/photo-library/ngx';
 import { ActionSheetController } from '@ionic/angular';
-import { VideoPlayer } from '@ionic-native/video-player/ngx';
-import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
-import { File } from '@ionic-native/file/ngx';
+//import { File } from '@ionic-native/file/ngx';
 import { LoadingController } from '@ionic/angular';
 import { Router } from '@angular/router';
 
