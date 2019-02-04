@@ -1,10 +1,8 @@
 import { Component, OnInit, NgZone } from '@angular/core';
-import { File, FileEntry } from '@ionic-native/file/ngx';
+//import { File, FileEntry } from '@ionic-native/file/ngx';
 import { AlertController} from '@ionic/angular';
 import { VideosService } from '../videos.service';
-import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 import { NativeStorageService}  from '../../app.native.storage.service';
-import { FixModalService } from '../../fix-modal.service';
 
 export enum ProgressUpload{
   Wait = 0,
