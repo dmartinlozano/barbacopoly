@@ -34,12 +34,10 @@ export class VideosUploadPage implements OnInit {
   subscriptionVideoUpload: any;
 
   constructor(private videosService: VideosService,
-              private localNotifications: LocalNotifications,
               private nativeStorageService: NativeStorageService,
-              private file: File,
+              //private file: File,
               private alertController: AlertController,
-              private ngZone: NgZone,
-              private fixModalService: FixModalService) { }
+              private ngZone: NgZone) { }
 
   async findAndReplace(video: FileUpload, videos: FileUpload[]){
     let foundIndex = videos.findIndex(v => v.file.fullPath === video.file.fullPath);
@@ -50,7 +48,7 @@ export class VideosUploadPage implements OnInit {
   async ngOnInit() {
     var _self = this;
     try{
-      this.videos = await this.nativeStorageService.getItem("videos");
+      //this.videos = await this.nativeStorageService.getItem("videos");
       this.videos.forEach(v => {
           if (v.state !== 4){
             v.error = null;
@@ -65,10 +63,10 @@ export class VideosUploadPage implements OnInit {
 
     this.subscriptionVideoToUpload = this.videosService.getFileInitUpload().subscribe( async function(fullPath: string){
       let folder = fullPath.substring(0, fullPath.lastIndexOf("/")+1);
-      let folderEntry = await _self.file.resolveDirectoryUrl(folder);
-      let fileName = await _self.file.resolveLocalFilesystemUrl(fullPath);
+      //let folderEntry = await _self.file.resolveDirectoryUrl(folder);
+      //let fileName = await _self.file.resolveLocalFilesystemUrl(fullPath);
       let fileEntry = await _self.file.getFile(folderEntry, fileName.name, {create:false})
-      _self.videos.unshift({file: fileEntry, state: ProgressUpload.Wait, error: null, progress: 0, awsUploading: {uploadId:"",key:""}});
+      //_self.videos.unshift({file: fileEntry, state: ProgressUpload.Wait, error: null, progress: 0, awsUploading: {uploadId:"",key:""}});
       await _self.nativeStorageService.setItem("videos", _self.videos);
     });
     this.subscriptionVideoUpload = this.videosService.getFileUpload().subscribe( async function(video: FileUpload){
