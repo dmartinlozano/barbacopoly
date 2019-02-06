@@ -10,6 +10,7 @@ import { CredentialsService} from './app.credentials.service';
 import { NativeStorageService} from './app.native.storage.service';
 import { VideosUploadPage} from './videos/videos-upload/videos-upload.page';
 import { VideosViewPage } from './videos/videos-view/videos-view.page';
+import { File } from '@ionic-native/file';
 
 export function initializerApp(credentials: CredentialsService) {
   return () => credentials.load();
