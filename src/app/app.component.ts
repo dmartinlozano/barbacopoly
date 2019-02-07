@@ -16,13 +16,7 @@ export class AppComponent {
       url: '/videos',
       icon: 'md-videocam'
     },
-    {
-      title: 'Gracias!!!',
-      url: '/activities',
-      icon: 'megaphone'
-    }
   ];
 
-  constructor() {
-  }
+  constructor() { }
 }
