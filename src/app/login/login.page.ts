@@ -36,4 +36,20 @@ export class LoginPage {
     }
   }
 
+  async loginFacebook(){
+    let email = await this.loginService.siginWithFacebook();
+    this.isValidEmail = await this.loginService.check(email);
+    if (this.isValidEmail === true) {
+      this.menu.enable(true);
+      this.router.navigateByUrl('/photos');
+    }
+    if (this.isValidEmail === false) {
+      let toast = await this.toastController.create({
+        message: "El email introducido no está registrado. Manda un email a david.martin.lozano@gmail.com indicando quien eres para que te añada.",
+        duration: 10000
+      });
+      toast.present();
+    }
+  }
+
 }
