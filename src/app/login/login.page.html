@@ -1,5 +1,18 @@
 <ion-content padding>
-  <ion-button (click)="login()">
-    <ion-icon name="logo-google"></ion-icon> Acceder
-  </ion-button>
+    <ion-grid size="3" size-sm>
+        <ion-row align-items-center>
+          <ion-col>
+              <ion-button (click)="loginGoogle()">
+                  <ion-icon name="logo-google"></ion-icon>&nbsp;&nbsp;Acceder
+                </ion-button>
+          </ion-col>
+        </ion-row>
+        <ion-row align-items-center>
+          <ion-col>
+              <ion-button (click)="loginFacebook()">
+                  <ion-icon name="logo-facebook"></ion-icon>&nbsp;&nbsp;Acceder
+                </ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
 </ion-content>

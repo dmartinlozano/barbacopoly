@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { AuthService, GoogleLoginProvider } from "angular-6-social-login";
+import { AuthService, GoogleLoginProvider, FacebookLoginProvider} from "angular-6-social-login";
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +14,22 @@ export class LoginService {
     var _self = this;
     return new Promise(function (resolve, reject) {
       _self.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID).then(
+        function (userData) {
+          localStorage.setItem("userData.email", userData.email);
+          localStorage.setItem("userData.image", userData.image);
+          localStorage.setItem("userData.name", userData.name);
+          localStorage.setItem("userData.provider", userData.provider);
+          localStorage.setItem("userData.token", userData.token);
+          resolve(userData.email);
+        }
+      );
+    });
+  }
+
+  async siginWithFacebook(){
+    var _self = this;
+    return new Promise(function (resolve, reject) {
+      _self.socialAuthService.signIn(FacebookLoginProvider.PROVIDER_ID).then(
         function (userData) {
           localStorage.setItem("userData.email", userData.email);
           localStorage.setItem("userData.image", userData.image);

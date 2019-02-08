@@ -1,4 +1,10 @@
-.image-container{
+.image-container-normal{
+    background-size: cover;
+    min-height: 100px;
+    min-width: 300px;
+}    
+
+.image-container-pinterest{
     background-size: cover;
     min-height: 100px;
     min-width: 100px;

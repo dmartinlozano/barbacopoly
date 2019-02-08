@@ -20,7 +20,7 @@ export class LoginPage {
   ionViewDidEnter() {
     this.menu.enable(false);
   }
-  async login() {
+  async loginGoogle() {
     let email = await this.loginService.signinWithGoogle();
     this.isValidEmail = await this.loginService.check(email);
     if (this.isValidEmail === true) {

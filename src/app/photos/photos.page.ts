@@ -16,12 +16,16 @@ export class Image {
 export class PhotosPage implements OnInit {
 
   images: Image[] = [];
+  isPinterest=false;
 
   constructor(private photosService: PhotosService,
     private toastController: ToastController) { }
 
   ngOnInit() {
     this.list();
+  }
+  changeStyle(){
+    this.isPinterest = !this.isPinterest;
   }
 
   async list() {

@@ -5,7 +5,7 @@ export function getAuthServiceConfigs() {
     let config = new AuthServiceConfig([
         {
             id: FacebookLoginProvider.PROVIDER_ID,
-            provider: new FacebookLoginProvider("Your-Facebook-app-id")
+            provider: new FacebookLoginProvider(credentials.default.facebook.appId)
         },
         {
             id: GoogleLoginProvider.PROVIDER_ID,
